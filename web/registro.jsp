@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registro Tecno Web</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/estiloIndex.css">
+        <link rel="stylesheet" href="css/estiloGeneral.css">
     </head>
     <body>
         <!-- NAVBAR INICIO -->

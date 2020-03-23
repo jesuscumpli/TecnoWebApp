@@ -1,9 +1,12 @@
+<%-- 
+    Document   : login
+    Created on : 23-mar-2020, 22:50:38
+    Author     : Jesús
+--%>
+
+<%@page import="tecnoweb.entity.Usuario"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Pagina Principal</title>
@@ -13,6 +16,26 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/estiloGeneral.css">
     </head>
     <body>
+        <%
+        Usuario usuario;
+        String status;
+        
+        // Si el usuario está dentro de la sesión quiere decir que ya hizo login
+        // por lo que se le redirige a menu.jsp
+        usuario = (Usuario)session.getAttribute("usuario");
+        if (usuario != null) {
+            response.sendRedirect("menu.jsp");  
+            return;
+        } 
+                
+        // Si se llama a esta JSP desde el servlet "Autenticar", se le enviará
+        // el atributo "status" con el mensaje de error. 
+        status = (String)request.getAttribute("status");
+        if (status == null) {
+            status = "";
+        }                
+        %>
+        
         <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h2 class="text-primary d-inline">Tecno </h2><h2 class="text-white d-inline"> Web</h2></div>
@@ -51,13 +74,14 @@ and open the template in the editor.
         <div id="panel" class="border border-primary rounded">
             <h2>Inicio Sesi&oacute;n</h2>
             <form method="get" action="InicioSesionServlet" name="datos" accept-charset="UTF-8">
+                <div id="error"><%=status%></div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Contraseña</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" name="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>

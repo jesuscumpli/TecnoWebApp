@@ -32,3 +32,9 @@ body{
     padding: 30px;
     width:50%;
 }
+
+#error{
+    color: darkred;
+    font-style: italic;
+    font-family: cursive;
+}
