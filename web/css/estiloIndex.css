@@ -20,10 +20,15 @@ body{
     margin-bottom: 20px;
 }
 
-#panelInicio{
-    background-color: teal;
+#navbarInicio a:hover{
+    text-decoration: underline;
+}
+
+#panel{
+    background-color: darkcyan;
     color: white;
     margin: 0 25%;
-    padding: 20px;
+    margin-bottom : 50px;
+    padding: 30px;
     width:50%;
 }
