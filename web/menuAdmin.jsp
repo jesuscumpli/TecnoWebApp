@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : 23-mar-2020, 22:50:38
+    Document   : menu
+    Created on : 23-mar-2020, 18:25:23
     Author     : Jesús
 --%>
 
@@ -9,33 +9,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Pagina Principal</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="css/estiloGeneral.css">
+        <link rel="stylesheet" href="css/estiloMenu.css">
     </head>
-    <body>
-        <%
+    <%
         Usuario usuario;
         String status;
         
         // Si el usuario está dentro de la sesión quiere decir que ya hizo login
         // por lo que se le redirige a menu.jsp
         usuario = (Usuario)session.getAttribute("usuario");
-        if (usuario != null) {
-            response.sendRedirect("CargarMenu");  
+        if (usuario == null) {
+            response.sendRedirect("login.jsp");  
             return;
         } 
-                
-        // Si se llama a esta JSP desde el servlet "Autenticar", se le enviará
-        // el atributo "status" con el mensaje de error. 
-        status = (String)request.getAttribute("status");
-        if (status == null) {
-            status = "";
-        }                
-        %>
-        
+    %>
+    <body>
         <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h2 class="text-primary d-inline">Tecno </h2><h2 class="text-white d-inline"> Web</h2></div>
@@ -66,33 +58,41 @@
                         <a class="nav-link text-white" href="./ListarUsuarios">Listar Usuarios</a>
                     </li>
                 </ul>
+                <div class="nav-item">
+                    <a class="nav-link text-white float-right float-sm-left pl-0" href="./CerrarSesion">Cerrar Sesión</a>
+                </div>
             </div>
          </nav>
         
         <!----------------------------------------------->
         
-        <div id="panel" class="shadow rounded">
-            <h2>Inicio Sesi&oacute;n</h2>
-            <form method="post" action="InicioSesionServlet" name="datos" accept-charset="UTF-8">
-                <div id="error"><%=status%></div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" class="form-control" name="password" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-            <div id="divRegistro">
-                <small id="registroHelp" class="form-text text-white">¿No se ha registrado aún en nuestra web?</small>
-                <a class="text-white font-weight-bold" href=".\registro.jsp">Registrese aquí</a>
+        <div class="row">
+
+        <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
+            <div class="col" id="latIzq">
+                
             </div>
-        </div>
         
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <!-- CONTAINER -->
+            <div id="centro">
+
+                AQUÍ VAN LOS BOTONES PACOOO
+                
+            </div>
+        <!-- LATERAL DERECHO -->
+        
+            <div class="col" id="latDer">
+                <div class="m-2 p-2 text-white text-center" id="divPerfil">
+                    <img id="imagenPerfil" src="images/usuarios/<%=usuario.getFotoUsuario()%>" alt="Italian Trulli"/>
+                    <h4 class="mb-0 pt-0"><%=usuario.getNombre()%></h4>
+                    <small class="mt-0 pt-0"><%if(usuario.getIsAdmin()){%>Administrador<%}else{%>Usuario<%}%></small>
+                </div>
+            </div>
+        
+        </div>   
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -4,6 +4,11 @@
     Author     : Jesús
 --%>
 
+<%@page import="tecnoweb.entity.Subcategoria"%>
+<%@page import="java.util.List"%>
+<%@page import="tecnoweb.entity.Categoria"%>
+<%@page import="tecnoweb.entity.Producto"%>
+<%@page import="tecnoweb.entity.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,6 +19,20 @@
         <link rel="stylesheet" href="css/estiloGeneral.css">
         <link rel="stylesheet" href="css/estiloMenu.css">
     </head>
+    <%
+        Usuario usuario;
+        String status;
+        
+        // Si el usuario está dentro de la sesión quiere decir que ya hizo login
+        // por lo que se le redirige a menu.jsp
+        usuario = (Usuario)session.getAttribute("usuario");
+        if (usuario == null) {
+            response.sendRedirect("login.jsp");  
+            return;
+        }
+        List<Producto> productos = (List<Producto>)session.getAttribute("productos");
+        List<Categoria> categorias = (List<Categoria>)session.getAttribute("categorias");
+    %>
     <body>
         <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
@@ -56,8 +75,27 @@
         <div class="row">
 
         <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
-            <div class="col" id="latIzq">
-                
+            <div class="col text-white" id="latIzq">
+                <h2 class="font-weight-bold text-center">Categorias</h2>
+                <ul>
+        <%
+                for(Categoria cat: categorias){
+        %>
+                    <li class="font-weight-bold"><%=cat.getNombreCategoria() %>
+                        <ul>
+                        <%
+                            for(Subcategoria subcat: cat.getSubcategoriaList()){
+                        %>
+                            <li class="font-italic font-weight-light"><%=subcat.getNombreSubcategoria() %></li>
+                        <%
+                            }
+                        %>    
+                        </ul>    
+                    </li>
+        <%
+                }
+        %>    
+                </ul>
             </div>
         
         <!-- CONTAINER -->
@@ -91,7 +129,11 @@
         <!-- LATERAL DERECHO -->
         
             <div class="col" id="latDer">
-                
+                <div class="m-2 p-2 text-white text-center" id="divPerfil">
+                    <img id="imagenPerfil" src="<%=usuario.getFotoUsuario()%>" alt="Italian Trulli"/>
+                    <h4 class="mb-0 pt-0"><%=usuario.getNombre()%></h4>
+                    <small class="mt-0 pt-0"><%if(usuario.getIsAdmin()){%>Administrador<%}else{%>Usuario<%}%></small>
+                </div>
             </div>
         
         </div>   
