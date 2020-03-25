@@ -12,6 +12,7 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="css/estiloGeneral.css">
+        <link rel="stylesheet" href="css/estiloMenu.css">
     </head>
     <body>
         <!-- NAVBAR INICIO -->
@@ -45,16 +46,55 @@
                     </li>
                 </ul>
                 <div class="nav-item">
-                    <a class="nav-link text-white float-right float-sm-left" href="./CerrarSesion">Cerrar Sesión</a>
+                    <a class="nav-link text-white float-right float-sm-left pl-0" href="./CerrarSesion">Cerrar Sesión</a>
                 </div>
             </div>
          </nav>
         
         <!----------------------------------------------->
         
-        
-        <h1>Hello World!</h1>
+        <div class="row">
+
+        <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
+            <div class="col" id="latIzq">
                 
+            </div>
+        
+        <!-- CONTAINER -->
+            <div id="centro">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+                  <form class="form-inline my-2 my-lg-0 w-50">
+                      <input class="form-control mr-sm-2 w-75" type="search" placeholder="Busque su producto aqu&iacute;..." aria-label="Search">
+                      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+                  </form>
+
+                  <div class="w-50"> 
+                    Ordenar por:
+
+                    <div class="dropdown show" id="ordenarPor">
+                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">Fecha</a>
+                        <a class="dropdown-item" href="#">Precio</a>
+                        <a class="dropdown-item" href="#">Nombre</a>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+                
+                
+                
+            </div>
+        <!-- LATERAL DERECHO -->
+        
+            <div class="col" id="latDer">
+                
+            </div>
+        
+        </div>   
         
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>

@@ -71,7 +71,7 @@
         
         <!----------------------------------------------->
         
-        <div id="panel" class="border border-primary rounded">
+        <div id="panel" class="shadow rounded">
             <h2>Inicio Sesi&oacute;n</h2>
             <form method="post" action="InicioSesionServlet" name="datos" accept-charset="UTF-8">
                 <div id="error"><%=status%></div>

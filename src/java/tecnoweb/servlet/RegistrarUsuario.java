@@ -72,9 +72,11 @@ public class RegistrarUsuario extends HttpServlet {
                     goTo="registro.jsp";
                     status="Fecha de nacimiento no introducida";
                 }else{
-                    nuevo = new Usuario();
-                    nuevo.setEmailUsuario(email);
-                    nuevo.setPassword(pwd);
+                    
+                    Date fecha;
+                    fecha = new Date(2000);
+                    
+                    nuevo = new Usuario(5,email,pwd,fecha,false);
                     
                     if(nombre!=null && !nombre.trim().equals("")){
                         nuevo.setNombre(nombre.trim());
@@ -82,13 +84,6 @@ public class RegistrarUsuario extends HttpServlet {
                     if(apellidos!=null && !apellidos.trim().equals("")){
                         nuevo.setApellidos(apellidos.trim());
                     }
-                    
-                    Date fecha;
-                    fecha = new Date(2000);
-                    nuevo.setFechaNac(fecha);
-                    
-                    nuevo.setIsAdmin(false);
-                    nuevo.setIdUsuario(5);
                     
                     /*Añadir foto*/
                     
