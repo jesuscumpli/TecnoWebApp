@@ -44,6 +44,9 @@
                         <a class="nav-link text-white" href="./ListarUsuarios">Listar Usuarios</a>
                     </li>
                 </ul>
+                <div class="nav-item">
+                    <a class="nav-link text-white float-right float-sm-left" href="./CerrarSesion">Cerrar Sesión</a>
+                </div>
             </div>
          </nav>
         
@@ -51,7 +54,7 @@
         
         
         <h1>Hello World!</h1>
-        
+                
         
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
