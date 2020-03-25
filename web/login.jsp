@@ -73,7 +73,7 @@
         
         <div id="panel" class="border border-primary rounded">
             <h2>Inicio Sesi&oacute;n</h2>
-            <form method="get" action="InicioSesionServlet" name="datos" accept-charset="UTF-8">
+            <form method="post" action="InicioSesionServlet" name="datos" accept-charset="UTF-8">
                 <div id="error"><%=status%></div>
                 <div class="form-group">
                     <label>Email</label>
