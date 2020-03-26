@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +35,8 @@ public class RegistrarUsuario extends HttpServlet {
     @EJB
     private UsuarioFacade usuarioFacade;
     
+    private static final Logger LOG = Logger.getLogger(RegistrarUsuario.class.getName());
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,7 +50,7 @@ public class RegistrarUsuario extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String goTo="menu.jsp",status,email,pwd;
+        String goTo="CargarMenu",status,email,pwd;
         
         Usuario nuevo;
         RequestDispatcher rd;
@@ -55,51 +58,72 @@ public class RegistrarUsuario extends HttpServlet {
         email = request.getParameter("email");
         pwd = request.getParameter("password1");
         
-        // comprobamos si el usuario está en la BD
-        nuevo = this.usuarioFacade.findByEmailUsuario(email);
-        if (nuevo == null) { // el usuario no está, es correcto
-            String pwd2 = request.getParameter("password2");
-            if(!pwd.equals(pwd2)){
-                goTo="registro.jsp";
-                status="Las contraseñas no coinciden";
-            }else{
-                String nombre = request.getParameter("nombre");
-                String apellidos = request.getParameter("apellidos");
-                String fechaNac = request.getParameter("fechaNac");
-                String url = request.getParameter("imagen");
-                
-                if(fechaNac==null){
+        try{
+            // comprobamos si el usuario está en la BD
+            nuevo = this.usuarioFacade.findByEmailUsuario(email);
+            if (nuevo == null) { // el usuario no está, es correcto
+                String pwd2 = request.getParameter("password2");
+                if(!pwd.equals(pwd2)){
                     goTo="registro.jsp";
-                    status="Fecha de nacimiento no introducida";
+                    status="Las contraseñas no coinciden";
                 }else{
-                    
-                    Date fecha;
-                    fecha = new Date(2000);
-                    
-                    nuevo = new Usuario(5,email,pwd,fecha,false);
-                    
-                    if(nombre!=null && !nombre.trim().equals("")){
-                        nuevo.setNombre(nombre.trim());
+                    //nuevo = new Usuario(0);
+
+                    String nombre = request.getParameter("nombre");
+                    String apellidos = request.getParameter("apellidos");
+                    String fechaNac = request.getParameter("fechaNac");
+                    String url = request.getParameter("imagen");
+
+                    if(fechaNac==null){
+                        goTo="registro.jsp";
+                        status="Fecha de nacimiento no introducida";
+                    }else{
+
+                        //Fecha
+                        String[] datos = request.getParameter("fechaNac").split("[- ]");
+                        Calendar c = Calendar.getInstance();
+                        c.set(Integer.parseInt(datos[2]),Integer.parseInt(datos[1]), Integer.parseInt(datos[0]));
+                        Date fecha = c.getTime();
+
+                        pwd = new String(pwd.getBytes("ISO-8859-1"),"UTF8");
+                        //Creamos usuario nuevo
+                        nuevo = new Usuario(0,email,pwd,fecha,false);
+
+                        //Nombre
+                        if(nombre!=null && !nombre.trim().equals("")){
+                            nombre = new String(nombre.getBytes("ISO-8859-1"),"UTF8");
+                            nuevo.setNombre(nombre.trim());
+                        }
+
+                        //Apellidos
+                        if(apellidos!=null && !apellidos.trim().equals("")){
+                            apellidos = new String(apellidos.getBytes("ISO-8859-1"),"UTF8");
+                            nuevo.setApellidos(apellidos.trim());
+                        }
+
+                        /*Añadir foto*/
+                        if(url==null || url.trim()==""){
+                            url="images/usuarios/default.png";
+                        }
+                        nuevo.setFotoUsuario(url);
+
+                        /*Insertar a la Base de Datos*/
+                        this.usuarioFacade.create(nuevo);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("usuario", nuevo); // introducimos el nuevo usuario en la sesión para saber que está autenticado
                     }
-                    if(apellidos!=null && !apellidos.trim().equals("")){
-                        nuevo.setApellidos(apellidos.trim());
-                    }
-                    
-                    /*Añadir foto*/
-                    
-                    /*Insertar a la Base de Datos*/
-                    usuarioFacade.create(nuevo);
-                    HttpSession session = request.getSession();
-                    session.setAttribute("usuario", nuevo); // introducimos el nuevo usuario en la sesión para saber que está autenticado
-                }
-            }                      
-        } else { // el usuario está ya registrado
+                }                      
+            } else { // el usuario está ya registrado
+                goTo="registro.jsp";
+                status="El email ya está registrado en la aplicación";
+            }
+        }catch(RuntimeException e){
             goTo="registro.jsp";
-            status="El email ya está registrado en la aplicación";
+            status=e.getMessage();
+        }finally{
+            rd = request.getRequestDispatcher(goTo);
+            rd.forward(request, response);
         }
-        
-        rd = request.getRequestDispatcher(goTo);
-        rd.forward(request, response); 
         
     }
 

@@ -52,32 +52,32 @@ public class Usuario implements Serializable {
     @Column(name = "idUsuario")
     private Integer idUsuario;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    //@NotNull
+    //@Size(min = 1, max = 50)
     @Column(name = "emailUsuario")
     private String emailUsuario;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    //@NotNull
+    //@Size(min = 1, max = 50)
     @Column(name = "password")
     private String password;
-    @Size(max = 50)
+    //@Size(max = 50)
     @Column(name = "nombre")
     private String nombre;
-    @Size(max = 100)
+    //@Size(max = 100)
     @Column(name = "apellidos")
     private String apellidos;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "fechaNac")
     @Temporal(TemporalType.DATE)
     private Date fechaNac;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Column(name = "isAdmin")
     private boolean isAdmin;
     @Lob
-    @Size(max = 65535)
+    //@Size(max = 65535)
     @Column(name = "fotoUsuario")
     private String fotoUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")

@@ -81,12 +81,19 @@
         <%
                 for(Categoria cat: categorias){
         %>
-                    <li class="font-weight-bold"><%=cat.getNombreCategoria() %>
-                        <ul>
+                    <li class="font-weight-bold">
+                        <a class="text-white" data-toggle="collapse" href="#collapseCategoria<%=cat.getIdCategoria()%>" aria-expanded="false" aria-controls="collapseCategoria">
+                            <%=cat.getNombreCategoria() %>
+                        </a>
+                        <ul class="collapse" id="collapseCategoria<%=cat.getIdCategoria()%>">
                         <%
                             for(Subcategoria subcat: cat.getSubcategoriaList()){
                         %>
-                            <li class="font-italic font-weight-light"><%=subcat.getNombreSubcategoria() %></li>
+                            <li class="font-italic font-weight-light">
+                                <a class="text-white" href="#">
+                                    <%=subcat.getNombreSubcategoria() %>
+                                </a>
+                            </li>
                         <%
                             }
                         %>    
