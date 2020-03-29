@@ -77,7 +77,7 @@
         <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
             <div class="col text-white" id="latIzq">
                 <h2 class="font-weight-bold text-center">Categorias</h2>
-                <ul>
+                <ul class="listaCat">
         <%
                 for(Categoria cat: categorias){
         %>
@@ -85,7 +85,7 @@
                         <a class="text-white" data-toggle="collapse" href="#collapseCategoria<%=cat.getIdCategoria()%>" aria-expanded="false" aria-controls="collapseCategoria">
                             <%=cat.getNombreCategoria() %>
                         </a>
-                        <ul class="collapse" id="collapseCategoria<%=cat.getIdCategoria()%>">
+                        <ul class="listaSub collapse" id="collapseCategoria<%=cat.getIdCategoria()%>">
                         <%
                             for(Subcategoria subcat: cat.getSubcategoriaList()){
                         %>
@@ -107,16 +107,16 @@
         
         <!-- CONTAINER -->
             <div id="centro">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+            <nav id="navbarBuscador" class="navbar navbar-expand-lg navbar-light shadow">
                   <form class="form-inline my-2 my-lg-0 w-50">
                       <input class="form-control mr-sm-2 w-75" type="search" placeholder="Busque su producto aqu&iacute;..." aria-label="Search">
-                      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+                      <button id="botonBuscar" class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
                   </form>
 
                   <div class="w-50"> 
                     Ordenar por:
 
-                    <div class="dropdown show" id="ordenarPor">
+                    <div class="dropdown show d-inline" id="ordenarPor">
                       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown link
                       </a>
@@ -130,8 +130,39 @@
                   </div>
                 </nav>
                 
+        <%
+            for(Producto p: productos){
+                Subcategoria subP = p.getIdSubcategoria();
+                Categoria catP = subP.getIdCategoria();
+                String desc = null;
+                if(p.getDescripcion().length()>200){
+                    desc = p.getDescripcion().substring(0,200) + "...";
+                }else{
+                    desc = p.getDescripcion();
+                }
+        %>
+                <div id="cajaProducto" class="bg-light shadow" >
+                    <div id="tituloProducto" class="h3" > 
+                        <span class="ml-2"><%=p.getTitulo()%></span>
+                        <span class="badge badge-danger"><%=catP.getNombreCategoria()%></span>  <!--Badge de cateogoria-->
+                        <span class="badge badge-info"><%=subP.getNombreSubcategoria()%></span>  <!--Badge de subcategoria-->
+                    </div>
+                    <div id="cuerpoProducto" class="row text-center">
+                        <img id="imagenProducto" src="<%=p.getFotoProducto()%>" class="col figure-img img-fluid rounded" alt="...">
+                        <div id="descripcionProducto" class="col">
+                            <label class="font-weight-bold">Descripción:</label>
+                            <p> <%=desc %></p>
+                        </div>
+                        <div id="precioProducto" class="col">
+                            <label class="font-weight-bold">Precio: </label>
+                            <h5 class="font-weight-bold"> <%=p.getPrecio()%>€</h5>
+                        </div>
+                    </div>
+                </div>
                 
-                
+        <%
+            }
+        %>        
             </div>
         <!-- LATERAL DERECHO -->
         

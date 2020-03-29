@@ -15,6 +15,14 @@ and open the template in the editor.
     background-color: darkcyan;
 }
 
+ul.listaCat{
+    list-style-type: disclosure-closed;
+}
+
+ul.listaSub{
+    list-style-type: circle;
+}
+
 #centro{
     display:inline-block;
     box-sizing: border-box;
@@ -34,4 +42,67 @@ and open the template in the editor.
     border: solid 2px white;
     height: 75px;
     width: 75px;
+}
+
+#navbarBuscador{
+    border: solid 0.5px gray;
+    margin-bottom: 15px;
+    background-color: lightgray ;
+}
+
+#botonBuscar{
+    background-color: darkcyan;
+    border-color: darkcyan;
+}
+
+#dropdownMenuLink{
+    color: darkcyan;
+}
+
+#cajaProducto{
+    width: 100%;
+    height: 200px;
+    margin: 20px 0;
+}
+
+#tituloProducto{
+    font-weight: bold;
+    color: darkcyan;
+    font-family: fantasy ;
+}
+
+#tituloProducto .badge{
+    color: white;
+    font-size: small;
+}
+
+#imagenProducto{
+    width: 150px;
+    height: 125px;
+    margin-left: 50px;
+    margin-right: 25px;
+}
+
+#descripcionProducto{
+    font-family: Times New Roman ;
+    width: 25%;
+}
+
+#descripcionProducto p{
+    font-size: small;
+}
+
+#cuerpoProducto .col{
+    flex-basis: auto;
+    flex-grow: unset;
+}
+
+#precioProducto{
+    width: 35%;
+    font-family: Times New Roman;
+}
+
+#precioProducto h5{
+    color: goldenrod;
+    display: inline-block;
 }
