@@ -75,7 +75,10 @@
         
         <!-- CONTAINER -->
             <div id="centro">
-
+                <a href="./ListadoUsuarioAdmin" class="btn btn-primary">USUARIOS</a>
+                <a href="" class="btn btn-primary">PRODUCTOS</a>
+                <a href="" class="btn btn-primary">CATEGORÍAS</a>
+                <a href="" class="btn btn-primary">SUBCATEGORÍAS</a>
                 AQUÍ VAN LOS BOTONES PACOOO
                 
             </div>
