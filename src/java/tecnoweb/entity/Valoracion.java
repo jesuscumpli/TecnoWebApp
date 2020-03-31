@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Jesús
+ * @author luisr
  */
 @Entity
 @Table(name = "valoracion")
@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Valoracion.findByIdProducto", query = "SELECT v FROM Valoracion v WHERE v.valoracionPK.idProducto = :idProducto")
     , @NamedQuery(name = "Valoracion.findByIdUsuario", query = "SELECT v FROM Valoracion v WHERE v.valoracionPK.idUsuario = :idUsuario")
     , @NamedQuery(name = "Valoracion.findByNota", query = "SELECT v FROM Valoracion v WHERE v.nota = :nota")
-    , @NamedQuery(name = "Valoracion.findByFechaPublicacion", query = "SELECT v FROM Valoracion v WHERE v.fechaPublicacion = :fechaPublicacion")})
+    , @NamedQuery(name = "Valoracion.findByFechaPublicacion", query = "SELECT v FROM Valoracion v WHERE v.fechaPublicacion = :fechaPublicacion")
+    , @NamedQuery(name = "Valoracion.findValoracion", query = "SELECT v FROM Valoracion v WHERE v.valoracionPK.idUsuario = :idUsuario AND v.valoracionPK.idProducto = :idProducto")})
 public class Valoracion implements Serializable {
 
     private static final long serialVersionUID = 1L;

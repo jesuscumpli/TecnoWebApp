@@ -106,3 +106,9 @@ ul.listaSub{
     color: goldenrod;
     display: inline-block;
 }
+
+#verMas{
+    background-color: darkcyan;
+    margin-top: 40px;
+    height: min-content;
+}

@@ -157,6 +157,7 @@
                             <label class="font-weight-bold">Precio: </label>
                             <h5 class="font-weight-bold"> <%=p.getPrecio()%>€</h5>
                         </div>
+                            <a id="verMas" class="btn btn-primary" href="./CargarProducto?idProducto=<%=p.getIdProducto()%>"  role="button" >Ver más</a>
                     </div>
                 </div>
                 
