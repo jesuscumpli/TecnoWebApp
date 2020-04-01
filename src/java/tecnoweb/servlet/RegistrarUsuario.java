@@ -6,13 +6,11 @@
 package tecnoweb.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -50,7 +48,7 @@ public class RegistrarUsuario extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String goTo="CargarMenu",status,email,pwd;
+        String goTo="CargarMenu",status=null,email,pwd;
         
         Usuario nuevo;
         RequestDispatcher rd;
@@ -59,6 +57,9 @@ public class RegistrarUsuario extends HttpServlet {
         pwd = request.getParameter("password1");
         
         try{
+            if(email==null || email.isEmpty()) throw new RuntimeException("Faltan parámetros: email");
+            if(pwd==null || pwd.isEmpty()) throw new RuntimeException("Faltan parámetros: contraseña");
+             
             // comprobamos si el usuario está en la BD
             nuevo = this.usuarioFacade.findByEmailUsuario(email);
             if (nuevo == null) { // el usuario no está, es correcto
@@ -72,7 +73,7 @@ public class RegistrarUsuario extends HttpServlet {
                     String nombre = request.getParameter("nombre");
                     String apellidos = request.getParameter("apellidos");
                     String fechaNac = request.getParameter("fechaNac");
-                    String url = request.getParameter("imagen");
+                    String url = request.getParameter("url");
 
                     if(fechaNac==null){
                         goTo="registro.jsp";
@@ -82,8 +83,19 @@ public class RegistrarUsuario extends HttpServlet {
                         //Fecha
                         String[] datos = request.getParameter("fechaNac").split("[- ]");
                         Calendar c = Calendar.getInstance();
-                        c.set(Integer.parseInt(datos[2]),Integer.parseInt(datos[1]), Integer.parseInt(datos[0]));
+                        c.set(Integer.parseInt(datos[0]),Integer.parseInt(datos[1])-1, Integer.parseInt(datos[2]));
                         Date fecha = c.getTime();
+                        Date now = new Date();
+                        long diffInMillies = Math.abs(now.getTime() - fecha.getTime());
+                        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                        long years = diff/365;
+                        
+                        if(now.after(fecha)){
+                            throw new RuntimeException("Fecha de nacimiento incorrecta");
+                        }
+                        if(years<18){
+                            throw new RuntimeException("Debes ser mayor de 18 años.");
+                        }
 
                         pwd = new String(pwd.getBytes("ISO-8859-1"),"UTF8");
                         //Creamos usuario nuevo
@@ -102,8 +114,8 @@ public class RegistrarUsuario extends HttpServlet {
                         }
 
                         /*Añadir foto*/
-                        if(url==null || url.trim()==""){
-                            url="images/usuarios/default.png";
+                        if(url==null || url.trim().equals("")){
+                            url="https://benidorm.org/wp-content/img/cabecera/perfil-anonimo.jpg";
                         }
                         nuevo.setFotoUsuario(url);
 
@@ -121,6 +133,7 @@ public class RegistrarUsuario extends HttpServlet {
             goTo="registro.jsp";
             status=e.getMessage();
         }finally{
+            if(status!=null) request.setAttribute("status", status);
             rd = request.getRequestDispatcher(goTo);
             rd.forward(request, response);
         }
