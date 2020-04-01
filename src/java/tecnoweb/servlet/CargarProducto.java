@@ -6,7 +6,6 @@
 package tecnoweb.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -56,7 +55,7 @@ public class CargarProducto extends HttpServlet {
         Usuario usuario= (Usuario)sesion.getAttribute("usuario");
         Integer idUsuario =usuario.getIdUsuario();
         Producto producto=productoFacade.find(idProducto);
-        Valoracion valoracion= valoracionFacade.findValoracion(idProducto,idUsuario);
+        Valoracion valoracion= this.valoracionFacade.findValoracion(idUsuario,idProducto);
         
         request.setAttribute("producto", producto);
         request.setAttribute("valoracion",valoracion);
