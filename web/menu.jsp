@@ -192,8 +192,11 @@
                 }else{
                     desc = p.getDescripcion();
                 }
+                //Fecha subida
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY");
                 String dateString = format.format(p.getFechaSubida());
+                //Nota media
+                int notaMedia = (p.getNotaMedia()).intValue()/2;
         %>
                 <div id="cajaProducto" class="bg-light shadow" >
                     <div id="tituloProducto" class="h3" > 
@@ -214,16 +217,21 @@
                             <!-- PUNTUACION CON ESTRELLAS-->
                             <form>
                               <label class="font-weight-bold">Valoraci&oacute;n:</label>
-                              <p class="valoracionMedia" id="mediaProducto<%=p.getIdProducto()%>">
-                                <input id="radio1" type="radio" name="estrellas<%=p.getIdProducto()%>" value="5"><!--
+                              <p disabled class="valoracionMedia" id="mediaProducto<%=p.getIdProducto()%>">
+                                <input id="radio1" type="radio" name="estrellas<%=p.getIdProducto()%>" value="5"
+                                     <%if(notaMedia==5){%>checked<%}%> disabled><!--
                                 --><label for="radio1">★</label><!--
-                                --><input id="radio2" type="radio" name="estrellas<%=p.getIdProducto()%>" value="4"><!--
+                                --><input id="radio2" type="radio" name="estrellas<%=p.getIdProducto()%>" value="4"
+                                     <%if(notaMedia==4){%>checked<%}%> disabled><!--
                                 --><label for="radio2">★</label><!--
-                                --><input id="radio3" type="radio" name="estrellas<%=p.getIdProducto()%>" value="3"><!--
+                                --><input id="radio3" type="radio" name="estrellas<%=p.getIdProducto()%>" value="3"
+                                     <%if(notaMedia==3){%>checked<%}%> disabled><!--
                                 --><label for="radio3">★</label><!--
-                                --><input id="radio4" type="radio" name="estrellas<%=p.getIdProducto()%>" value="2"><!--
+                                --><input id="radio4" type="radio" name="estrellas<%=p.getIdProducto()%>" value="2"
+                                     <%if(notaMedia==2){%>checked<%}%> disabled><!--
                                 --><label for="radio4">★</label><!--
-                                --><input id="radio5" type="radio" name="estrellas<%=p.getIdProducto()%>" value="1"><!--
+                                --><input id="radio5" type="radio" name="estrellas<%=p.getIdProducto()%>" value="1"
+                                     <%if(notaMedia==1){%>checked<%}%> disabled><!--
                                 --><label for="radio5">★</label>
                               </p>
                             </form>

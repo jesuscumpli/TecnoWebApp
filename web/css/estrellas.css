@@ -44,8 +44,8 @@ and open the template in the editor.
 .valoracionMedia label:hover ~ label {
         color: orange;
       }
-
+*/
 .valoracionMedia input[type="radio"]:checked ~ label {
         color: orange;
-      }*/
+      }
     
