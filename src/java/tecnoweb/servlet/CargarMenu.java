@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tecnoweb.classes.Filtro;
 import tecnoweb.dao.CategoriaFacade;
 import tecnoweb.dao.ProductoFacade;
 import tecnoweb.entity.Categoria;
@@ -67,7 +68,7 @@ public class CargarMenu extends HttpServlet {
             
             String orden = "Fecha"; 
             session.setAttribute("orden",orden);  //Ordenar por Fecha, por defecto
-            this.productoFacade.ordenarProductos(orden, productos);
+            Filtro.ordenarProductos(orden, productos);
         }
         rd = request.getRequestDispatcher(goTo);
         rd.forward(request, response);  

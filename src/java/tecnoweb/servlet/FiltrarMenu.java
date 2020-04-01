@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tecnoweb.classes.Filtro;
 import tecnoweb.dao.CategoriaFacade;
 import tecnoweb.dao.ProductoFacade;
 import tecnoweb.dao.SubcategoriaFacade;
@@ -65,10 +66,9 @@ public class FiltrarMenu extends HttpServlet {
             response.sendRedirect("login.jsp");
         }else{
             
-            //List<Producto> productos = (List<Producto>) session.getAttribute("productos");
-            List<Producto> productos = (List<Producto>) session.getAttribute("productos");
+            List<Producto> productos;
             
-            ///// FILTRO SUBCATEGORIA (LATERAL IZQUIERDO) *********
+///// FILTRO SUBCATEGORIA (SI PULSAMOS EN EL LATERAL IZQUIERDO) ******************************************
             String filtro_subcat =  request.getParameter("subcatSelected");
             
             if(filtro_subcat!=null && !filtro_subcat.isEmpty()){
@@ -77,37 +77,46 @@ public class FiltrarMenu extends HttpServlet {
                 session.setAttribute("subcatSelected", subcatSelected);     //Actualizamos o introducimos subcategoria seleccionada
                 session.setAttribute("catSelected", subcatSelected.getIdCategoria());
                 productos = this.productoFacade.findBySubcategoria(codSubcat);
-            }else{            ///// FILTRO BUSQUEDA (NAVBAR)  *************
+                
+///// FILTRO BUSQUEDA ( SI PULSAMOS EN EL SEARCH DEL NAVBAR CENTRAL) ************************************+
+            }else{           
                 Subcategoria subcatSelected = (Subcategoria) session.getAttribute("subcatSelected");
                 String strCat = request.getParameter("catSelected");
                 
-                //RESETEAMOS LOS PRODUCTOS DE SUBCATEGORIA (esto es para cuando se filtra desde Navbar)
+            //RESETEAMOS LOS PRODUCTOS DE SUBCATEGORIA 
                 if(subcatSelected!=null){ //Si hay subcategoria seleccionada, reseteamos los productos de esa subcategoria
                     productos = this.productoFacade.findBySubcategoria(subcatSelected.getIdSubcategoria());
                     
-                }else if(strCat!=null && !strCat.equals("Todos")){    //Si no hay subcategoria seleccionada, pero si hay categoria
+                }else if(strCat!=null && !strCat.equals("Todos")){    //Si no hay subcategoria seleccionada, pero si hay categoria reseteamos productos con la categoria
                     Integer codCat = (Integer) Integer.parseInt(strCat);
                     Categoria catSelected = this.categoriaFacade.find(codCat);
                     session.setAttribute("catSelected", catSelected);
                     productos = this.productoFacade.findByCategoria(codCat);
                     
-                }else{  //CARGAMOS TODOS
+                }else{  //CARGAMOS TODOS (Sólo es posible cuando catSelected es null o bien se ha seleccionado como TODOS)
                     session.removeAttribute("catSelected");
                     productos = this.productoFacade.findAll();
                 }
             }
-            /////******************************
+
             
-            // BUSQUEDA
+            // BUSQUEDA (Search)
+            /*
+                Lógica de la búsqueda: 
+                        - Buscar por títulos
+                        - Buscar por descripción
+                        - Buscar por palabras claves
+                        - Unir las tres búsquedas
+            */
             String filtroBusq = request.getParameter("busquedaFiltro");
             
             if(filtroBusq!=null && !filtroBusq.trim().isEmpty()){
-                //Filtrar con operaciones privadas adicionales
-                List<Producto> filtroTitulo = this.filtrarTitulo(productos,filtroBusq);         //TITULO
-                List<Producto> filtroDesc = this.filtrarDescripcion(productos, filtroBusq);     //DESCRIPCION
-                List<Producto> filtroClaves = this.filtrarPalabrasClave(productos, filtroBusq); //PALABRAS CLAVES
+                //Filtrar con operaciones staticas adicionales
+                List<Producto> filtroTitulo = Filtro.filtrarTitulo(productos,filtroBusq);         //TITULO
+                List<Producto> filtroDesc = Filtro.filtrarDescripcion(productos, filtroBusq);     //DESCRIPCION
+                List<Producto> filtroClaves = Filtro.filtrarPalabrasClave(productos, filtroBusq); //PALABRAS CLAVES
                 //Union de los productos
-                productos = this.unirFiltros(filtroTitulo,filtroDesc,filtroClaves);
+                productos = this.unirFiltros(filtroTitulo,filtroDesc,filtroClaves);     //Método privado
                 request.setAttribute("prevBusqueda", filtroBusq);
             }
             
@@ -122,48 +131,12 @@ public class FiltrarMenu extends HttpServlet {
             
             //ORDENAR POR: *******************
             //if(orden==null || orden.isEmpty()){orden = "Fecha";}  No debe ocurrir nunca
-            this.productoFacade.ordenarProductos(orden, productos);
-            session.setAttribute("productos", productos); //Actualizamos atributo
+            Filtro.ordenarProductos(orden, productos);
+            session.setAttribute("productos", productos);                   //Actualizamos atributo productos
         }
         
         rd = request.getRequestDispatcher("menu.jsp");
         rd.forward(request, response); 
-    }
-    
-    private List<Producto> filtrarTitulo(List<Producto> productos, String filtro){
-        List<Producto> result = new ArrayList<>();
-        for(Producto p: productos){
-            if(p.getTitulo().toLowerCase().contains(filtro.toLowerCase())){
-                result.add(p);
-            }
-        }
-        return result;
-    }
-    
-    private List<Producto> filtrarDescripcion(List<Producto> productos, String filtro){
-        List<Producto> result = new ArrayList<>();
-        for(Producto p: productos){
-            if(p.getDescripcion().toLowerCase().contains(filtro.toLowerCase())){
-                result.add(p);
-            }
-        }
-        return result;
-    }
-    
-    private List<Producto> filtrarPalabrasClave(List<Producto> productos, String filtro){
-        List<Producto> result = new ArrayList<>();
-        for(Producto p: productos){
-            Iterator<Palabraclave> it = p.getPalabraclaveList().iterator();
-            boolean found = false;
-            while(found && it.hasNext()){
-                Palabraclave clave = it.next();
-                if(clave.getValor().equalsIgnoreCase(filtro)){
-                    found = true;
-                    result.add(p);
-                }
-            }
-        }
-        return result;
     }
     
     private List<Producto> unirFiltros(List<Producto> p1, List<Producto> p2, List<Producto> p3){

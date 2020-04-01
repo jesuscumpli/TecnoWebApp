@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tecnoweb.classes.Filtro;
 import tecnoweb.dao.ProductoFacade;
 import tecnoweb.entity.Categoria;
 import tecnoweb.entity.Producto;
-import tecnoweb.entity.Subcategoria;
 
 /**
  *
@@ -56,7 +56,7 @@ public class QuitarSubcategoria extends HttpServlet {
         
         //Ordenar por:
         String orden = (String) session.getAttribute("orden");
-        this.productoFacade.ordenarProductos(orden, productos);
+        Filtro.ordenarProductos(orden, productos);
         
         rd = request.getRequestDispatcher("menu.jsp");
         rd.forward(request, response); 

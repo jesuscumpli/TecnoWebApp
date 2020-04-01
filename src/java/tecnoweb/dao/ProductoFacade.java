@@ -47,20 +47,5 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         q.setParameter("codCat", codCat);
         return q.getResultList();
     }
-    
-    public void ordenarProductos(String orden, List<Producto> productos){
-                    switch (orden) {
-                case "Fecha":
-                    Collections.sort(productos, (p1,p2) -> {return p2.getFechaSubida().compareTo(p1.getFechaSubida()); } );
-                    break;
-                case "Precio":
-                    Collections.sort(productos, (p1,p2) -> {return ((Double)p1.getPrecio()).compareTo((Double)p2.getPrecio()); } );
-                    break;
-                case "Valoracion":
-                    Collections.sort(productos, (p1,p2) -> {return (p2.getNotaMedia().compareTo(p1.getNotaMedia()));});
-                    break;
-                default:
-                    Collections.sort(productos, (p1,p2) -> {return p1.getTitulo().compareTo(p2.getTitulo()); } );
-            }
-    }
+   
 }
