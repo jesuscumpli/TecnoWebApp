@@ -205,4 +205,16 @@ public class Producto implements Serializable {
         return "tecnoweb.entity.Producto[ idProducto=" + idProducto + " ]";
     }
     
+    public Double getNotaMedia(){
+        Double result = 0.0;
+        List<Valoracion> lista = this.getValoracionList();
+        for(Valoracion v: lista){
+            result += v.getNota();
+        }
+        if(!lista.isEmpty()){
+            result = result / lista.size();
+        }
+        
+        return result;
+    }
 }

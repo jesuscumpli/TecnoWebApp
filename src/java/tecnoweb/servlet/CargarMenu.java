@@ -6,7 +6,7 @@
 package tecnoweb.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -52,8 +52,11 @@ public class CargarMenu extends HttpServlet {
         RequestDispatcher rd;
         Usuario user = (Usuario) session.getAttribute("usuario");
         
+        //Si es nulll, se redirige a login.jsp
+        if(user==null){
+            goTo = "login.jsp";
         //Si es admin, se redirige a menuAdmin.jsp
-        if(user.getIsAdmin()){
+        }else if(user.getIsAdmin()){
             goTo = "menuAdmin.jsp";
         }else{ //Sino, a menu.jsp y se cargan los productos y categorias en la sesion
             goTo = "menu.jsp";
@@ -61,6 +64,10 @@ public class CargarMenu extends HttpServlet {
             session.setAttribute("productos", productos);
             List<Categoria> categorias = categoriaFacade.findAll();
             session.setAttribute("categorias",categorias);
+            
+            String orden = "Fecha"; 
+            session.setAttribute("orden",orden);  //Ordenar por Fecha, por defecto
+            this.productoFacade.ordenarProductos(orden, productos);
         }
         rd = request.getRequestDispatcher(goTo);
         rd.forward(request, response);  

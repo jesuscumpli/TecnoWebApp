@@ -22,12 +22,12 @@ public class ValoracionPK implements Serializable {
     @Column(name = "idValoracion")
     private int idValoracion;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "idProducto")
+    //@NotNull
+    @Column(name = "idProducto", nullable = false)
     private int idProducto;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "idUsuario")
+    //@NotNull
+    @Column(name = "idUsuario", nullable = false)
     private int idUsuario;
 
     public ValoracionPK() {

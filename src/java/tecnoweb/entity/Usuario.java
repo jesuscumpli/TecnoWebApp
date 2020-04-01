@@ -54,27 +54,27 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     //@NotNull
     //@Size(min = 1, max = 50)
-    @Column(name = "emailUsuario")
+    @Column(name = "emailUsuario", nullable = false, length = 50)
     private String emailUsuario;
     @Basic(optional = false)
     //@NotNull
     //@Size(min = 1, max = 50)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 50)
     private String password;
     //@Size(max = 50)
-    @Column(name = "nombre")
+    @Column(name = "nombre", length = 50)
     private String nombre;
     //@Size(max = 100)
-    @Column(name = "apellidos")
+    @Column(name = "apellidos", length = 50)
     private String apellidos;
     @Basic(optional = false)
     //@NotNull
-    @Column(name = "fechaNac")
+    @Column(name = "fechaNac", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaNac;
     @Basic(optional = false)
     //@NotNull
-    @Column(name = "isAdmin")
+    @Column(name = "isAdmin", nullable = false)
     private boolean isAdmin;
     @Lob
     //@Size(max = 65535)

@@ -6,7 +6,7 @@
 package tecnoweb.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,20 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import tecnoweb.dao.ProductoFacade;
-import tecnoweb.dao.ValoracionFacade;
+import tecnoweb.entity.Categoria;
 import tecnoweb.entity.Producto;
-import tecnoweb.entity.Usuario;
-import tecnoweb.entity.Valoracion;
+import tecnoweb.entity.Subcategoria;
 
 /**
  *
- * @author luisr
+ * @author Jesús
  */
-@WebServlet(name = "CargarProducto", urlPatterns = {"/CargarProducto"})
-public class CargarProducto extends HttpServlet {
-
-    @EJB
-    private ValoracionFacade valoracionFacade;
+@WebServlet(name = "QuitarSubcategoria", urlPatterns = {"/QuitarSubcategoria"})
+public class QuitarSubcategoria extends HttpServlet {
 
     @EJB
     private ProductoFacade productoFacade;
@@ -43,26 +39,27 @@ public class CargarProducto extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession sesion = request.getSession();
-        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        RequestDispatcher rd;
+ 
+        Categoria catSelected = (Categoria) session.getAttribute("catSelected");
         
-        Integer idProducto= (Integer) Integer.parseInt(request.getParameter("idProducto"));
-        Usuario usuario= (Usuario)sesion.getAttribute("usuario");
-        Integer idUsuario =usuario.getIdUsuario();
-        Producto producto=productoFacade.find(idProducto);
-        Valoracion valoracion= valoracionFacade.findValoracion(idProducto,idUsuario);
+        //Borrar subcategoria seleccionada
+        session.removeAttribute("subcatSelected");
         
-        request.setAttribute("producto", producto);
-        request.setAttribute("valoracion",valoracion);
+        //Buscar productos de la categoria
+        List<Producto> productos = this.productoFacade.findByCategoria(catSelected.getIdCategoria());
+        session.setAttribute("productos", productos);
         
-        RequestDispatcher rd = request.getRequestDispatcher("valoracion.jsp");
-        rd.forward(request, response);
+        //Ordenar por:
+        String orden = (String) session.getAttribute("orden");
+        this.productoFacade.ordenarProductos(orden, productos);
+        
+        rd = request.getRequestDispatcher("menu.jsp");
+        rd.forward(request, response); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

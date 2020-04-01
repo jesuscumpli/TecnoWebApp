@@ -37,6 +37,7 @@ public class CerrarSesion extends HttpServlet {
         RequestDispatcher rd;
         
         session.removeAttribute("usuario");
+        session.invalidate();
         response.sendRedirect("login.jsp");
     }
 

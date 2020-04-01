@@ -5,6 +5,7 @@
  */
 package tecnoweb.dao;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -33,19 +34,19 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     
     // Esta consulta la he creado yo. A partir del email se busca al usuario.
     public Usuario findByEmailUsuario (String email) {
-        try{
-            Query q;
-            Usuario usuario;
+        Query q;
+        Usuario usuario = null;
+        List<Usuario> lista;
 
-            // Las "Named Query" son consultas predefinidas que se ubican antes de la declaración
-            // de la clase entidad, en este caso, "Usuario":
-            // @NamedQuery(name = "Usuario.findByEmailUsuario", query = "SELECT a FROM Usuario a WHERE a.emailUsuario = :emailUsuario")
-            q = this.getEntityManager().createNamedQuery("Usuario.findByEmailUsuario");
-            q.setParameter("emailUsuario", email); // Los parámetros son aquellas cadenas de caracteres que van precedidas de los dos puntos.
-            usuario = (Usuario) q.getSingleResult();
-            return usuario;
-        }catch(NoResultException e) {
-            return null;
+        // Las "Named Query" son consultas predefinidas que se ubican antes de la declaración
+        // de la clase entidad, en este caso, "Usuario":
+        // @NamedQuery(name = "Usuario.findByEmailUsuario", query = "SELECT a FROM Usuario a WHERE a.emailUsuario = :emailUsuario")
+        q = this.getEntityManager().createNamedQuery("Usuario.findByEmailUsuario");
+        q.setParameter("emailUsuario", email); // Los parámetros son aquellas cadenas de caracteres que van precedidas de los dos puntos.
+        lista = q.getResultList();
+        if(lista!=null && !lista.isEmpty() ){
+            usuario = lista.get(0);
         }
+        return usuario;
     }
 }

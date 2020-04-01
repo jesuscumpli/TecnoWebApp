@@ -5,6 +5,7 @@
  */
 package tecnoweb.dao;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -31,19 +32,19 @@ public class ValoracionFacade extends AbstractFacade<Valoracion> {
         super(Valoracion.class);
     }
     
-    public Valoracion findValoracion(int idUsuario, int idProducto){
-        try{
-            Query q;
-            Valoracion v;
+    public Valoracion findValoracion(Integer idUsuario, Integer idProducto){
 
-            q = this.getEntityManager().createNamedQuery("Valoracion.findValoracion");
-            q.setParameter("idUsuario", idUsuario); 
-            q.setParameter("idProducto",idProducto);
-            v = (Valoracion) q.getSingleResult();
-            return v;
-        }catch(NoResultException e) {
-            return null;
+        Query q;
+        Valoracion v = null;
+
+        q = this.getEntityManager().createQuery("SELECT v FROM Valoracion v WHERE v.valoracionPK.idUsuario = :idUsuario AND v.valoracionPK.idProducto = :idProducto ");
+        q.setParameter("idUsuario", idUsuario); 
+        q.setParameter("idProducto",idProducto);
+        List<Valoracion> lista = q.getResultList();
+        if(lista!=null && !lista.isEmpty()){
+            v = lista.get(0);
         }
+        return v;
     }
     
 }
