@@ -49,7 +49,7 @@
                     <td><%= u.getEmailUsuario() %></td>
                     <td><img src="<%if(u.getFotoUsuario()!=null){%><%=u.getFotoUsuario()%><%}else{%>#<%}%>" height="25px" widtht="25px"></td>
                     <td><a href="BorrarUsuario?id=<%= u.getIdUsuario() %>">Borrar</a></td>   
-                    <td><a href="EditarCliente?id=<%= lista.indexOf(u) %>">Editar</a></td>
+                    <td><a href="EditarCliente?id=<%= u.getIdUsuario() %>">Editar</a></td>
                 </tr>
     <%
        }

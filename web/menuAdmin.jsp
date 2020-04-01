@@ -86,7 +86,7 @@
         
             <div class="col" id="latDer">
                 <div class="m-2 p-2 text-white text-center" id="divPerfil">
-                    <img id="imagenPerfil" src="images/usuarios/<%=usuario.getFotoUsuario()%>" alt="Italian Trulli"/>
+                    <img id="imagenPerfil" src="<%=usuario.getFotoUsuario()%>" alt="Italian Trulli"/>
                     <h4 class="mb-0 pt-0"><%=usuario.getNombre()%></h4>
                     <small class="mt-0 pt-0"><%if(usuario.getIsAdmin()){%>Administrador<%}else{%>Usuario<%}%></small>
                 </div>

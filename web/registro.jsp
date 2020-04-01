@@ -54,20 +54,20 @@
             <form method="get" action="RegistrarUsuario" name="datos" accept-charset="UTF-8">
                 <div class="form-group">
                     <label class="mb-0">*Email</label>
-                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Insertar Email">
+                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Insertar Email" max="50" maxlength="50">
                     <small id="emailHelp" class="form-text text-white">Introduce su correo electr&oacute;nico aqu&iacute;</small>
 
                     <label class="mb-0">*Contraseña</label>
-                    <input type="password" class="form-control" name="password1" placeholder="Password">
+                    <input type="password" class="form-control" name="password1" placeholder="Password" max="50" maxlength="50">
                     <label class="mb-0">*Repita su contraseña</label>
-                    <input type="password" class="form-control" name="password2" placeholder="Password">
+                    <input type="password" class="form-control" name="password2" placeholder="Password" max="50" maxlength="50">
                 </div>
                 <hr class="bg-white">
                 <div class="form-group">
                     <label class="mb-0">Nombre</label>
-                    <input class="form-control" name="nombre" placeholder="Insertar Nombre">
+                    <input class="form-control" name="nombre" placeholder="Insertar Nombre" max="50" maxlength="50">
                     <label class="mb-0">Apellidos</label>
-                    <input class="form-control" name="apellidos" placeholder="Insertar Apellidos">
+                    <input class="form-control" name="apellidos" placeholder="Insertar Apellidos" max="100" maxlength="100">
                     <label class="mb-0">*Fecha de Nacimiento</label>
                     <small class="form-text text-white m-0">Debe cumplir la mayoría de edad (18)</small>
                     <input type="date" class="form-control" name="fechaNac">
