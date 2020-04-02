@@ -6,7 +6,6 @@
 package tecnoweb.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -108,8 +107,6 @@ public class GuardarValoracionProducto extends HttpServlet {
             
             nueva.setFechaPublicacion(fechaPublicacion);
             
-            listaValoraciones.add(nueva);
-            
            if(esNueva){
                 this.valoracionFacade.create(nueva);
            }else{
@@ -120,6 +117,8 @@ public class GuardarValoracionProducto extends HttpServlet {
             status=e.getMessage();
         }finally{
             request.setAttribute("producto", p);
+            nueva = this.valoracionFacade.findValoracion(idUsuario, idProducto);
+            listaValoraciones.add(nueva);
             request.setAttribute("valoracion", nueva);
             request.setAttribute("listaValoraciones", listaValoraciones);
             rd = request.getRequestDispatcher(goTo);
