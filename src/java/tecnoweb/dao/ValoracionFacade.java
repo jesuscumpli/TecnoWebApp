@@ -5,6 +5,7 @@
  */
 package tecnoweb.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -45,6 +46,17 @@ public class ValoracionFacade extends AbstractFacade<Valoracion> {
             v = lista.get(0);
         }
         return v;
+    }
+    
+    public List<Valoracion> findListaValoraciones(int idProducto){
+        Query q;
+        List<Valoracion> listaValoraciones = new ArrayList<>();
+        
+        q = this.getEntityManager().createNamedQuery("Valoracion.findListaValoraciones");
+        q.setParameter("idProducto",idProducto);
+        listaValoraciones = q.getResultList();
+        
+        return listaValoraciones;
     }
     
 }
