@@ -15,7 +15,7 @@
     Producto producto = (Producto)request.getAttribute("producto");
     Usuario usuario = (Usuario)session.getAttribute("usuario");
     Valoracion valoracion = (Valoracion)request.getAttribute("valoracion");
-    String nombreProducto, comentario, descripcion, fechaPublicacion;
+    String nombreProducto, comentario, descripcion;
     int idUsuario, idProducto, idValoracion;
     Double precio, nota;
     List<Valoracion> listaValoraciones = (List<Valoracion>) request.getAttribute("listaValoraciones");
@@ -27,8 +27,6 @@
     descripcion = producto.getDescripcion();
     precio = producto.getPrecio();
     SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY");
-    fechaPublicacion = format.format(valoracion.getFechaPublicacion());
-   
     
     if(valoracion==null){
         nota = 0.0;
@@ -135,7 +133,7 @@
            <div id="botones">
                 <input class="btn btn-success" type="submit" value="Enviar" />
                 <input class="btn btn-warning" type="reset" value="Limpiar"/>
-                <a class="btn btn-danger" type="button" href="./menu.jsp" >Volver</a>
+                <a class="btn btn-danger" type="button" href="./FiltrarMenu" >Volver</a>
             </div>
             
         </form>
@@ -146,8 +144,9 @@
             
         <%
             for(Valoracion v: listaValoraciones){
-                Usuario u = v.getUsuario();
+                Usuario u = v.getUsuario() ;
                 String coment = v.getComentario();
+                String fechaPublicacion = format.format(v.getFechaPublicacion());
         %>
         
         <div id="cajaValoracion" class="badge">
