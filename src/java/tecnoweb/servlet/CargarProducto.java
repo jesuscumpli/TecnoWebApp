@@ -6,6 +6,9 @@
 package tecnoweb.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import tecnoweb.dao.ProductoFacade;
+import tecnoweb.dao.UsuarioFacade;
 import tecnoweb.dao.ValoracionFacade;
 import tecnoweb.entity.Producto;
 import tecnoweb.entity.Usuario;
@@ -51,14 +55,16 @@ public class CargarProducto extends HttpServlet {
         HttpSession sesion = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
         
-        Integer idProducto= (Integer) Integer.parseInt(request.getParameter("idProducto"));
+        int idProducto=Integer.parseInt(request.getParameter("idProducto"));
         Usuario usuario= (Usuario)sesion.getAttribute("usuario");
-        Integer idUsuario =usuario.getIdUsuario();
+        int idUsuario =usuario.getIdUsuario();
         Producto producto=productoFacade.find(idProducto);
-        Valoracion valoracion= this.valoracionFacade.findValoracion(idUsuario,idProducto);
+        Valoracion valoracion= valoracionFacade.findValoracion(idUsuario,idProducto);
+        List<Valoracion> listaValoraciones = valoracionFacade.findListaValoraciones(idProducto);
         
         request.setAttribute("producto", producto);
         request.setAttribute("valoracion",valoracion);
+        request.setAttribute("listaValoraciones",listaValoraciones);
         
         RequestDispatcher rd = request.getRequestDispatcher("valoracion.jsp");
         rd.forward(request, response);

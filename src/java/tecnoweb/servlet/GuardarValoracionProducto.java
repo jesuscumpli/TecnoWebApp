@@ -6,7 +6,9 @@
 package tecnoweb.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -63,14 +65,24 @@ public class GuardarValoracionProducto extends HttpServlet {
         Double nota;
         Date fechaPublicacion;
         
+        
         u=(Usuario)sesion.getAttribute("usuario");
         idProducto=Integer.parseInt(request.getParameter("idProducto"));
+        List<Valoracion> listaValoraciones = this.valoracionFacade.findListaValoraciones(idProducto);
         p = this.productoFacade.find(idProducto);
         nueva = null;
         idUsuario = u.getIdUsuario();
         idValoracion = Integer.parseInt(request.getParameter("idValoracion"));
         fechaPublicacion = new Date();
+        
         comentario = request.getParameter("comentario");
+
+        if (comentario != null) {
+
+            comentario = new String(comentario.getBytes("ISO-8859-1"),"UTF8");
+
+        }
+        
         nota = Double.parseDouble(request.getParameter("nota"));
         goTo = "valoracion.jsp";
         esNueva = false;
@@ -82,6 +94,8 @@ public class GuardarValoracionProducto extends HttpServlet {
             if(nueva==null){
                 nueva = new Valoracion(idValoracion, idProducto, idUsuario);
                 esNueva = true;
+            } else{
+                listaValoraciones.remove(nueva);
             }
             
             if(!comentario.equals(nueva.getComentario())){
@@ -94,6 +108,8 @@ public class GuardarValoracionProducto extends HttpServlet {
             
             nueva.setFechaPublicacion(fechaPublicacion);
             
+            listaValoraciones.add(nueva);
+            
            if(esNueva){
                 this.valoracionFacade.create(nueva);
            }else{
@@ -105,6 +121,7 @@ public class GuardarValoracionProducto extends HttpServlet {
         }finally{
             request.setAttribute("producto", p);
             request.setAttribute("valoracion", nueva);
+            request.setAttribute("listaValoraciones", listaValoraciones);
             rd = request.getRequestDispatcher(goTo);
             rd.forward(request, response);
         }
