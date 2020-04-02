@@ -4,6 +4,8 @@
     Author     : luisr
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.List"%>
 <%@page import="tecnoweb.entity.Usuario"%>
 <%@page import="tecnoweb.entity.Producto"%>
 <%@page import="tecnoweb.entity.Valoracion"%>
@@ -13,9 +15,10 @@
     Producto producto = (Producto)request.getAttribute("producto");
     Usuario usuario = (Usuario)session.getAttribute("usuario");
     Valoracion valoracion = (Valoracion)request.getAttribute("valoracion");
-    String nombreProducto, comentario, descripcion;
+    String nombreProducto, comentario, descripcion, fechaPublicacion;
     int idUsuario, idProducto, idValoracion;
     Double precio, nota;
+    List<Valoracion> listaValoraciones = (List<Valoracion>) request.getAttribute("listaValoraciones");
     
     nombreProducto= producto.getTitulo();
 
@@ -23,7 +26,9 @@
     idProducto=producto.getIdProducto();
     descripcion = producto.getDescripcion();
     precio = producto.getPrecio();
-    
+    SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY");
+    fechaPublicacion = format.format(valoracion.getFechaPublicacion());
+   
     
     if(valoracion==null){
         nota = 0.0;
@@ -82,23 +87,29 @@
         
         <!----------------------------------------------------------------->
         
+        <div  id="margenIzq">
+            
+        </div>
+        
+        <div id="contenedorCentral">
         <div id="evaluacion" class="border border-primary rounded container-fluid">
         <h2> Producto: <%= nombreProducto%></h2>
         
-        <div id="imagen">
+        <div class="row">
+        <div id="imagen" class="col">
             <img src="<%=producto.getFotoProducto()%>" class="img-thumbnail" id="producto" alt="...">
         </div>
         
-        <div id="descripcion">
+        <div id="descripcion" class="col">
              <label class="font-weight-bold">Descripción:</label>
              <p>
                  <%=descripcion %>
              </p>
         </div>
+        </div>
              
         <div id="precio">
-            <label class="font-weight-bold">Precio: </label>
-            <h5 class="font-weight-bold"> <%=precio%>€</h5>
+            <h5 class="font-weight-bold">Precio: <%=precio%>€</h5>
         </div>
         
         
@@ -106,17 +117,11 @@
         <div id="datos" > 
         <form method="post" action="./GuardarValoracionProducto?idProducto=<%=idProducto%>&idValoracion=<%=idValoracion%>" name="datos" accept-charset="UTF-8">
             
-            <div id="botones">
-                <input class="btn btn-success" type="submit" value="Enviar" />
-                <input class="btn btn-warning" type="reset" value="Limpiar"/>
-                <a class="btn btn-danger" type="button" href="./menu.jsp" >Volver</a>
-            </div>
-            
             <label for="comentario">Comentario</label>
             <textarea class="form-control" id="comentario" name="comentario" rows="6"><%=comentario%></textarea>
             
             <div>
-            
+                <label id="nota" for="nota" style="margin-top: 25px">Nota</label>
                 <select class="form-control form-control-lg" id="nota" name="nota" >
                     <% for(int i=0;i<=10;i++){ 
                         if(i==nota){%>
@@ -125,13 +130,52 @@
                         <option><%=i%></option>
                         <% }} %>
                 </select>
-                <label id="nota" for="nota" style="margin-top: 25px">Nota</label>
             </div>
-           
+                
+           <div id="botones">
+                <input class="btn btn-success" type="submit" value="Enviar" />
+                <input class="btn btn-warning" type="reset" value="Limpiar"/>
+                <a class="btn btn-danger" type="button" href="./menu.jsp" >Volver</a>
+            </div>
             
         </form>
         </div>
         
+        </div>
+                
+            
+        <%
+            for(Valoracion v: listaValoraciones){
+                Usuario u = v.getUsuario();
+                String coment = v.getComentario();
+        %>
+        
+        <div id="cajaValoracion" class="badge">
+            <div id="Usuario" class="h3" > 
+                <span class="ml-2"><%=u.getNombre()+" "+u.getApellidos() %></span>
+            </div>
+            <div id="cuerpoValoracion" class="row text-center">
+                <div id="comentarioProducto" class="col">
+                    <label class="font-weight-bold">Descripción:</label>
+                    <p> <%=coment %></p>
+                </div>
+                <div id="notaProducto" class="col">
+                    <label class="font-weight-bold">Nota: </label>
+                    <h5 class="font-weight-bold"> <%= v.getNota().intValue() %></h5>
+                    <br>
+                    <label class="font-weight-bold">Fecha de publicación:</label> 
+                    <h5 class="font-weight-bold"> <%= fechaPublicacion %></h5>
+                </div>
+            </div>
+        </div>
+        
+        <% } %>
+        
+        
+        </div>
+                
+        <div id="margenDer">
+                    
         </div>
         
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
