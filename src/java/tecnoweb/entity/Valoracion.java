@@ -34,7 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Valoracion.findByIdProducto", query = "SELECT v FROM Valoracion v WHERE v.valoracionPK.idProducto = :idProducto")
     , @NamedQuery(name = "Valoracion.findByIdUsuario", query = "SELECT v FROM Valoracion v WHERE v.valoracionPK.idUsuario = :idUsuario")
     , @NamedQuery(name = "Valoracion.findByNota", query = "SELECT v FROM Valoracion v WHERE v.nota = :nota")
-    , @NamedQuery(name = "Valoracion.findByFechaPublicacion", query = "SELECT v FROM Valoracion v WHERE v.fechaPublicacion = :fechaPublicacion")})
+    , @NamedQuery(name = "Valoracion.findByFechaPublicacion", query = "SELECT v FROM Valoracion v WHERE v.fechaPublicacion = :fechaPublicacion")
+    , @NamedQuery(name = "Valoracion.findValoracion", query = "SELECT v FROM Valoracion v WHERE v.valoracionPK.idUsuario = :idUsuario AND v.valoracionPK.idProducto = :idProducto")
+    , @NamedQuery(name = "Valoracion.findListaValoraciones", query = "SELECT v FROM Valoracion v WHERE v.valoracionPK.idProducto = :idProducto ORDER BY v.fechaPublicacion DESC")})
 public class Valoracion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +44,7 @@ public class Valoracion implements Serializable {
     protected ValoracionPK valoracionPK;
     @Lob
     //@Size(max = 65535)
-    @Column(name = "comentario", length = 65535)
+    @Column(name = "comentario",length=65535)
     private String comentario;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "nota")
