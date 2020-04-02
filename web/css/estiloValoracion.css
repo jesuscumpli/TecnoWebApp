@@ -8,35 +8,101 @@ and open the template in the editor.
     Author     : luisr
 */
 
+#margenIzq{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 15%;
+}
+
+#contenedorCentral{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 70%;
+    margin: 0 2% ;
+    background-color: white;
+}
+
+#margenDer{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 15%;
+}
+
 #evaluacion{
     color: white;
-    margin: 0 1em;
     background-color: darkcyan;
-    position: absolute;
-    left: 18%;
     height: 90%;
     padding: 1em;
-    width:63%;
+}
+
+#listaValoraciones{
+    margin-top: 25px;
+    width:70%;
+    height: 50%;
+    background-color: darkcyan;
+    margin-left: 1em;
+}
+
+#cajaValoracion {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border: double 7px black;
+    white-space: normal;
+}
+
+#nombreUsuario{
+    font-weight: bold;
+    color: darkcyan;
+    font-family: fantasy ;
+}
+
+#comentarioProducto{
+    font-family: Times New Roman ;
+    width: 25%;
+    font-size: 12pt;
+    text-align: justify;
+    margin-left: 1em;
+    size: auto;
+}
+
+#notaProducto{
+    width: 35%;
+    font-family: Times New Roman;
+    font-size: 12pt;
+}
+
+#notaProducto h5{
+    display: inline-block;
 }
 
 #imagen{
     height: 25%;
     width: 25%;
-    left: 45%;
     margin: 34px 25px;
-    float: left;
+    text-align: center;
+}
+
+#descripcion{
+    margin: 34px 25px;
+}
+
+#precio{
+    margin-left: 150px;
+}
+
+#producto{
+    height: 50%;
+    width: 50%;
 }
 
 #nota{
     width: 25%;
-    float: right;
     margin-top: 15px;
     text-align: center;
 }
 
 #datos{
-   left: 40%;
-   float: right;
    width: 39%;
    margin-right: 25px;
 }
@@ -46,8 +112,5 @@ and open the template in the editor.
 }
 
 #botones{
-    float: left;
-    margin-top: 240px;
-    position: absolute;
-    left: 8%;
+    margin-top: 25px;
 }
