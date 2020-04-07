@@ -47,5 +47,19 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         q.setParameter("codCat", codCat);
         return q.getResultList();
     }
+    
+    public List<Producto> findByIdUsuario(Integer idUsuario) {
+        try{
+            Query q;
+            List<Producto> producto;
+
+            q = this.getEntityManager().createNamedQuery("Producto.findByIdUsuario");
+            q.setParameter("idUsuario", idUsuario); 
+            producto =  q.getResultList();
+            return producto;
+        }catch(NoResultException e) {
+            return null;
+        }
+    }
    
 }
