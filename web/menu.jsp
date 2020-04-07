@@ -81,7 +81,7 @@
                             </a>
                             <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
                                 <a class="dropdown-item text-white" href="./AccederPerfilUsuario">Perfil</a>
-                                <a class="dropdown-item text-white" href="#">Mis Productos</a>
+                                <a class="dropdown-item text-white" href="listadoProducto.jsp">Mis Productos</a>
                                 <a class="dropdown-item text-white" href="#">Mis Valoraciones</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-white" href="./CerrarSesion">Cerrar Sesi&oacute;n</a>
