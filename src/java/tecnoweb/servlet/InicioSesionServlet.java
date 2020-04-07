@@ -67,6 +67,9 @@ public class InicioSesionServlet extends HttpServlet {
            goTo = "login.jsp";                       
         } else { // el usuario está y la clave es correcta
             HttpSession session = request.getSession();
+            int idUsuario = usuario.getIdUsuario();
+            List<Producto> misProductos = this.productoFacade.findByIdUsuario(idUsuario);      
+            session.setAttribute("misProductos", misProductos);
             session.setAttribute("usuario", usuario); // introducimos el usuario en la sesión para saber que está autenticado
         }
         
