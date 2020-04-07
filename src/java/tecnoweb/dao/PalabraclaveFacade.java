@@ -5,14 +5,16 @@
  */
 package tecnoweb.dao;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import tecnoweb.entity.Palabraclave;
 
 /**
  *
- * @author Jesús
+ * @author alvar
  */
 @Stateless
 public class PalabraclaveFacade extends AbstractFacade<Palabraclave> {
@@ -27,6 +29,23 @@ public class PalabraclaveFacade extends AbstractFacade<Palabraclave> {
 
     public PalabraclaveFacade() {
         super(Palabraclave.class);
+    }
+
+    public Palabraclave findByValue(String valor) {
+        Query q;
+        Palabraclave palabraClave = null;
+        List<Palabraclave> lista;
+        
+      
+        q = this.getEntityManager().createNamedQuery("Palabraclave.findByValor");
+        q.setParameter("valor", valor); // Los parámetros son aquellas cadenas de caracteres que van precedidas de los dos puntos.
+
+        lista = q.getResultList(); 
+        // Si la lista está vacía, quiere decir que no hay ningún administrador con ese email
+        if (lista != null && !lista.isEmpty()) { 
+            palabraClave = lista.get(0); // Como sé que solo hay uno, devuelvo directament el primero
+        }
+        return palabraClave;
     }
     
 }
