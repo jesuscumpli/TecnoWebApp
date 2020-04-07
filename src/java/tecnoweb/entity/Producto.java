@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -32,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jesús
+ * @author alvar
  */
 @Entity
 @Table(name = "producto")
@@ -42,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByIdProducto", query = "SELECT p FROM Producto p WHERE p.idProducto = :idProducto")
     , @NamedQuery(name = "Producto.findByTitulo", query = "SELECT p FROM Producto p WHERE p.titulo = :titulo")
     , @NamedQuery(name = "Producto.findByPrecio", query = "SELECT p FROM Producto p WHERE p.precio = :precio")
-    , @NamedQuery(name = "Producto.findByFechaSubida", query = "SELECT p FROM Producto p WHERE p.fechaSubida = :fechaSubida")})
+    , @NamedQuery(name = "Producto.findByFechaSubida", query = "SELECT p FROM Producto p WHERE p.fechaSubida = :fechaSubida")
+    , @NamedQuery(name = "Producto.findByIdUsuario", query = "SELECT p FROM Producto p WHERE p.idUsuario.idUsuario = :idUsuario")})
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,7 +75,9 @@ public class Producto implements Serializable {
     @Size(max = 65535)
     @Column(name = "fotoProducto")
     private String fotoProducto;
-    @ManyToMany(mappedBy = "productoList")
+    @JoinTable(name = "rel_prod_clave", joinColumns = {
+        @JoinColumn(name = "idProducto", referencedColumnName = "idProducto")}, inverseJoinColumns = {
+        @JoinColumn(name = "idPalabraClave", referencedColumnName = "idPalabraClave")})
     private List<Palabraclave> palabraclaveList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<Valoracion> valoracionList;
@@ -204,8 +208,8 @@ public class Producto implements Serializable {
     public String toString() {
         return "tecnoweb.entity.Producto[ idProducto=" + idProducto + " ]";
     }
-    
-    public Double getNotaMedia(){
+
+     public Double getNotaMedia(){
         Double result = 0.0;
         List<Valoracion> lista = this.getValoracionList();
         for(Valoracion v: lista){
