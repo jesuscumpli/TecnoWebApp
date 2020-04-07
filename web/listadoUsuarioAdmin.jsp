@@ -21,6 +21,10 @@
     </head>
     <body>
         <h2 class="text-center bg-light">Listado Usuarios (vista Admin):</h2>
+
+        <div id="divRegistro">
+            <a class="text-black font-weight-bold" href=".\registroUsuarioAdmin.jsp">Añadir nuevo usuario</a>
+        </div>
         
         <table class="table text-center" >
             <thead>
@@ -49,7 +53,7 @@
                     <td><%= u.getEmailUsuario() %></td>
                     <td><img src="<%if(u.getFotoUsuario()!=null){%><%=u.getFotoUsuario()%><%}else{%>#<%}%>" height="25px" widtht="25px"></td>
                     <td><a href="BorrarUsuario?id=<%= u.getIdUsuario() %>">Borrar</a></td>   
-                    <td><a href="EditarCliente?id=<%= u.getIdUsuario() %>">Editar</a></td>
+                    <td><a href="EditarUsuario?idUsuario=<%= u.getIdUsuario() %>">Editar</a></td>
                 </tr>
     <%
        }
