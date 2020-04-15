@@ -1,0 +1,90 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 29-mar-2020, 19:06:58
+    Author     : DeuneB07
+*/
+
+#margenIzdo{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 10%;
+    background-color: white;
+}
+
+#centro {
+    border-color: #337ab7;
+    width: 60%;
+}
+
+#margenDcho{
+    border: solid 0px;
+    display:inline-block;
+    box-sizing: border-box;
+    width: 10%;
+    background-color: white;
+}
+
+#titulo {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+    border-bottom: 2px;
+    padding: 10px 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#contenido {
+    background-color: white;
+    border: solid 5px #337ab7;
+    border-top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding-bottom: 45px;
+}
+
+#contenido .row{
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#primerBloque{
+    width: 60%;
+}
+
+#imagen{
+    width: 40%;
+}
+
+#imagenPerfil{
+    width: 80%;
+    height: 80%;
+    margin: 10%;
+    margin-top: 15%;
+}
+
+.parametro{
+    color: #337ab7;
+    font-weight: bold;
+    text-indent: 4pt;
+}
+
+#dato{
+    color: black;
+    text-indent: 18pt;
+}
+
+#editButton{
+    width: 100%;
+    float: right;
+    padding-right: 10pt;
+}
+
+#segundoBloque{
+    padding-bottom: 15pt; 
+}

@@ -1,0 +1,120 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25-mar-2020, 13:05:59
+    Author     : luisr
+*/
+
+#margenIzq{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 15%;
+}
+
+#contenedorCentral{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 70%;
+    margin: 0 2% ;
+    background-color: white;
+}
+
+#margenDer{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 15%;
+}
+
+#evaluacion{
+    color: white;
+    background-color: darkcyan;
+    height: 90%;
+    padding: 1em;
+}
+
+#listaValoraciones{
+    margin-top: 25px;
+    width:70%;
+    height: 50%;
+    background-color: darkcyan;
+    margin-left: 1em;
+}
+
+#cajaValoracion {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border: double 7px black;
+    white-space: normal;
+}
+
+#nombreUsuario{
+    font-weight: bold;
+    color: darkcyan;
+    font-family: fantasy ;
+}
+
+#comentarioProducto{
+    font-family: Times New Roman ;
+    width: 25%;
+    font-size: 12pt;
+    text-align: justify;
+    margin-left: 1em;
+    size: auto;
+}
+
+#notaProducto{
+    width: 35%;
+    font-family: Times New Roman;
+    font-size: 12pt;
+}
+
+#notaProducto h5{
+    display: inline-block;
+}
+
+#imagen{
+    height: 25%;
+    width: 25%;
+    margin: 34px 25px;
+    text-align: center;
+}
+
+#descripcion{
+    margin: 34px 25px;
+}
+
+#precio{
+    margin-left: 150px;
+}
+
+#producto{
+    height: 50%;
+    width: 50%;
+}
+
+#nota{
+    width: 25%;
+    margin-top: 15px;
+    text-align: center;
+}
+
+#datos{
+   width: 39%;
+   margin-right: 25px;
+}
+
+#comentario{
+    width: 100%;
+}
+
+#botones{
+    margin-top: 25px;
+}
+
+#precio2{
+    margin-left: 30px;
+}

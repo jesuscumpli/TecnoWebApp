@@ -1,0 +1,134 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30-mar-2020, 19:39:12
+    Author     : DeuneB07
+*/
+
+#margenIzdo{
+    display:inline-block;
+    box-sizing: border-box;
+    width: 10%;
+    background-color: white;
+}
+
+#centro {
+    border-color: #337ab7;
+    width: 60%;
+}
+
+#margenDcho{
+    border: solid 0px;
+    display:inline-block;
+    box-sizing: border-box;
+    width: 10%;
+    background-color: white;
+}
+
+#titulo {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+    border-bottom: 2px;
+    padding: 10px 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#contenido {
+    background-color: white;
+    border: solid 5px #337ab7;
+    border-top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#contenido .row{
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 10pt;
+}
+
+#segundoBloque {
+    padding-right: 20pt;
+    padding-left: 10pt;
+}
+
+#primerBloque{
+    width: 50%;
+}
+
+#imagen{
+    width: 50%;
+}
+
+#imagenPerfil{
+    width: 65%;
+    height: 65%;
+    margin-left: 15%;
+    margin-right: 10%;
+    margin-top: 15%;
+}
+
+#url{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.parametro{
+    color: #337ab7;
+    font-weight: bold;
+    text-indent: 4pt;
+}
+
+#dato{
+    color: black;
+    text-indent: 18pt;
+}
+
+#inpPwd{
+    size: 40;
+}
+
+#inpData{
+    padding-right: 10%;
+    padding-left: 5%;
+}
+
+#segundoDcha{
+    width: 20%;
+    padding-top: 12%;
+}
+
+#segundaCentro{
+    width: 10%;
+}
+
+#segundoIzda{
+    width: 70%;
+}
+
+.btn-primary{
+    width: 100pt;
+    margin: 4pt;
+}
+
+#imagenPerfilNavBar{
+    border: solid 2px white;
+    height: 60px;
+    width: 60px;
+}
+
+#cambiarImagen{
+    width: 80%;
+    margin: 0;
+    margin-left: 5%;
+}
+
+#url{
+    margin:0;
+}
