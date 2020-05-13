@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Inicio Sesion</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+    </h:head>
+    <h:body>
+        
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h2 class="text-primary d-inline">Tecno </h2><h2 class="text-white d-inline"> Web</h2></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <h:link class="nav-link text-white h5 font-weight-bold">Inicio</h:link>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <!--<h:link class="nav-link text-white" outcome="registro" >Registro</h:link>-->
+                        <a class="nav-link text-white" href="registro.jsf">Registro</a>
+                    </li>
+                </ul>
+            </div>
+         </nav>
+        
+        <!--******************************************************************************************-->
+        
+        <div id="panel" class="shadow rounded">
+            <h2>Inicio Sesi&oacute;n</h2>
+            <h:form>
+                <div id="error">#{usuarioBean.status}</div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <h:inputText styleClass="form-control" value="#{usuarioBean.email}"/>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <h:inputSecret styleClass="form-control" value="#{usuarioBean.password}"/>
+                </div>
+                <h:commandButton action="#{usuarioBean.doLogin()}" styleClass="btn btn-primary" value="Login"/>
+            </h:form>
+            <div id="divRegistro">
+                <small id="registroHelp" class="form-text text-white">¿No se ha registrado aún en nuestra web?</small>
+                <h:link class="text-white font-weight-bold" outcome="registro">Registrese aquí</h:link>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    </h:body>
+</html>
+

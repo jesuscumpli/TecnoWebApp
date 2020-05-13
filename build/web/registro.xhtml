@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Registro Tecno Web</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+    </h:head>
+    <h:body>
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h2 class="text-primary d-inline">Tecno </h2><h2 class="text-white d-inline"> Web</h2></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <h:link class="nav-link text-white" outcome="login">Inicio</h:link>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <h:link class="nav-link text-white h5 font-weight-bold" >Registro</h:link>
+                    </li>
+                </ul>
+            </div>
+         </nav>
+        
+        <!--****************************************************************************-->
+        
+        <div id="panel" class="border border-primary rounded">
+            <h2>Registro</h2>   
+            <small class="text-white ml-2">*Campos obligatorios</small>
+            <small class="text-dark font-italic font-weight-bold ml-5"> #{registroBean.status} </small>
+            <h:form>
+                <div class="form-group">
+                    <label class="mb-0">*Email</label>
+                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.email}"/>
+                    
+
+                    <label class="mb-0">*Contraseña</label>
+                    <h:inputSecret  class="form-control mb-2" maxlength="50" value="#{registroBean.password1}"/>
+                    <label class="mb-0">*Repita su contraseña</label>
+                    <h:inputSecret  class="form-control mb-2" maxlength="50" value="#{registroBean.password2}"/>
+                </div>
+                <hr class="bg-white"/>
+                <div class="form-group">
+                    <label class="mb-0">*Nombre</label>
+                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.nombre}"/>
+                    <label class="mb-0">*Apellidos</label>
+                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.apellidos}"/>
+                    <label class="mb-0">*Fecha de Nacimiento</label>
+                    <small class="form-text text-white m-0">Debe cumplir la mayoría de edad (18)   (Formato: día/mes/año)</small>
+                    <h:inputText class="form-control mb-2" value="#{registroBean.fechaNacimiento}">  
+                       <f:convertDateTime pattern="dd-MM-YYYY"/>  
+                    </h:inputText>
+                </div>
+                <hr class="bg-white"/>
+                <label class="mb-0">Foto perfil</label>
+
+                <small class="form-text text-white m-0">Introduce aquí una url con tu foto de perfil</small>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">URL:</span>
+                  </div>
+                    <h:inputText id="url" class="form-control" value="#{registroBean.url}"/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                    </div>
+                </div>
+                <img id="imgVista" src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" class="img-thumbnail rounded mx-auto d-block w-25 h-25"/>
+
+                <br/>
+                    <h:commandButton class="btn btn-primary" value="Registrarse" action="#{registroBean.doRegistrar()}" />
+            </h:form>
+        </div>
+        
+        
+        <script> 
+            function cambiarImagenJS(){
+                var url = document.getElementById("j_idt12:url").value;
+                if(url===null || url===""){
+                    document.getElementById("imgVista").src = 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';
+                } else{
+                    document.getElementById("imgVista").src = url;
+                }
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    </h:body>
+</html>
+
