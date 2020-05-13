@@ -6,16 +6,25 @@
 package tecnoweb.bean;
 
 import java.util.Date;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import tecnoweb.dto.UsuarioDTO;
+import tecnoweb.service.UsuariosService;
 
 /**
  *
  * @author Jesús
  */
 @Named(value = "registroBean")
-@Dependent
+@RequestScoped
 public class RegistroBean {
+    @Inject
+    private UsuarioBean usuarioBean;
+    
+    @EJB
+    private UsuariosService usuariosService;
     
     protected String email;
     protected String password1;
@@ -96,7 +105,48 @@ public class RegistroBean {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public UsuarioBean getUsuarioBean() {
+        return usuarioBean;
+    }
+
+    public void setUsuarioBean(UsuarioBean usuarioBean) {
+        this.usuarioBean = usuarioBean;
+    }
     
-    
+    public String doRegistrar(){
+        
+        //Excepciones
+        if(email==null || email.isEmpty()){ status="Faltan parámetros: email"; return null;}
+        if(password1==null || password1.isEmpty()){ status="Faltan parámetros: contraseña"; return null;}
+        if(nombre==null || nombre.isEmpty()){ status="Faltan parámetros: nombre"; return null;}  //Obligamos a que pongan nombre, aunque en la bd es nulleable
+        if(apellidos==null || apellidos.isEmpty()){status="Faltan parámetros: apellidos"; return null;}
+        if(fechaNacimiento==null){ status="Faltan parámetros: fecha nacimiento"; return null;}
+        
+            // comprobamos si el usuario está en la BD
+        //nuevo = this.usuarioFacade.findByEmailUsuario(email);
+        UsuarioDTO nuevo = this.usuariosService.findByEmailUsuario(email);
+        if (nuevo == null) { // el usuario no está, es correcto
+            if(!password1.equals(password2)){
+                status="Las contraseñas no coinciden";
+                password1="";
+                password2="";
+                return null;
+            }else{
+                //Creamos usuario nuevo en la BD
+                this.usuariosService.createOrUpdate(0, email, nombre, apellidos, fechaNacimiento, password1, url, false);
+                
+                //Realizamos login a través de UsuarioBean
+                nuevo = this.usuariosService.findByEmailUsuario(email);
+                usuarioBean.setUsuario(nuevo);
+                return "menu";
+            }
+        }else{
+            status= "El email ya está registrado en la aplicación";
+            password1 = "";
+            password2 = "";
+            return null;
+        }
+    }
     
 }

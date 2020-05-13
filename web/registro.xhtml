@@ -55,7 +55,7 @@
                     <label class="mb-0">*Fecha de Nacimiento</label>
                     <small class="form-text text-white m-0">Debe cumplir la mayoría de edad (18)   (Formato: día/mes/año)</small>
                     <h:inputText class="form-control mb-2" value="#{registroBean.fechaNacimiento}">  
-                       <f:convertDateTime pattern="dd-MM-YYYY"/>  
+                       <f:convertDateTime type="date" locale="es" pattern="d/M/yyyy"/>  
                     </h:inputText>
                 </div>
                 <hr class="bg-white"/>
