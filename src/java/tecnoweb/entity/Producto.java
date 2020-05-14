@@ -251,6 +251,7 @@ public class Producto implements Serializable {
             clavesDTO.add(p.getDTO());
         }
         prodDTO.setPalabraclaveList(clavesDTO);
+        prodDTO.setNumValoraciones(this.valoracionList.size());
         return prodDTO;
     }
     

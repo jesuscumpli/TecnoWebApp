@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Pagina Principal</title>
@@ -74,9 +75,11 @@
                         <ul class="listaSub collapse" id="collapseCategoria#{cat.idCategoria}">
                             <c:forEach var="sub" items="#{cat.subcategoriaList}">
                             <li class="font-italic font-weight-light">
-                                <a class="text-white" href="">
+                                <h:form>
+                                <h:commandLink class="text-white" action="#{menuBean.seleccionarSubcategoria(sub)}">
                                     #{sub.nombreSubcategoria} (#{sub.numProds})
-                                </a>
+                                </h:commandLink>
+                                </h:form>
                             </li>
                             </c:forEach>
                         </ul>
@@ -91,37 +94,45 @@
                 
            <!--BUSCADOR / FILTRO -->    
             <nav id="navbarBuscador" class="navbar navbar-expand-lg navbar-light shadow">
-                  <form class="form-inline my-2 my-lg-0 w-100" action="">
+                  <h:form class="form-inline my-2 my-lg-0 w-100">
                     <div class="w-50 d-inline-block">
                         <div class="input-group mr-2">
                             <div class="input-group-prepend">
-                                <select class="custom-select input-group-text" id="categoriaBuscador" name="catSelected"> 
-                                    <option selected="true" value="Todos"> Todos </option>
-                                    <c:forEach var="c" items="#{menuBean.categorias}">
-                                        <option value="#{c.idCategoria}"> #{c.nombreCategoria} </option>
-                                    </c:forEach>
-                                </select>
+                                <h:selectOneMenu rendered="#{menuBean.subcatSelected!=null}" disabled="true" styleClass="custom-select input-group-text categoriaBuscador" value="#{menuBean.idCatSelected}">
+                                    <f:selectItem itemValue="-1" itemLabel="Todos"/>
+                                    <f:selectItems value="#{menuBean.categorias}" var="c" itemValue="#{c.idCategoria}" itemLabel="#{c.nombreCategoria}" />
+                                </h:selectOneMenu>
+                                <h:selectOneMenu rendered="#{menuBean.subcatSelected==null}" styleClass="custom-select input-group-text categoriaBuscador" value="#{menuBean.idCatSelected}">
+                                    <f:selectItem itemValue="-1" itemLabel="Todos"/>
+                                    <f:selectItems value="#{menuBean.categorias}" var="c" itemValue="#{c.idCategoria}" itemLabel="#{c.nombreCategoria}" />
+                                </h:selectOneMenu>
                             </div>
-
-                          <input name="busquedaFiltro" class="form-control mr-sm-2 w-75" type="search" placeholder="Busque su producto aqu&iacute;..." aria-label="Search" aria-describedby="basic-addon3"/>
+                            <h:inputText value="#{menuBean.busqueda}" class="form-control mr-sm-2 w-75" pt:type="search" pt:placeholder="Busque su producto aqu&iacute;..." pt:aria-label="Search" pt:aria-describedby="basic-addon3"/>
                         </div>
                         
                         <!-- subcategoria seleccionada aquí -->
+                        <c:if test="${menuBean.subcatSelected!=null}">
+                        <div class="ml-2">
+                            <label class="text-secondary d-inline">Subcategoría: </label>
+                            <span class="badge badge-info">#{menuBean.subcatSelected.nombreSubcategoria}</span>
+                            <h:commandLink action="#{menuBean.quitarSubcategoria}" styleClass=" text-danger small font-weight-bold border border-danger px-1" value="Quitar"/>
+                        </div>
+                        </c:if>
                         
                     </div>
                       
                     <div class="w-50 d-inline-block"> 
                         <span class="d-inline-block align-middle ml-1">Ordenar por:</span>
-                      <select class="custom-select d-inline-block font-italic" name="orden">
-                        <option selected="true" name="orden" value="Fecha">Fecha</option>
-                        <option name="orden" value="Precio">Precio</option>
-                        <option name="orden" value="Valoracion">Valoracion</option>
-                      </select>
-                      <button id="botonBuscar" class="d-inline-block btn btn-primary ml-2 my-2 my-sm-0" type="submit">Buscar</button>
+                        <h:selectOneMenu class="custom-select d-inline-block font-italic" value="#{menuBean.orden}">
+                          <f:selectItem itemValue="Fecha" itemLabel="Fecha"/>
+                          <f:selectItem itemValue="Precio" itemLabel="Precio"/>
+                          <f:selectItem itemValue="Valoracion" itemLabel="Valoracion"/>
+                        </h:selectOneMenu>
+                        <h:commandButton class="d-inline-block btn btn-primary ml-2 my-2 my-sm-0 botonBuscar" action="#{menuBean.filtrar}" value="Buscar"/>
                       
                     </div>
                      
-                  </form>
+                  </h:form>
                 </nav>            
            
            <!-- PRODUCTOS -->
@@ -189,7 +200,8 @@
                             <label for="radio5">★</label>
                             
                           </p>
-                          <small>(#{p.notaMedia})</small>
+                          <small class="text-warning font-weight-bold">(#{p.notaMedia}) </small>
+                          <small class="text-danger font-weight-bold">(#{p.numValoraciones})</small>
                         </form>
                         <label class="font-weight-bold">Vendedor:</label>
                     <c:if test="${p.idUsuario!=null}">
@@ -202,7 +214,7 @@
                                 <f:convertDateTime pattern="dd/MM/YYYY"/>
                             </h:outputText>
                         </span>
-                    </div >
+                    </div>
 
                     <c:choose>
                         <c:when test="${p.idUsuario==null || p.idUsuario.idUsuario!= usuarioBean.usuario.idUsuario}">

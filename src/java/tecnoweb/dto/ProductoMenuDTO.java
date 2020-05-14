@@ -26,6 +26,7 @@ public class ProductoMenuDTO {
     //No hay lista valoracion: valoracionList
     private List<PalabraclaveDTO> palabraclaveList;
     private Double notaMedia;   //Adicional
+    private int numValoraciones;
     
     public ProductoMenuDTO(){
     }
@@ -72,6 +73,14 @@ public class ProductoMenuDTO {
 
     public String getFotoProducto() {
         return fotoProducto;
+    }
+
+    public int getNumValoraciones() {
+        return numValoraciones;
+    }
+
+    public void setNumValoraciones(int numValoraciones) {
+        this.numValoraciones = numValoraciones;
     }
 
     public void setFotoProducto(String fotoProducto) {

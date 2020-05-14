@@ -50,7 +50,7 @@ ul.listaSub{
     background-color: lightgray ;
 }
 
-#categoriaBuscador{
+.categoriaBuscador{
     background-color: darkgray;
     color: white;
     font-style: italic;
@@ -65,7 +65,7 @@ ul.listaSub{
     background: gainsboro;
 }
 
-#botonBuscar{
+.botonBuscar{
     background-color: darkcyan;
     border-color: darkcyan;
 }
