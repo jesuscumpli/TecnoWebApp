@@ -30,7 +30,7 @@
                         <a class="nav-link text-white">Mis Productos</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mis Valoraciones</a>
+                        <a class="nav-link text-white" href="misValoraciones.jsf">Mis Valoraciones</a>
                     </li>
                     <li class="nav-item mx-2">
                         <a class="nav-link text-white">Mi Perfil</a>
@@ -203,6 +203,7 @@
                           <small class="text-warning font-weight-bold">(#{p.notaMedia}) </small>
                           <small class="text-danger font-weight-bold">(#{p.numValoraciones})</small>
                         </form>
+                        
                         <label class="font-weight-bold">Vendedor:</label>
                     <c:if test="${p.idUsuario!=null}">
                         <span>#{p.idUsuario.nombre}</span>

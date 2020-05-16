@@ -19,9 +19,18 @@ public class ValoracionDTO {
     private Date fechaPublicacion;
     private ProductoMenuDTO producto;
     private UsuarioDTO usuario;
+    private Integer notaEstrella;
     
     public ValoracionDTO(){
         
+    }
+
+    public Integer getNotaEstrella() {
+        return notaEstrella;
+    }
+
+    public void setNotaEstrella(Integer notaEstrella) {
+        this.notaEstrella = notaEstrella;
     }
 
     public String getComentario() {

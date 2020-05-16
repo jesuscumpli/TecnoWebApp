@@ -131,7 +131,7 @@ ul.listaSub{
     width: 15%;
 }
 
-#verMas{
+.verMas{
     /*background-color: peru;*/
     margin-top: 40px;
     height: min-content;

@@ -151,6 +151,7 @@ public class Valoracion implements Serializable {
         valDTO.setProducto(this.producto.getMenuDTO());
         valDTO.setUsuario(this.usuario.getDTO());
         valDTO.setIdValoracion(this.valoracionPK.getIdValoracion());
+        valDTO.setNotaEstrella(this.nota.intValue()/2);
         return valDTO;
     }
 }
