@@ -8,19 +8,19 @@ and open the template in the editor.
     Author     : DeuneB07
 */
 
-#margenIzdo{
+.margenIzdo{
     display:inline-block;
     box-sizing: border-box;
     width: 10%;
     background-color: white;
 }
 
-#centro {
+.centro {
     border-color: #337ab7;
     width: 60%;
 }
 
-#margenDcho{
+.margenDcho{
     border: solid 0px;
     display:inline-block;
     box-sizing: border-box;
@@ -28,7 +28,7 @@ and open the template in the editor.
     background-color: white;
 }
 
-#titulo {
+.titulo {
     color: #fff;
     background-color: #337ab7;
     border-color: #337ab7;
@@ -38,7 +38,7 @@ and open the template in the editor.
     border-top-right-radius: 5px;
 }
 
-#contenido {
+.contenido {
     background-color: white;
     border: solid 5px #337ab7;
     border-top: 0;
@@ -46,23 +46,23 @@ and open the template in the editor.
     border-bottom-right-radius: 5px;
 }
 
-#contenido .row{
+.contenido .row{
     width: 100%;
     margin-right: 0;
     margin-left: 0;
     padding-right: 10pt;
 }
 
-#segundoBloque {
+.segundoBloque {
     padding-right: 20pt;
     padding-left: 10pt;
 }
 
-#primerBloque{
+.primerBloque{
     width: 50%;
 }
 
-#imagen{
+.imagen{
     width: 50%;
 }
 
@@ -74,7 +74,7 @@ and open the template in the editor.
     margin-top: 15%;
 }
 
-#url{
+.url{
     margin-left: 10%;
     margin-right: 10%;
 }
@@ -85,30 +85,30 @@ and open the template in the editor.
     text-indent: 4pt;
 }
 
-#dato{
+.dato{
     color: black;
     text-indent: 18pt;
 }
 
-#inpPwd{
+.inpPwd{
     size: 40;
 }
 
-#inpData{
+.inpData{
     padding-right: 10%;
     padding-left: 5%;
 }
 
-#segundoDcha{
+.segundoDcha{
     width: 20%;
     padding-top: 12%;
 }
 
-#segundaCentro{
+.segundaCentro{
     width: 10%;
 }
 
-#segundoIzda{
+.segundoIzda{
     width: 70%;
 }
 
@@ -117,18 +117,18 @@ and open the template in the editor.
     margin: 4pt;
 }
 
-#imagenPerfilNavBar{
+.imagenPerfilNavBar{
     border: solid 2px white;
     height: 60px;
     width: 60px;
 }
 
-#cambiarImagen{
+.cambiarImagen{
     width: 80%;
     margin: 0;
     margin-left: 5%;
 }
 
-#url{
+.url{
     margin:0;
 }
