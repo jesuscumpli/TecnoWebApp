@@ -6,6 +6,7 @@
 package tecnoweb.bean;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -98,6 +99,19 @@ public class UsuarioBean implements Serializable{
         this.email = "";
         this.password = "";
         return "login";
+    }
+    
+    public boolean nombreValido(){
+        return usuario.getNombre() != null && !usuario.getNombre().trim().equals("");
+    }
+    
+    public boolean apellidosValido(){
+        return usuario.getApellidos() != null && !usuario.getApellidos().trim().equals("");
+    }
+    
+    public String convertirFecha(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+        return sdf.format(usuario.getFechaNac());
     }
     
 }
