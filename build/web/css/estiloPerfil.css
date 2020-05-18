@@ -8,19 +8,19 @@ and open the template in the editor.
     Author     : DeuneB07
 */
 
-#margenIzdo{
+.margenIzdo{
     display:inline-block;
     box-sizing: border-box;
     width: 10%;
     background-color: white;
 }
 
-#centro {
+.centro {
     border-color: #337ab7;
     width: 60%;
 }
 
-#margenDcho{
+.margenDcho{
     border: solid 0px;
     display:inline-block;
     box-sizing: border-box;
@@ -28,7 +28,7 @@ and open the template in the editor.
     background-color: white;
 }
 
-#titulo {
+.titulo {
     color: #fff;
     background-color: #337ab7;
     border-color: #337ab7;
@@ -38,7 +38,7 @@ and open the template in the editor.
     border-top-right-radius: 5px;
 }
 
-#contenido {
+.contenido {
     background-color: white;
     border: solid 5px #337ab7;
     border-top: 0;
@@ -47,21 +47,21 @@ and open the template in the editor.
     padding-bottom: 45px;
 }
 
-#contenido .row{
+.contenido .row{
     width: 100%;
     margin-right: 0;
     margin-left: 0;
 }
 
-#primerBloque{
+.primerBloque{
     width: 60%;
 }
 
-#imagen{
+.imagen{
     width: 40%;
 }
 
-#imagenPerfil{
+.imagenPerfil{
     width: 80%;
     height: 80%;
     margin: 10%;
@@ -74,17 +74,17 @@ and open the template in the editor.
     text-indent: 4pt;
 }
 
-#dato{
+.dato{
     color: black;
     text-indent: 18pt;
 }
 
-#editButton{
+.editButton{
     width: 100%;
     float: right;
     padding-right: 10pt;
 }
 
-#segundoBloque{
+.segundoBloque{
     padding-bottom: 15pt; 
 }
