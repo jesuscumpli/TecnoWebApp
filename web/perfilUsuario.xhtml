@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Perfil de Usuario</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+        <link rel="stylesheet" href="css/estiloPerfil.css"/>
+    </h:head>
+    <h:body>
+        
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white">Mis Productos</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="misValoraciones.jsf">Mis Valoraciones</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <h:link class="nav-link text-white" outcome="perfilUsuario">Mi Perfil</h:link>
+                    </li>
+                </ul>
+                <div class="nav-item float-right float-sm-left pl-0">
+                    <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
+                    <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
+                        <div class="dropdown">
+                            <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                #{usuarioBean.usuario.nombre}
+                            </a>
+                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <h:link class="dropdown-item text-white" outcome="perfilUsuario">Perfil</h:link>
+                                <a class="dropdown-item text-white" >Mis Productos</a>
+                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                                <div class="dropdown-divider"></div>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                            </div>
+                        </div>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                    </div>
+                </div>
+            </div>
+         </nav>
+        
+        <!--************************************************************************************************************-->
+        
+        <div class="row">
+            
+            <!-- PANEL DE DATOS E INFORMACIÓN -->
+            <div class="container panel-primary centro">
+                <div class="panel-heading titulo">Información del Usuario</div>
+                <div class="panel-body contenido">
+
+                    <!-- PRIMER BLOQUE -->
+                    <div class="row">
+                        <!-- IMAGEN -->
+                        <div class="imagen">
+                            <img class="imagenPerfil" src="#{usuarioBean.usuario.fotoUsuario}" alt=""/>
+                        </div>
+                        <!-- EMAIL & NOMBRE -->
+                        <div class="primerBloque">
+                            <br/><br/>
+                            <h:outputLabel class="parametro">Correo Electr&oacute;nico</h:outputLabel><br/>
+                            <h:outputLabel class="dato">#{usuarioBean.usuario.emailUsuario}</h:outputLabel><br/>
+                            
+                            <!-- Mostrar Nombre -->
+                            <h:outputLabel class="parametro">Nombre</h:outputLabel><br/>
+                            <h:outputLabel rendered="#{usuarioBean.nombreValido()==false}">
+                                <em>No ha sido introducido</em>
+                            </h:outputLabel>
+                            <h:outputLabel class="dato" rendered="#{usuarioBean.nombreValido()}">
+                                <em>#{usuarioBean.usuario.nombre}</em>
+                            </h:outputLabel>
+                            <br/>
+
+                            <!-- Mostrar Apellidos -->
+                            <h:outputLabel class="parametro">Apellidos</h:outputLabel><br/>
+                            <h:outputLabel rendered="#{usuarioBean.apellidosValido()==false}">
+                                <em>No ha sido introducido</em>
+                            </h:outputLabel>
+                            <h:outputLabel class="dato" rendered="#{usuarioBean.apellidosValido()}">
+                                <em>#{usuarioBean.usuario.apellidos}</em>
+                            </h:outputLabel>
+                            <br/>
+                            
+                            <!-- Mostrar Fecha de Nacimiento -->
+                            <h:outputLabel class="parametro">Fecha de Nacimiento</h:outputLabel><br/>
+                            <h:outputLabel class="dato">#{usuarioBean.convertirFecha()}</h:outputLabel><br/>
+                        </div>
+                    </div>
+                            
+                    <!-- SEGUNDO BLOQUE -->
+                    <div class="editButton">
+                        <h:form>
+                            <h:button class="btn btn-primary float-right" outcome="editarPerfilUsuario" value="Editar Perfil"/>
+                        </h:form>
+                    </div>
+                </div> <!-- Segundo Bloque -->
+            </div>
+        </div>
+        
+        <!-- ******************** -->
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    </h:body>
+</html>
+
