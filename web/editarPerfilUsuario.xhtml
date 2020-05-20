@@ -91,25 +91,33 @@
                                 <br/><br/>
 
                                 <h:outputLabel class="parametro">Correo Electr&oacute;nico</h:outputLabel> 
-                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusEmail}</h:outputLabel><br/>
-                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí su email..." maxlength="50" value="#{usuarioEditarBean.email}"/>
+                                <h:message for="sEmail"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold"/><br/>
+                                <h:inputText id="sEmail" class="form-control inpData" a:placeholder="Introduzca aquí su email..." maxlength="50" value="#{usuarioEditarBean.email}"  validatorMessage="Necesario @. Longitud Máxima 50" >
+                                    <f:validateLength maximum="50" minimum="1"/>
+                                    <f:validateRegex pattern="((?=.*[0-Z])(?=.*[@]).{1,50})"/>
+                                </h:inputText>
                                 <br/>
 
                                 <h:outputLabel class="parametro">Nombre</h:outputLabel> 
-                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusNombre}</h:outputLabel><br/>
-                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí su nombre..." maxlength="50" value="#{usuarioEditarBean.name}"/>
+                                <h:message for="sName"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>
+                                <h:inputText id="sName" class="form-control inpData" a:placeholder="Introduzca aquí su nombre..." value="#{usuarioEditarBean.name}">
+                                    <f:validateLength maximum="50" minimum="1"/>
+                                </h:inputText>
                                 <br/>
 
                                 <h:outputLabel class="parametro">Apellidos</h:outputLabel> 
-                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusApellido}</h:outputLabel><br/>
-                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí sus apellidos..." maxlength="100" value="#{usuarioEditarBean.apellidos}"/>
+                                <h:message for="sApellido"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>
+                                <h:inputText id="sApellido" class="form-control inpData" a:placeholder="Introduzca aquí sus apellidos..." maxlength="100" value="#{usuarioEditarBean.apellidos}">
+                                    <f:validateLength maximum="100" minimum="1"/>
+                                </h:inputText>
                                 <br/>
 
                                 <h:outputLabel class="parametro">Fecha de Nacimiento</h:outputLabel> 
                                 <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusFechaNac}</h:outputLabel><br/>
-                                <h:inputText a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarBean.fechaNac}">
-                                    <f:convertDateTime pattern="YYYY-MM-dd"/>
+                                <h:inputText id="sFecha" a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarBean.fechaNac}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
                                 </h:inputText>
+                                <h:message for="sFecha"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>
                                 <br/>
 
                             </div>
