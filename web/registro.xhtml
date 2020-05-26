@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Registro Tecno Web</title>
@@ -20,61 +21,122 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <h:link class="nav-link text-white" outcome="login">Inicio</h:link>
+                        <h:link class="nav-link text-white" outcome="login">#{lblIni.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="nav-link text-white h5 font-weight-bold" >Registro</h:link>
+                        <h:link class="nav-link text-white h5 font-weight-bold" >#{lblIni.navRegistro}</h:link>
                     </li>
                 </ul>
+                <h:form class="nav-item float-right">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lblIni.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">Español</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">Ingles</h:commandLink>
+                    </div>
+                </h:form>
             </div>
          </nav>
         
         <!--****************************************************************************-->
         
         <div id="panel" class="border border-primary rounded">
-            <h2>Registro</h2>   
-            <small class="text-white ml-2">*Campos obligatorios</small>
+            <h2>#{lblIni.lblRegistro}</h2>   
+            <small class="text-white ml-2">*#{lblIni.fieldsRequired}</small>
             <small class="text-dark font-italic font-weight-bold ml-5"> #{registroBean.status} </small>
             <h:form>
                 <div class="form-group">
-                    <label class="mb-0">*Email</label>
-                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.email}"/>
+                    <label class="mb-0">*#{lblIni.lblEmail}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="email"/>
+                    <h:inputText class="form-control mb-2" 
+                                 id="email"
+                                 required="true"
+                                 value="#{registroBean.email}"
+                                 requiredMessage="#{msgs.emailRequired}"
+                                 validatorMessage="#{msgs.emailTooLong}"
+                                 >
+                        <f:validateLength maximum="50"/>
+                    </h:inputText>
                     
-
-                    <label class="mb-0">*Contraseña</label>
-                    <h:inputSecret  class="form-control mb-2" maxlength="50" value="#{registroBean.password1}"/>
-                    <label class="mb-0">*Repita su contraseña</label>
-                    <h:inputSecret  class="form-control mb-2" maxlength="50" value="#{registroBean.password2}"/>
+                    
+                    <label class="mb-0">*#{lblIni.lblPassword}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="contraseña1"/>
+                    <h:inputSecret id="contraseña1" 
+                                   required="true"
+                                   requiredMessage="#{msgs.passwordRequired}"
+                                   validatorMessage="#{msgs.passwordTooLong}"
+                                   class="form-control mb-2" maxlength="50" value="#{registroBean.password1}">
+                        <f:validateLength maximum="50" minimum="1" />
+                    </h:inputSecret>
+                    <label class="mb-0">*#{lblIni.lblPasswordAgain}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="contraseña2"/>
+                    <h:inputSecret id="contraseña2"
+                                   required="true"
+                                   requiredMessage="#{msgs.passwordRequired}"
+                                   validatorMessage="#{msgs.passwordTooLong}"
+                                   class="form-control mb-2" maxlength="50" value="#{registroBean.password2}">
+                        <f:validateLength maximum="50" minimum="1" />
+                    </h:inputSecret>
                 </div>
                 <hr class="bg-white"/>
                 <div class="form-group">
-                    <label class="mb-0">*Nombre</label>
-                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.nombre}"/>
-                    <label class="mb-0">*Apellidos</label>
-                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.apellidos}"/>
-                    <label class="mb-0">*Fecha de Nacimiento</label>
-                    <small class="form-text text-white m-0">Debe cumplir la mayoría de edad (18)   (Formato: día/mes/año)</small>
-                    <h:inputText class="form-control mb-2" value="#{registroBean.fechaNacimiento}">  
-                       <f:convertDateTime type="date" locale="es" pattern="d/M/yyyy"/>  
+                    <label class="mb-0">*#{lblIni.lblName}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="nombre"/>
+                    <h:inputText id="nombre" 
+                                 required="true"
+                                 requiredMessage="#{msgs.nombreRequired}"
+                                 validatorMessage="#{msgs.nombreTooLong}"
+                                 class="form-control mb-2" value="#{registroBean.nombre}">
+                        <f:validateLength maximum="50"/>
                     </h:inputText>
+                    <label class="mb-0">*#{lblIni.lblLastName}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="apellidos"/>
+                    <h:inputText id="apellidos"
+                                 required="true"
+                                 requiredMessage="#{msgs.apellidosRequired}"
+                                 validatorMessage="#{msgs.apellidosTooLong}"
+                                 class="form-control mb-2" value="#{registroBean.apellidos}">
+                        <f:validateLength maximum="50"/>
+                        <f:ajax render="msgCoinciden" event="keyup"/>
+                    </h:inputText>
+                    
+                    <div id="msgCoinciden">
+                        <h:outputText rendered="#{registroBean.password1!=null and registroBean.password2!=null and registroBean.password1.equals(password2)}"
+                                      class="text-success small" value="Coinciden"/>
+                        <h:outputText rendered="#{registroBean.password1!=null and registroBean.password2!=null and !registroBean.password1.equals(password2)}"
+                                                  class="text-danger small" value="No coinciden"/>
+                    </div>
+                    
+                    <label class="mb-0">*#{lblIni.lblBirthdate}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="fechaNac"/>
+                    <small class="form-text text-white m-0">#{lblIni.requestDate}</small>
+                    <h:inputText id="fechaNac"
+                                 required="true"
+                                 requiredMessage="#{msgs.fechaNacRequired}"
+                                 converterMessage="#{msgs.fechaNacFormato}"
+                        class="form-control mb-2" value="#{registroBean.fechaNacimiento}">  
+                       <f:convertDateTime type="date" locale="es" pattern="d/M/yyyy"/>
+                    </h:inputText>
+                    
                 </div>
                 <hr class="bg-white"/>
-                <label class="mb-0">Foto perfil</label>
+                <label class="mb-0">#{lblIni.lblPerfilImage}</label>
 
-                <small class="form-text text-white m-0">Introduce aquí una url con tu foto de perfil</small>
+                <small class="form-text text-white m-0">#{lblIni.infoImage}</small>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">URL:</span>
                   </div>
                     <h:inputText id="url" class="form-control" value="#{registroBean.url}"/>
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lblIni.btnVer}</button>
                     </div>
                 </div>
                 <img id="imgVista" src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" class="img-thumbnail rounded mx-auto d-block w-25 h-25"/>
 
                 <br/>
-                    <h:commandButton class="btn btn-primary" value="Registrarse" action="#{registroBean.doRegistrar()}" />
+                <h:commandButton class="btn btn-primary" value="#{lblIni.btnSignUp}" action="#{registroBean.doRegistrar()}" />
             </h:form>
         </div>
         
@@ -93,5 +155,6 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
+    </f:view>
 </html>
 

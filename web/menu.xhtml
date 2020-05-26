@@ -33,7 +33,7 @@
                         <a class="nav-link text-white" href="misValoraciones.jsf">Mis Valoraciones</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mi Perfil</a>
+                        <h:link class="nav-link text-white" outcome="perfilUsuario">Mi Perfil</h:link>
                     </li>
                 </ul>
                 <div class="nav-item float-right float-sm-left pl-0">
@@ -44,7 +44,7 @@
                                 #{usuarioBean.usuario.nombre}
                             </a>
                             <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" >Perfil</a>
+                                <h:link class="dropdown-item text-white" outcome="perfilUsuario" >Perfil</h:link>
                                 <a class="dropdown-item text-white" >Mis Productos</a>
                                 <a class="dropdown-item text-white" >Mis Valoraciones</a>
                                 <div class="dropdown-divider"></div>
@@ -76,8 +76,9 @@
                             <c:forEach var="sub" items="#{cat.subcategoriaList}">
                             <li class="font-italic font-weight-light">
                                 <h:form>
-                                <h:commandLink class="text-white" action="#{menuBean.seleccionarSubcategoria(sub)}">
+                                <h:commandLink class="text-white">
                                     #{sub.nombreSubcategoria} (#{sub.numProds})
+                                    <f:ajax render="productos" event="click" listener="#{menuBean.seleccionarSubcategoria(sub)}"/>
                                 </h:commandLink>
                                 </h:form>
                             </li>
@@ -105,9 +106,12 @@
                                 <h:selectOneMenu rendered="#{menuBean.subcatSelected==null}" styleClass="custom-select input-group-text categoriaBuscador" value="#{menuBean.idCatSelected}">
                                     <f:selectItem itemValue="-1" itemLabel="Todos"/>
                                     <f:selectItems value="#{menuBean.categorias}" var="c" itemValue="#{c.idCategoria}" itemLabel="#{c.nombreCategoria}" />
+                                    <f:ajax render="productos" event="valueChange" listener="#{menuBean.filtrar()}"/>
                                 </h:selectOneMenu>
                             </div>
-                            <h:inputText value="#{menuBean.busqueda}" class="form-control mr-sm-2 w-75" pt:type="search" pt:placeholder="Busque su producto aqu&iacute;..." pt:aria-label="Search" pt:aria-describedby="basic-addon3"/>
+                            <h:inputText value="#{menuBean.busqueda}" class="form-control mr-sm-2 w-75" pt:type="search" pt:placeholder="Busque su producto aqu&iacute;..." pt:aria-label="Search" pt:aria-describedby="basic-addon3">
+                                <f:ajax render="productos" event="keyup" listener="#{menuBean.filtrar()}"/>
+                            </h:inputText>
                         </div>
                         
                         <!-- subcategoria seleccionada aquí -->
@@ -127,6 +131,7 @@
                           <f:selectItem itemValue="Fecha" itemLabel="Fecha"/>
                           <f:selectItem itemValue="Precio" itemLabel="Precio"/>
                           <f:selectItem itemValue="Valoracion" itemLabel="Valoracion"/>
+                          <f:ajax render="productos" event="valueChange" listener="#{menuBean.filtrar()}"/>
                         </h:selectOneMenu>
                         <h:commandButton class="d-inline-block btn btn-primary ml-2 my-2 my-sm-0 botonBuscar" action="#{menuBean.filtrar}" value="Buscar"/>
                       
@@ -137,6 +142,7 @@
            
            <!-- PRODUCTOS -->
            
+           <h:panelGroup id="productos">
            <c:forEach var="p" items="#{menuBean.productos}">
             <div id="cajaProducto" class="bg-light shadow" >
                 <div id="tituloProducto" class="h3" > 
@@ -200,7 +206,11 @@
                             <label for="radio5">★</label>
                             
                           </p>
-                          <small class="text-warning font-weight-bold">(#{p.notaMedia}) </small>
+                          <small class="text-warning font-weight-bold">
+                              (<h:outputText value="#{p.notaMedia}">
+                                  <f:convertNumber maxFractionDigits="1" />
+                              </h:outputText>)
+                          </small>
                           <small class="text-danger font-weight-bold">(#{p.numValoraciones})</small>
                         </form>
                         
@@ -220,7 +230,9 @@
                     <c:choose>
                         <c:when test="${p.idUsuario==null || p.idUsuario.idUsuario!= usuarioBean.usuario.idUsuario}">
                             <div id="divMas" class="col">
-                                <a id="verMas" class="btn btn-warning text-white" href=""  role="button" >Comprar</a>
+                                <h:form>
+                                    <h:commandButton id="verMas" class="btn btn-warning text-white" action="#{menuBean.doCargarValoracion(p)}"  value="Comprar" ></h:commandButton>
+                                </h:form>
                             </div>
                         </c:when>
                         <c:otherwise>
@@ -230,7 +242,7 @@
                 </div>
             </div>
             </c:forEach>
-        
+           </h:panelGroup>
         
         
         

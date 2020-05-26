@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <title>Inicio Sesion</title>
         <meta charset="UTF-8"/>
@@ -21,35 +23,52 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <h:link class="nav-link text-white h5 font-weight-bold">Inicio</h:link>
+                        <h:link class="nav-link text-white h5 font-weight-bold">#{lblIni.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
                         <!--<h:link class="nav-link text-white" outcome="registro" >Registro</h:link>-->
-                        <a class="nav-link text-white" href="registro.jsf">Registro</a>
+                        <a class="nav-link text-white" href="registro.jsf">#{lblIni.navRegistro}</a>
                     </li>
                 </ul>
+                <h:form class="nav-item float-right">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        #{lblIni.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">Español</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">Ingles</h:commandLink>
+                    </div>
+                </h:form>
             </div>
          </nav>
         
         <!--******************************************************************************************-->
         
         <div id="panel" class="shadow rounded">
-            <h2>Inicio Sesi&oacute;n</h2>
+            <h2>#{lblIni.lblLogin}</h2>
             <h:form>
                 <div id="error">#{usuarioBean.status}</div>
                 <div class="form-group">
-                    <label>Email</label>
-                    <h:inputText styleClass="form-control" value="#{usuarioBean.email}"/>
+                    <label>#{lblIni.lblEmail}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="email"/>
+                    <h:inputText id="email"
+                                 required="true"
+                                 requiredMessage="#{msgs.emailRequired}"
+                        styleClass="form-control" value="#{usuarioBean.email}"/>
                 </div>
                 <div class="form-group">
-                    <label>Contraseña</label>
-                    <h:inputSecret styleClass="form-control" value="#{usuarioBean.password}"/>
+                    <label>#{lblIni.lblPassword}</label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="contraseña"/>
+                    <h:inputSecret id="contraseña"
+                                   required="true"
+                                   requiredMessage="#{msgs.passwordRequired}"
+                        styleClass="form-control" value="#{usuarioBean.password}"/>
                 </div>
-                <h:commandButton action="#{usuarioBean.doLogin()}" styleClass="btn btn-primary" value="Login"/>
+                <h:commandButton action="#{usuarioBean.doLogin()}" styleClass="btn btn-primary" value="#{lblIni.btnLogin}"/>
             </h:form>
             <div id="divRegistro">
-                <small id="registroHelp" class="form-text text-white">¿No se ha registrado aún en nuestra web?</small>
-                <h:link class="text-white font-weight-bold" outcome="registro">Registrese aquí</h:link>
+                <small id="registroHelp" class="form-text text-white">#{lblIni.questionRegistro}</small>
+                <h:link class="text-white font-weight-bold" outcome="registro">#{lblIni.linkRegister}</h:link>
             </div>
         </div>
         
@@ -57,5 +76,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
+    </f:view>
 </html>
 

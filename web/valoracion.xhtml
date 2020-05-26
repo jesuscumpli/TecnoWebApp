@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Valoración: #{ValoracionBean.producto.titulo}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+        <link rel="stylesheet" href="css/estiloValoracion.css"/>
+    </h:head>
+    <h:body>
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white">Mis Productos</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="misValoraciones.jsf">Mis Valoraciones</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white">Mi Perfil</a>
+                    </li>
+                </ul>
+                <div class="nav-item float-right float-sm-left pl-0">
+                    <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
+                    <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
+                        <div class="dropdown">
+                            <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                #{usuarioBean.usuario.nombre}
+                            </a>
+                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" >Perfil</a>
+                                <a class="dropdown-item text-white" >Mis Productos</a>
+                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                                <div class="dropdown-divider"></div>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                            </div>
+                        </div>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                    </div>
+                </div>
+            </div>
+         </nav>
+        
+        <!--************************************************************************************************************-->
+       
+        <div  id="margenIzq"/>
+        
+        
+        <div id="contenedorCentral">
+        <div id="evaluacion" class="border border-primary rounded container-fluid">
+            <h2> Producto: #{ValoracionBean.producto.titulo}</h2>
+        
+        <div class="row">
+        <div id="imagen" class="col">
+            <img src="#{ValoracionBean.producto.fotoProducto}" class="img-thumbnail" id="producto" alt="..."/>
+        </div>
+        
+        <div id="descripcion" class="col">
+             <label class="font-weight-bold">Descripción:</label>
+             <p>
+                 #{ValoracionBean.producto.descripcion}
+             </p>
+        </div>
+        </div>
+             
+        <div id="precio">
+            <h5 class="font-weight-bold">Precio: #{ValoracionBean.producto.precio} €</h5>
+        </div>
+        
+        
+            
+        <div id="datos" > 
+        <h:form>
+            
+            <label for="comentario">Comentario</label>
+            <h:inputText class="form-control comentario" value="#{ValoracionBean.comentario}"/>
+            
+            <div>
+                <label id="nota" style="margin-top: 25px">Nota</label>
+                <h:selectOneMenu class="form-control form-control-lg nota" value="#{ValoracionBean.nota}" >
+                    <f:selectItems value="#{ValoracionBean.numeros}" var="nota" itemValue="#{nota}" itemLabel="#{nota}"/>
+                </h:selectOneMenu>
+            </div>
+               
+            <div id="botones">
+                <h:commandButton class="btn btn-success border border-dark" value="Enviar" action="#{ValoracionBean.doGuardarValoracion()}" />  
+                <h:commandButton class="btn ml-1 btn-warning border border-dark" value="Limpiar" action="#{ValoracionBean.doLimpiar()}" />
+                <h:commandButton class="btn ml-1 btn-danger border border-dark" value="Volver" action="#{ValoracionBean.doVolver()}" />  
+            </div>
+           
+        </h:form>
+        </div>
+        
+        </div>
+            
+            
+            <c:forEach var="valoracion" items="#{ValoracionBean.listaValoraciones}">
+                <div id="cajaValoracion" class="badge">
+                    <div id="Usuario" class="h3" > 
+                        <span class="ml-2">#{valoracion.usuario.nombre} #{valoracion.usuario.apellidos}</span>
+                    </div>
+                    <div id="cuerpoValoracion" class="row text-center">
+                        <div id="comentarioProducto" class="col">
+                            <label class="font-weight-bold">Comentario:</label>
+                            <p> #{valoracion.comentario}</p>
+                        </div>
+                        <div id="notaProducto" class="col">
+                            <label class="font-weight-bold">Nota: </label>
+                            <h5 class="font-weight-bold"> #{valoracion.nota}</h5>
+                            <br/>
+                            <label class="font-weight-bold">Fecha de publicación:</label>
+                            <h:outputText class="font-weight-bold" value="#{valoracion.fechaPublicacion}">
+                                <f:convertDateTime pattern="dd/MM/YYYY"/>
+                            </h:outputText>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </c:forEach>
+ 
+        </div>
+         
+        
+        <div id="margenDer"/>
+        
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        
+    </h:body>
+</html>
+
