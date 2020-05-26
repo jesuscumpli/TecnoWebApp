@@ -48,6 +48,7 @@ public class MenuBean implements Serializable{
     @Inject
     private UsuarioBean usuarioBean;
     
+    protected ProductoMenuDTO productoSeleccionado;
     protected List<ProductoMenuDTO> productos;
     protected List<CategoriaMenuDTO> categorias;
     protected String status = "";
@@ -92,6 +93,14 @@ public class MenuBean implements Serializable{
 
     public List<ProductoMenuDTO> getProductos() {
         return productos;
+    }
+
+    public ProductoMenuDTO getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(ProductoMenuDTO productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
     }
 
     public String getBusqueda() {
@@ -225,6 +234,11 @@ public class MenuBean implements Serializable{
         Filtro.ordenarProductosMenuDTO(orden, productos);
         
         return null;
+    }
+    
+    public String doCargarValoracion(ProductoMenuDTO producto){
+        this.productoSeleccionado = producto;
+        return "valoracion";
     }
     
     private List<ProductoMenuDTO> unirFiltrosMenuDTO(List<ProductoMenuDTO> p1, List<ProductoMenuDTO> p2, List<ProductoMenuDTO> p3){

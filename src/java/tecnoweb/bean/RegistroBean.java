@@ -6,6 +6,7 @@
 package tecnoweb.bean;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -147,6 +148,21 @@ public class RegistroBean {
             password2 = "";
             return null;
         }
+    }
+    
+    public boolean checkFecha(){
+        Date now = new Date();
+        long diffInMillies = Math.abs(now.getTime() - fechaNacimiento.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long years = diff/365;
+
+        if(fechaNacimiento.after(now)){
+            return false;
+        }
+        if(years<18){
+            return false;
+        }
+        return true;
     }
     
 }
