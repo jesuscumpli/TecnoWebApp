@@ -80,4 +80,17 @@ public class CategoriasService {
         aux.setNombreCategoria(cat.getNombreCategoria());
         this.categoriaFacade.create(aux);
     }
+    
+    public void editMenuDTO(CategoriaMenuDTO cat){
+        Categoria aux = this.categoriaFacade.find(cat.getIdCategoria());
+        aux.setNombreCategoria(cat.getNombreCategoria());
+        this.categoriaFacade.edit(aux);
+    }
+    
+    public void createMenuDTO(CategoriaMenuDTO cat){
+        Categoria aux;
+        aux = new Categoria(0);
+        aux.setNombreCategoria(cat.getNombreCategoria());
+        this.categoriaFacade.create(aux);
+    }
 }

@@ -1,17 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Pagina Principal</title>
+        <title>Añadir nuevo usuario admin</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
-        <link rel="stylesheet" href="css/estiloMenu.css"/>
     </h:head>
     <h:body>
-        
-<!-- NAVBAR INICIO -->
+        <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +39,7 @@
                                 #{usuarioBean.usuario.nombre}
                             </a>
                             <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
+                                <a class="dropdown-item text-white" href="perfilUsuario.jsf">Perfil</a>
                                 <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
                                 <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
                                 <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
@@ -57,69 +55,78 @@
         
         <!--***********************************************************************************************************-->
         
-        <div class="row">
-
-        <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
-            <div class="col" id="latIzq">
-            </div>
         
-        <!-- CONTAINER -->
-            <div id="centro" class="row">
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://i2.wp.com/helpmybusinesspos.info/wp-content/uploads/2015/02/Usuario-permisos_mybusinesspos-300x200.png?resize=300%2C200" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de USUARIOS de Tecno Web. Añadir un nuevo usuario. Editar y Borrar un usuario existente.</p>
-                            <a href="listadoUsuariosAdmin.jsf" class="btn btn-success w-100">USARIOS</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://a2kartro.com/wp-content/uploads/2016/04/cajas-basica-productos.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de PRODUCTOS de Tecno Web. Sólo Editar y Borrar un producto existente en la página web.</p>
-                            <a href="listadoProductosAdmin.jsf" class="btn btn-success w-100">PRODUCTOS</a>
-                        </div>
-                    </div>
-                </div>
+        <div id="panel" class="border border-primary rounded">
+            <h2>Registro</h2>   
+            <small class="text-white ml-2">*Campos obligatorios</small>
+            <small class="text-dark font-italic font-weight-bold ml-5"> #{registroBean.status} </small>
+            <h:form>
+                <div class="form-group">
+                    <label class="mb-0">*Email</label>
+                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.email}"/>
                     
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://gmartos.es/wp-content/uploads/2019/06/logo.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de CATEGORÍAS y SUBCATEGORÍAS de Tecno Web. Añadir, Editar y Borrar una categoría.</p>
-                            <a href="listadoCategoriasAdmin.jsf" class="btn btn-success w-100">CATEGORÍAS</a>
-                        </div>
+
+                    <label class="mb-0">*Contraseña</label>
+                    <h:inputSecret  class="form-control mb-2" maxlength="50" value="#{registroBean.password1}"/>
+                    <label class="mb-0">*Repita su contraseña</label>
+                    <h:inputSecret  class="form-control mb-2" maxlength="50" value="#{registroBean.password2}"/>
+                </div>
+                <hr class="bg-white"/>
+                <div class="form-group">
+                    <label class="mb-0">*Nombre</label>
+                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.nombre}"/>
+                    <label class="mb-0">*Apellidos</label>
+                    <h:inputText class="form-control mb-2" maxlength="50" value="#{registroBean.apellidos}"/>
+                    <label class="mb-0">*Fecha de Nacimiento</label>
+                    <small class="form-text text-white m-0">Debe cumplir la mayoría de edad (18)   (Formato: día/mes/año)</small>
+                    <h:inputText class="form-control mb-2" value="#{registroBean.fechaNacimiento}">  
+                       <f:convertDateTime type="date" locale="es" pattern="d/M/yyyy"/>  
+                    </h:inputText>
+                </div>
+                
+                <!--isAdmin-->
+                <label class="mb-0">¿Es administrador?</label>
+                <br>
+                <h:selectOneRadio value = "#{registroBean.isAdmin}"> 
+                   <f:selectItem itemValue = "1" itemLabel = "Si" /> 
+                   <f:selectItem itemValue = "2" itemLabel = "No" />
+                </h:selectOneRadio>    
+                
+                
+                <hr class="bg-white"/>
+                <label class="mb-0">Foto perfil</label>
+
+                <small class="form-text text-white m-0">Introduce aquí una url con tu foto de perfil</small>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">URL:</span>
+                  </div>
+                    <h:inputText id="url" class="form-control" value="#{registroBean.url}"/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
                     </div>
                 </div>
-                <div class="row mt-5">
-                    <div class="col text-center">
-                        <label class="font-weight-bold mb-0">Limpiar Palabras Claves Sin Usar:</label>
-                        <small class="text-success">#{menuBean.status}</small>
-                        <br/>
-                        <label class="small">Elimine las palabras claves de la base de datos que han dejado de usarse por los productos...</label>
-                        <a href="" class="btn btn-info w-100">LIMPIAR PALABRAS CLAVES</a>
-                    </div>
-                </div>
- 
-            </div>
-            
-        <!-- LATERAL DERECHO -->
-        
-            <div class="col" id="latDer">
-            </div>
-        
+                <img id="imgVista" src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" class="img-thumbnail rounded mx-auto d-block w-25 h-25"/>
+
+                </br>
+                    <h:commandButton class="btn btn-primary" value="Registrar" action="#{registroBean.doRegistrar()}" />
+            </h:form>
         </div>
         
-        <!-- FOOTER -->
-        <div style="height:50px">
-        </div>
         
+        <script> 
+            function cambiarImagenJS(){
+                var url = document.getElementById("j_idt12:url").value;
+                if(url===null || url===""){
+                    document.getElementById("imgVista").src = 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';
+                } else{
+                    document.getElementById("imgVista").src = url;
+                }
+            }
+        </script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        
     </h:body>
 </html>
 

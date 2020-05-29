@@ -223,4 +223,37 @@ public class ProductosService {
             this.productoFacade.edit(producto);
         }            
     }
+    
+    public List<ProductoMenuDTO> filtrarSubcategoriaBusqueda(Integer idSubcat, String busqueda){
+        List<Producto> lista = this.productoFacade.filtrarSubcategoriaBusqueda(idSubcat, busqueda);
+        List<ProductoMenuDTO> res = new ArrayList<>();
+        for (Producto p: lista) {
+            ProductoMenuDTO nuevo = p.getMenuDTO();
+            nuevo.setNotaMedia(this.getNotaMedia(p.getIdProducto()));
+            res.add(nuevo);
+        }
+        return res;
+    }
+    
+    public List<ProductoMenuDTO> filtrarCategoriaBusqueda(Integer idCat, String busqueda){
+        List<Producto> lista = this.productoFacade.filtrarCategoriaBusqueda(idCat, busqueda);
+        List<ProductoMenuDTO> res = new ArrayList<>();
+        for (Producto p: lista) {
+            ProductoMenuDTO nuevo = p.getMenuDTO();
+            nuevo.setNotaMedia(this.getNotaMedia(p.getIdProducto()));
+            res.add(nuevo);
+        }
+        return res;
+    }
+    
+    public List<ProductoMenuDTO> filtrarBusqueda( String busqueda){
+        List<Producto> lista = this.productoFacade.filtrarBusqueda(busqueda);
+        List<ProductoMenuDTO> res = new ArrayList<>();
+        for (Producto p: lista) {
+            ProductoMenuDTO nuevo = p.getMenuDTO();
+            nuevo.setNotaMedia(this.getNotaMedia(p.getIdProducto()));
+            res.add(nuevo);
+        }
+        return res;
+    }
 }

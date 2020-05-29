@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -79,6 +80,7 @@ public class Producto implements Serializable {
     @JoinTable(name = "rel_prod_clave", joinColumns = {
         @JoinColumn(name = "idProducto", referencedColumnName = "idProducto")}, inverseJoinColumns = {
         @JoinColumn(name = "idPalabraClave", referencedColumnName = "idPalabraClave")})
+    @OneToMany
     private List<Palabraclave> palabraclaveList;
     @OneToMany( mappedBy = "producto")
     private List<Valoracion> valoracionList;

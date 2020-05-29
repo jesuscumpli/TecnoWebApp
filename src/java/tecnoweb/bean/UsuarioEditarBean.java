@@ -276,6 +276,58 @@ public class UsuarioEditarBean {
         }
     }
     
+    
+    
+    public String modificarPerfil3(){
+        
+        boolean error = false;
+        boolean changePass = !oldPwd.equals("") || !newPwd.equals("") || !newPwdR.equals("");
+        boolean changePhoto = (photoURL != null) && !photoURL.trim().equals("");
+            
+        if(!email.contains("@") || email.trim().equals("")) statusEmail = "Correo no valido.";
+        if(name.trim().equals("")) statusNombre = "Nombre no valido.";
+        if(apellidos.trim().equals("")) statusApellido = "Campo Apellidos no valido.";
+        
+        Date now = new Date();
+        long diffInMillies = Math.abs(now.getTime() - fechaNac.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long years = diff/365;
+        if(!now.after(fechaNac)) statusFechaNac = "No puedes nacer despues de hoy";
+        if(years<18) statusFechaNac = "No cumple con la mayoria de edad";
+          
+        if(changePass){
+            if(oldPwd.trim().equals("") || !oldPwd.equals(usuarioSeleccionado.getPassword())) 
+                statusPwdOrig = "Contrasena no Coincide con la Original.";
+            if(!newPwd.trim().equals(newPwdR)) statusPwdNew = "Las contrasenas no coinciden.";
+            if(newPwd.trim().equals("")) statusPwdNew = "No puede introducir una contrasena vacia.";
+        }
+        
+        if(!statusEmail.equals("") || !statusNombre.equals("") || !statusApellido.equals("") 
+            || !statusPwdOrig.equals("") || !statusPwdNew.equals("") || !statusFechaNac.equals("")) error = true;
+        
+        if(!error){
+            
+            usuarioSeleccionado.setEmailUsuario(email);
+            usuarioSeleccionado.setNombre(name);
+            usuarioSeleccionado.setApellidos(apellidos);
+            usuarioSeleccionado.setFechaNac(fechaNac);
+            if(changePass) usuarioSeleccionado.setPassword(newPwd);
+            if(changePhoto) usuarioSeleccionado.setFotoUsuario(photoURL);
+
+            this.usuariosService.createOrUpdate(new Integer(usuarioSeleccionado.getIdUsuario()), usuarioSeleccionado.getEmailUsuario(), usuarioSeleccionado.getNombre(), 
+                    usuarioSeleccionado.getApellidos(), usuarioSeleccionado.getFechaNac(), usuarioSeleccionado.getPassword(), usuarioSeleccionado.getFotoUsuario(), usuarioSeleccionado.getIsAdmin());
+            return "perfilUsuarioAdmin";
+        
+        } else {
+        
+            oldPwd = "";
+            newPwd = "";
+            newPwdR = "";
+            return null;
+        
+        }
+    }
+    
     public String darDeBaja(){
         this.usuariosService.remove(usuarioSeleccionado.getIdUsuario());
         return "login";

@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Pagina Principal</title>
+        <title>Editar Producto Administrador</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
-        <link rel="stylesheet" href="css/estiloMenu.css"/>
+        <link rel="stylesheet" href="css/estiloValoracion.css"/>
     </h:head>
     <h:body>
-        
-<!-- NAVBAR INICIO -->
+        <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,69 +57,86 @@
         
         <!--***********************************************************************************************************-->
         
-        <div class="row">
-
-        <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
-            <div class="col" id="latIzq">
-            </div>
         
-        <!-- CONTAINER -->
-            <div id="centro" class="row">
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://i2.wp.com/helpmybusinesspos.info/wp-content/uploads/2015/02/Usuario-permisos_mybusinesspos-300x200.png?resize=300%2C200" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de USUARIOS de Tecno Web. Añadir un nuevo usuario. Editar y Borrar un usuario existente.</p>
-                            <a href="listadoUsuariosAdmin.jsf" class="btn btn-success w-100">USARIOS</a>
-                        </div>
-                    </div>
+        <div  id="margenIzq">
+            
+        </div>
+        
+        <div id="contenedorCentral">
+        <h:form>
+            
+            
+        <div id="evaluacion" class="border border-primary rounded container-fluid">
+            <h2> Producto: #{productoEditarAdminBean.productoSeleccionado.titulo}</h2>
+            <h:inputText class="form-control" a:placeholder="Introduzca aquí el nombre..." maxlength="50" value="#{productoEditarAdminBean.productoSeleccionado.titulo}"/>
+        
+        
+        <div class="row">
+        <div id="imagen" class="col">
+            <img id="imgVista" src="#{productoEditarAdminBean.productoSeleccionado.fotoProducto}" class="img-thumbnail" alt="..."/>
+            <small class="form-text text-white m-0">Introduce aquí una url con la foto del producto</small>
+            <div id="cambiarImagen" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">URL:</span>
+              </div>
+                <h:inputText value="#{productoEditarAdminBean.productoSeleccionado.fotoProducto}" a:aria-describedby="basic-addon3" class="form-control" />
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
                 </div>
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://a2kartro.com/wp-content/uploads/2016/04/cajas-basica-productos.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de PRODUCTOS de Tecno Web. Sólo Editar y Borrar un producto existente en la página web.</p>
-                            <a href="listadoProductosAdmin.jsf" class="btn btn-success w-100">PRODUCTOS</a>
-                        </div>
-                    </div>
-                </div>
-                    
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://gmartos.es/wp-content/uploads/2019/06/logo.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de CATEGORÍAS y SUBCATEGORÍAS de Tecno Web. Añadir, Editar y Borrar una categoría.</p>
-                            <a href="listadoCategoriasAdmin.jsf" class="btn btn-success w-100">CATEGORÍAS</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col text-center">
-                        <label class="font-weight-bold mb-0">Limpiar Palabras Claves Sin Usar:</label>
-                        <small class="text-success">#{menuBean.status}</small>
-                        <br/>
-                        <label class="small">Elimine las palabras claves de la base de datos que han dejado de usarse por los productos...</label>
-                        <a href="" class="btn btn-info w-100">LIMPIAR PALABRAS CLAVES</a>
-                    </div>
-                </div>
- 
+            </div>
+        </div>
+        
+        <div id="descripcion" class="col">
+             <h:outputLabel class="parametro">Descripción</h:outputLabel>
+             <p>
+                 <h:inputTextarea class="form-control" a:placeholder="Introduzca aquí la descripcion..." rows="10" cols="30" value="#{productoEditarAdminBean.productoSeleccionado.descripcion}"/>
+             </p>
+        </div>
+        </div>
+             
+        <div class="row">
+        <div id="precio2" class="col">
+            <h:outputLabel class="parametro">Precio: </h:outputLabel>
+            <h:inputText class="form-control" a:placeholder="Precio..." maxlength="50" value="#{productoEditarAdminBean.productoSeleccionado.precio}"/>
+        </div>
+        
+        <div id="palabrasClave" class="col">
+            <h:outputLabel class="parametro">Palabras claves:</h:outputLabel>
+            <h:inputText class="form-control" a:placeholder="Palabras clave..." maxlength="50" value="#{menuAdminBean.clavesSeleccionada}">
+            </h:inputText>
+        </div>
+        </div>
+                
+            <div id="botones">
+                <h:commandButton class="btn btn-success" action="#{productoEditarAdminBean.modificar()}" value="Aceptar Cambios"></h:commandButton>
+                <h:link class="btn btn-danger" outcome="listadoProductosAdmin" value="Cancelar Cambios"/>
             </div>
             
-        <!-- LATERAL DERECHO -->
-        
-            <div class="col" id="latDer">
-            </div>
-        
+       
+        </div>
+        </h:form>
+        </div>
+                
+        <div id="margenDer">
+                    
         </div>
         
-        <!-- FOOTER -->
-        <div style="height:50px">
-        </div>
+        
+       
+        <script> 
+            function cambiarImagenJS(){
+                var url = document.getElementById("j_idt14:url").value;
+                if(url === null || url === "") {
+                    document.getElementById("imgVista").src = '#{menuBean.productoSeleccionado.fotoProducto}';
+                } else {
+                    document.getElementById("imgVista").src = url;
+                }
+            }
+        </script>
         
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        
     </h:body>
 </html>
 

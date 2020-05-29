@@ -4,14 +4,13 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Pagina Principal</title>
+        <title>Perfil de Usuario</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
-        <link rel="stylesheet" href="css/estiloMenu.css"/>
+        <link rel="stylesheet" href="css/estiloPerfil.css"/>
     </h:head>
     <h:body>
-        
-<!-- NAVBAR INICIO -->
+        <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,68 +57,66 @@
         <!--***********************************************************************************************************-->
         
         <div class="row">
-
-        <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
-            <div class="col" id="latIzq">
-            </div>
-        
-        <!-- CONTAINER -->
-            <div id="centro" class="row">
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://i2.wp.com/helpmybusinesspos.info/wp-content/uploads/2015/02/Usuario-permisos_mybusinesspos-300x200.png?resize=300%2C200" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de USUARIOS de Tecno Web. Añadir un nuevo usuario. Editar y Borrar un usuario existente.</p>
-                            <a href="listadoUsuariosAdmin.jsf" class="btn btn-success w-100">USARIOS</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://a2kartro.com/wp-content/uploads/2016/04/cajas-basica-productos.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de PRODUCTOS de Tecno Web. Sólo Editar y Borrar un producto existente en la página web.</p>
-                            <a href="listadoProductosAdmin.jsf" class="btn btn-success w-100">PRODUCTOS</a>
-                        </div>
-                    </div>
-                </div>
-                    
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://gmartos.es/wp-content/uploads/2019/06/logo.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de CATEGORÍAS y SUBCATEGORÍAS de Tecno Web. Añadir, Editar y Borrar una categoría.</p>
-                            <a href="listadoCategoriasAdmin.jsf" class="btn btn-success w-100">CATEGORÍAS</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col text-center">
-                        <label class="font-weight-bold mb-0">Limpiar Palabras Claves Sin Usar:</label>
-                        <small class="text-success">#{menuBean.status}</small>
-                        <br/>
-                        <label class="small">Elimine las palabras claves de la base de datos que han dejado de usarse por los productos...</label>
-                        <a href="" class="btn btn-info w-100">LIMPIAR PALABRAS CLAVES</a>
-                    </div>
-                </div>
- 
-            </div>
             
-        <!-- LATERAL DERECHO -->
-        
-            <div class="col" id="latDer">
+            <!-- PANEL DE DATOS E INFORMACIÓN -->
+            <div class="container panel-primary centro">
+                <div class="panel-heading titulo">Información del Usuario</div>
+                <div class="panel-body contenido">
+
+                    <!-- PRIMER BLOQUE -->
+                    <div class="row">
+                        <!-- IMAGEN -->
+                        <div class="imagen">
+                            <img class="imagenPerfil" src="#{usuarioBean.usuario.fotoUsuario}" alt=""/>
+                        </div>
+                        <!-- EMAIL & NOMBRE -->
+                        <div class="primerBloque">
+                            <br/><br/>
+                            <h:outputLabel class="parametro">Correo Electr&oacute;nico</h:outputLabel><br/>
+                            <h:outputLabel class="dato">#{usuarioBean.usuario.emailUsuario}</h:outputLabel><br/>
+                            
+                            <!-- Mostrar Nombre -->
+                            <h:outputLabel class="parametro">Nombre</h:outputLabel><br/>
+                            <h:outputLabel rendered="#{usuarioBean.nombreValido()==false}">
+                                <em>No ha sido introducido</em>
+                            </h:outputLabel>
+                            <h:outputLabel class="dato" rendered="#{usuarioBean.nombreValido()}">
+                                <em>#{usuarioBean.usuario.nombre}</em>
+                            </h:outputLabel>
+                            <br/>
+
+                            <!-- Mostrar Apellidos -->
+                            <h:outputLabel class="parametro">Apellidos</h:outputLabel><br/>
+                            <h:outputLabel rendered="#{usuarioBean.apellidosValido()==false}">
+                                <em>No ha sido introducido</em>
+                            </h:outputLabel>
+                            <h:outputLabel class="dato" rendered="#{usuarioBean.apellidosValido()}">
+                                <em>#{usuarioBean.usuario.apellidos}</em>
+                            </h:outputLabel>
+                            <br/>
+                            
+                            <!-- Mostrar Fecha de Nacimiento -->
+                            <h:outputLabel class="parametro">Fecha de Nacimiento</h:outputLabel><br/>
+                            <h:outputLabel class="dato">#{usuarioBean.convertirFecha()}</h:outputLabel><br/>
+                        </div>
+                    </div>
+                            
+                    <!-- SEGUNDO BLOQUE -->
+                    <div class="editButton">
+                        <h:form>
+                            <h:button class="btn btn-primary float-right" outcome="editarPerfilUsuarioAdmin" value="Editar Perfil"/>
+                        </h:form>
+                    </div>
+                </div> <!-- Segundo Bloque -->
             </div>
-        
         </div>
         
-        <!-- FOOTER -->
-        <div style="height:50px">
-        </div>
+        <!-- ******************** -->
+        
         
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        
     </h:body>
 </html>
 

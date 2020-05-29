@@ -34,6 +34,7 @@ public class RegistroBean {
     protected String apellidos;
     protected Date fechaNacimiento;
     protected String url;
+    protected String isAdmin="2";
     
     protected String status="";
 
@@ -106,6 +107,13 @@ public class RegistroBean {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 
     public UsuarioBean getUsuarioBean() {
         return usuarioBean;
@@ -123,6 +131,7 @@ public class RegistroBean {
         if(nombre==null || nombre.isEmpty()){ status="Faltan parámetros: nombre"; return null;}  //Obligamos a que pongan nombre, aunque en la bd es nulleable
         if(apellidos==null || apellidos.isEmpty()){status="Faltan parámetros: apellidos"; return null;}
         if(fechaNacimiento==null){ status="Faltan parámetros: fecha nacimiento"; return null;}
+        if(isAdmin==null){ status="Faltan parámetros: es administrador?"; return null;}
         
             // comprobamos si el usuario está en la BD
         //nuevo = this.usuarioFacade.findByEmailUsuario(email);
@@ -135,12 +144,18 @@ public class RegistroBean {
                 return null;
             }else{
                 //Creamos usuario nuevo en la BD
-                this.usuariosService.createOrUpdate(0, email, nombre, apellidos, fechaNacimiento, password1, url, false);
-                
-                //Realizamos login a través de UsuarioBean
+                boolean bool = isAdmin.equals("1");
+                this.usuariosService.createOrUpdate(0, email, nombre, apellidos, fechaNacimiento, password1, url, bool);
                 nuevo = this.usuariosService.findByEmailUsuario(email);
-                usuarioBean.setUsuario(nuevo);
-                return "menu";
+                
+                if(usuarioBean.getUsuario()==null || usuarioBean.getUsuario().getIdUsuario()==nuevo.getIdUsuario()){
+                    //Realizamos login a través de UsuarioBean
+                    nuevo = this.usuariosService.findByEmailUsuario(email);
+                    usuarioBean.setUsuario(nuevo);
+                    return "menu";
+                }else{
+                    return "listadoUsuariosAdmin";
+                }
             }
         }else{
             status= "El email ya está registrado en la aplicación";

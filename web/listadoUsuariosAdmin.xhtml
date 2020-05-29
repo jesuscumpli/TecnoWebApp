@@ -1,17 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Pagina Principal</title>
+        <title>Listado Usuarios Admin</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloMenu.css"/>
     </h:head>
     <h:body>
         
-<!-- NAVBAR INICIO -->
+       <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,69 +59,62 @@
         
         <!--***********************************************************************************************************-->
         
-        <div class="row">
-
-        <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
-            <div class="col" id="latIzq">
-            </div>
+        <h2 class="text-center bg-light">Listado Usuarios (vista Admin):</h2>
         
-        <!-- CONTAINER -->
-            <div id="centro" class="row">
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://i2.wp.com/helpmybusinesspos.info/wp-content/uploads/2015/02/Usuario-permisos_mybusinesspos-300x200.png?resize=300%2C200" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de USUARIOS de Tecno Web. Añadir un nuevo usuario. Editar y Borrar un usuario existente.</p>
-                            <a href="listadoUsuariosAdmin.jsf" class="btn btn-success w-100">USARIOS</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://a2kartro.com/wp-content/uploads/2016/04/cajas-basica-productos.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de PRODUCTOS de Tecno Web. Sólo Editar y Borrar un producto existente en la página web.</p>
-                            <a href="listadoProductosAdmin.jsf" class="btn btn-success w-100">PRODUCTOS</a>
-                        </div>
-                    </div>
-                </div>
-                    
-                <div class="col d-inline-block" style="width: 33%">
-                    <div class="card w-100" style="width: 18rem;">
-                        <img id="imgCard" src="https://gmartos.es/wp-content/uploads/2019/06/logo.png" class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de CATEGORÍAS y SUBCATEGORÍAS de Tecno Web. Añadir, Editar y Borrar una categoría.</p>
-                            <a href="listadoCategoriasAdmin.jsf" class="btn btn-success w-100">CATEGORÍAS</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col text-center">
-                        <label class="font-weight-bold mb-0">Limpiar Palabras Claves Sin Usar:</label>
-                        <small class="text-success">#{menuBean.status}</small>
-                        <br/>
-                        <label class="small">Elimine las palabras claves de la base de datos que han dejado de usarse por los productos...</label>
-                        <a href="" class="btn btn-info w-100">LIMPIAR PALABRAS CLAVES</a>
-                    </div>
-                </div>
- 
-            </div>
-            
-        <!-- LATERAL DERECHO -->
-        
-            <div class="col" id="latDer">
-            </div>
-        
+        <div id="divRegistro">
+            <h:form>
+                <h:link class="text-white font-weight-bold btn btn-primary text-black font-weight-bold" outcome="registroUsuarioAdmin">Añadir nuevo usuario</h:link>
+            </h:form>
         </div>
         
-        <!-- FOOTER -->
-        <div style="height:50px">
-        </div>
+        
+        <h:panelGroup id="tabla">
+            <h:form>
+            <h:dataTable border="1" value="#{usuariosAdminBean.listaUsuarios}" var="usuario" class="w-100">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{usuario.idUsuario}
+            </h:column>            
+            <h:column>
+                <f:facet name="header">NOMBRE</f:facet>                
+                #{usuario.nombre}
+            </h:column>                        
+            <h:column>        
+                <f:facet name="header">APELLIDOS</f:facet>                
+                #{usuario.apellidos}
+            </h:column>                        
+            <h:column>
+                <f:facet name="header">FECHA NACIMIENTO</f:facet>                
+                #{usuario.fechaNac}
+            </h:column>                        
+            <h:column>        
+                <f:facet name="header">ADMINISTRADOR</f:facet>                
+                #{usuario.isAdmin}
+            </h:column>       
+            <h:column>        
+                <f:facet name="header">EMAIL</f:facet>                
+                #{usuario.emailUsuario}
+            </h:column>      
+            <h:column>        
+                <f:facet name="header">FOTO</f:facet>                
+                <img class="d-inline-block align-middle" id="imagen" src="#{usuario.fotoUsuario}" alt="" height="40px" widtht="40px"/>
+            </h:column>    
+            <h:column> 
+                
+                <h:commandLink value="Editar" action="#{menuAdminBean.editarUsuarioSeleccionado(usuario)}" />     
+            </h:column>   
+            <h:column>
+                <h:commandLink value="Borrar">
+                    <f:ajax render="tabla" event="click" listener="#{usuariosAdminBean.doBorrar(usuario)}"/>
+                </h:commandLink>
+            </h:column>
+            </h:dataTable>
+            </h:form>
+        </h:panelGroup>
         
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        
-    </h:body>
+        </h:body>
 </html>
 

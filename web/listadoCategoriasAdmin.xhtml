@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Listado Categorias Admin</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+        <link rel="stylesheet" href="css/estiloMenu.css"/>
+    </h:head>
+    <h:body>
+        
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                    </li>
+                </ul>
+                <div class="nav-item float-right float-sm-left pl-0">
+                    <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
+                    <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
+                        <div class="dropdown">
+                            <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                #{usuarioBean.usuario.nombre}
+                            </a>
+                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                                <div class="dropdown-divider"></div>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                            </div>
+                        </div>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                    </div>
+                </div>
+            </div>
+         </nav>
+        
+        <!--***********************************************************************************************************-->
+        
+        <div class="row">
+        
+            <!-- LATERAL IZQUIERDO -->
+
+            <div class="col w-5" id="latIzq">
+            </div>
+
+            <!--CONTAINER-->
+            <div class="row" id="centroCategorias">
+
+                <h2 class="text-center bg-light">Listado Categorías (vista Admin):</h2>
+
+                <div class="row">
+                    <small class="w-100 text-muted">Introduce aquí una nueva categoría</small>
+                    <h:form>
+                        <h:inputText value="#{categoriasAdminBean.nuevaCategoria}"></h:inputText>
+                        <h:commandButton action="#{categoriasAdminBean.doAnadir()}" class="text-white bg-success" value="Añadir nueva categoría"></h:commandButton>
+                    </h:form>
+                </div>
+
+                <div class="row">
+                    <div id="categorias" style="width: 45%" class="text-center">
+                        <h:form>
+                            <h:dataTable border="1" value="#{categoriasAdminBean.listaCategorias}" var="categoria" class="text-center" cellpadding = "10" cellspacing = "1">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                #{categoria.idCategoria}
+                            </h:column>            
+                            <h:column>
+                                <f:facet name="header">NOMBRE</f:facet>                
+                                <h:inputText value="#{categoria.nombreCategoria}"></h:inputText>
+                            </h:column>                        
+                            <h:column>     
+                                <h:commandLink value="Borrar" action="#{categoriasAdminBean.doBorrar(categoria)}" />
+                            </h:column>                        
+                            <h:column>
+                                <h:commandLink value="Editar" action="#{categoriasAdminBean.doEditar(categoria)}" />     
+                            </h:column>   
+                            <h:column>
+                                <h:commandLink value="ConsultarSubcategorias" action="#{categoriasAdminBean.doConsultarSubcategorias(categoria)}" />     
+                            </h:column>
+                            </h:dataTable>
+                        </h:form>
+                    </div>
+
+                    <c:if test="#{menuAdminBean.categoriaSeleccionada!=null}">
+                    <div id="subcategorias" style="margin-left:auto" class="text-center" >
+                        <div class="row">
+                            <small class="w-100 text-muted" >Introduce aquí una nueva subcategoría</small>
+                            <h:form style="margin:auto"> 
+                                <h:inputText value="#{categoriasAdminBean.nuevaSubcategoria}"></h:inputText>
+                                <h:commandButton action="#{categoriasAdminBean.doAnadirSub()}" class="text-white bg-success" value="Añadir nueva subcate"></h:commandButton>
+                            </h:form>
+                        </div>
+                        
+                        <h:form>
+                            <h:dataTable style="margin:auto" border="1" value="#{menuAdminBean.categoriaSeleccionada.subcategoriaList}" class="text-center" var="subcategoria" cellpadding = "10" cellspacing = "1">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                #{subcategoria.idSubcategoria}
+                            </h:column>            
+                            <h:column>
+                                <f:facet name="header">NOMBRE</f:facet>                
+                                <h:inputText value="#{subcategoria.nombreSubcategoria}"></h:inputText>
+                            </h:column>                        
+                            <h:column>     
+                                <h:commandLink value="Borrar" action="#{categoriasAdminBean.doBorrarSubcategoria(subcategoria)}" />
+                            </h:column>                        
+                            <h:column>
+                                
+                                <h:commandLink value="Editar" action="#{categoriasAdminBean.doEditarSubcategoria(subcategoria)}" />     
+                            </h:column>   
+                            </h:dataTable>
+                        </h:form>
+                    </div>
+                    </c:if>
+                </div>
+            
+            
+            </div>
+            
+            <!-- LATERAL DERECHO -->
+            <div class="col" id="latDer">
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        
+    </h:body>
+</html>
+

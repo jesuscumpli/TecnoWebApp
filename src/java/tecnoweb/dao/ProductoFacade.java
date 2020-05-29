@@ -56,5 +56,42 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         producto =  q.getResultList();
         return producto;
     }
+    
+    public List<Producto> filtrarBusqueda( String busqueda){
+        Query q;
+        List<Producto> productos;
+        
+        q = this.getEntityManager().createQuery("SELECT distinct p FROM Producto p JOIN p.palabraclaveList cv WHERE (p.titulo like CONCAT('%',:b,'%') OR p.descripcion like CONCAT('%',:b,'%') OR cv.valor=:b) ");
+        q.setParameter("b",busqueda);
+        productos = q.getResultList();
+        
+        return productos;
+    }
+    
+    public List<Producto> filtrarSubcategoriaBusqueda(Integer idSubcat, String busqueda){
+        Query q;
+        List<Producto> productos;
+        
+        q = this.getEntityManager().createQuery("SELECT distinct p FROM Producto p JOIN p.palabraclaveList cv WHERE p.idSubcategoria.idSubcategoria=:idSubcat "
+                + "AND (p.titulo like :b OR p.descripcion like :b OR cv.valor=:b) ");
+        q.setParameter("idSubcat", idSubcat);
+        q.setParameter("b","%"+busqueda+"%");
+        productos = q.getResultList();
+        
+        return productos;
+    }
+    
+    public List<Producto> filtrarCategoriaBusqueda(Integer idCat, String busqueda){
+        Query q;
+        List<Producto> productos;
+        
+        q = this.getEntityManager().createQuery("SELECT distinct p FROM Producto p JOIN p.palabraclaveList cv WHERE p.idSubcategoria.idCategoria.idCategoria=:idCat "
+                + "AND (p.titulo like :b OR p.descripcion like :b OR cv.valor=:b) ");
+        q.setParameter("idCat", idCat);
+        q.setParameter("b","%"+busqueda+"%");
+        productos = q.getResultList();
+        
+        return productos;
+    }
    
 }

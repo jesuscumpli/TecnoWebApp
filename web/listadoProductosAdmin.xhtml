@@ -6,14 +6,14 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Pagina Principal</title>
+        <title>Listado Productos Admin</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloMenu.css"/>
         <link rel="stylesheet" href="css/estrellas.css"/>
     </h:head>
     <h:body>
+        
         <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
@@ -24,16 +24,16 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mis Productos</a>
+                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="misValoraciones.jsf">Mis Valoraciones</a>
+                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="nav-link text-white" outcome="perfilUsuario">Mi Perfil</h:link>
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
                     </li>
                 </ul>
                 <div class="nav-item float-right float-sm-left pl-0">
@@ -44,9 +44,10 @@
                                 #{usuarioBean.usuario.nombre}
                             </a>
                             <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <h:link class="dropdown-item text-white" outcome="perfilUsuario" >Perfil</h:link>
-                                <a class="dropdown-item text-white" >Mis Productos</a>
-                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
                                 <div class="dropdown-divider"></div>
                                 <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
                             </div>
@@ -57,53 +58,20 @@
             </div>
          </nav>
         
-        <!--************************************************************************************************************-->
+        <!--***********************************************************************************************************-->
         
-        <div class="row">
-
-        <!-- LATERAL IZQUIERDO: CATEGORIAS   -->
-            <div class="col text-white d-none d-lg-block" id="latIzq">
-                <h2 class="font-weight-bold text-center">Categorias</h2>
-                <h6 class="text-center small"> Seleccione aquí la subcategoría a buscar</h6>
-                <ul class="listaCat">
-                    <c:forEach var="cat" items="#{menuBean.categorias}">
-                        
-                    <li class="font-weight-bold">
-                        <a class="text-white" data-toggle="collapse" href="#collapseCategoria#{cat.idCategoria}" aria-expanded="false" aria-controls="collapseCategoria">
-                            #{cat.nombreCategoria}
-                        </a>
-                        <ul class="listaSub collapse" id="collapseCategoria#{cat.idCategoria}">
-                            <c:forEach var="sub" items="#{cat.subcategoriaList}">
-                            <li class="font-italic font-weight-light">
-                                <h:form>
-                                <h:commandLink class="text-white">
-                                    #{sub.nombreSubcategoria} (#{sub.numProds})
-                                    <f:ajax render="productos navbarBuscador" event="click" listener="#{menuBean.seleccionarSubcategoria(sub)}"/>
-                                </h:commandLink>
-                                </h:form>
-                            </li>
-                            </c:forEach>
-                        </ul>
-                    </li>
-                    
-                    </c:forEach>
-                </ul>
-            </div>
         
-   <!-- CONTAINER -->
-            <div id="centro">
+        <!-- CONTAINER -->
+     
+            
                 
            <!--BUSCADOR / FILTRO -->    
-           <h:panelGroup id="navbarBuscador" class="navbar navbar-expand-lg navbar-light shadow">
+            <nav id="navbarBuscador" class="navbar navbar-expand-lg navbar-light shadow">
                   <h:form class="form-inline my-2 my-lg-0 w-100">
                     <div class="w-50 d-inline-block">
                         <div class="input-group mr-2">
                             <div class="input-group-prepend">
-                                <h:selectOneMenu rendered="#{menuBean.subcatSelected!=null}" disabled="true" styleClass="custom-select input-group-text categoriaBuscador" value="#{menuBean.idCatSelected}">
-                                    <f:selectItem itemValue="-1" itemLabel="Todos"/>
-                                    <f:selectItems value="#{menuBean.categorias}" var="c" itemValue="#{c.idCategoria}" itemLabel="#{c.nombreCategoria}" />
-                                </h:selectOneMenu>
-                                <h:selectOneMenu rendered="#{menuBean.subcatSelected==null}" styleClass="custom-select input-group-text categoriaBuscador" value="#{menuBean.idCatSelected}">
+                                <h:selectOneMenu styleClass="custom-select input-group-text categoriaBuscador" value="#{menuBean.idCatSelected}">
                                     <f:selectItem itemValue="-1" itemLabel="Todos"/>
                                     <f:selectItems value="#{menuBean.categorias}" var="c" itemValue="#{c.idCategoria}" itemLabel="#{c.nombreCategoria}" />
                                     <f:ajax render="productos" event="valueChange" listener="#{menuBean.filtrar()}"/>
@@ -114,31 +82,22 @@
                             </h:inputText>
                         </div>
                         
-                        <!-- subcategoria seleccionada aquí -->
-                        <c:if test="${menuBean.subcatSelected!=null}">
-                        <div class="ml-2">
-                            <label class="text-secondary d-inline">Subcategoría: </label>
-                            <span class="badge badge-info">#{menuBean.subcatSelected.nombreSubcategoria}</span>
-                            <h:commandLink action="#{menuBean.quitarSubcategoria}" styleClass=" text-danger small font-weight-bold border border-danger px-1" value="Quitar"/>
-                        </div>
-                        </c:if>
-                        
                     </div>
                       
                     <div class="w-50 d-inline-block"> 
-                        <span class="d-inline-block align-middle ml-1">Ordenar por:</span>
+                        <span class="d-inline-block align-middle ml-1">Ordenar por:  </span>
                         <h:selectOneMenu class="custom-select d-inline-block font-italic ml-2" value="#{menuBean.orden}">
                           <f:selectItem itemValue="Fecha" itemLabel="Fecha"/>
                           <f:selectItem itemValue="Precio" itemLabel="Precio"/>
                           <f:selectItem itemValue="Valoracion" itemLabel="Valoracion"/>
                           <f:ajax render="productos" event="valueChange" listener="#{menuBean.ordenarPor()}"/>
                         </h:selectOneMenu>
-                        <h:commandButton class="d-inline-block btn btn-primary ml-2 my-2 my-sm-0 botonBuscar" value="FILTRAR AQUÍ"/>
+                        
                       
                     </div>
                      
                   </h:form>
-                </h:panelGroup>            
+                </nav>            
            
            <!-- PRODUCTOS -->
            
@@ -206,11 +165,7 @@
                             <label for="radio5">★</label>
                             
                           </p>
-                          <small class="text-warning font-weight-bold">
-                              (<h:outputText value="#{p.notaMedia}">
-                                  <f:convertNumber maxFractionDigits="1" />
-                              </h:outputText>)
-                          </small>
+                          <small class="text-warning font-weight-bold">(#{p.notaMedia}) </small>
                           <small class="text-danger font-weight-bold">(#{p.numValoraciones})</small>
                         </form>
                         
@@ -231,7 +186,8 @@
                         <c:when test="${p.idUsuario==null || p.idUsuario.idUsuario!= usuarioBean.usuario.idUsuario}">
                             <div id="divMas" class="col">
                                 <h:form>
-                                    <h:commandButton id="verMas" class="btn btn-warning text-white" action="#{menuBean.doCargarValoracion(p)}"  value="Comprar" ></h:commandButton>
+                                    <h:commandLink class="btn btn-primary" value="Editar" action="#{menuAdminBean.doEditar(p)}" /> <br/> <br/>
+                                    <h:commandLink class="btn btn-primary" value="Borrar" action="#{menuAdminBean.doBorrar(p)}" /> 
                                 </h:form>
                             </div>
                         </c:when>
@@ -242,15 +198,9 @@
                 </div>
             </div>
             </c:forEach>
-           </h:panelGroup>
+            </h:panelGroup>
+
         
-        
-        
-        
-        
-        
-            </div> <!-- div del centro-->
-        </div> <!--div del row-->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>

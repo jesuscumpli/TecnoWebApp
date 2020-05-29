@@ -98,7 +98,6 @@
                                  validatorMessage="#{msgs.apellidosTooLong}"
                                  class="form-control mb-2" value="#{registroBean.apellidos}">
                         <f:validateLength maximum="50"/>
-                        <f:ajax render="msgCoinciden" event="keyup"/>
                     </h:inputText>
                     
                     <div id="msgCoinciden">

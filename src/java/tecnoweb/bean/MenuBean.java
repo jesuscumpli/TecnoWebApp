@@ -7,10 +7,7 @@ package tecnoweb.bean;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,7 +16,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import tecnoweb.classes.Filtro;
-import tecnoweb.dto.CategoriaDTO;
 import tecnoweb.dto.CategoriaMenuDTO;
 import tecnoweb.dto.ProductoMenuDTO;
 import tecnoweb.dto.SubcategoriaDTO;
@@ -48,7 +44,7 @@ public class MenuBean implements Serializable{
     @Inject
     private UsuarioBean usuarioBean;
     
-    protected ProductoMenuDTO productoSeleccionado;
+    
     protected List<ProductoMenuDTO> productos;
     protected List<CategoriaMenuDTO> categorias;
     protected String status = "";
@@ -56,6 +52,8 @@ public class MenuBean implements Serializable{
     protected Integer idCatSelected;
     protected SubcategoriaDTO subcatSelected;
     protected String busqueda = "";
+    
+    protected ProductoMenuDTO productoSeleccionado;
     
     private static final Logger LOG = Logger.getLogger(MenuBean.class.getName());
 
@@ -159,6 +157,7 @@ public class MenuBean implements Serializable{
         return usuarioBean;
     }
 
+
     public void setUsuarioBean(UsuarioBean usuarioBean) {
         this.usuarioBean = usuarioBean;
     }
@@ -201,16 +200,7 @@ public class MenuBean implements Serializable{
     }
     
     public String filtrar(){
-        
-        //RESETEAR PRODUCTOS
-        if(this.subcatSelected!=null){ //Reseteamos productos de subcategoria, si está seleccionada
-            productos = this.productosService.findBySubcategoriaMenuDTO(subcatSelected.getIdSubcategoria());
-        }else if(this.idCatSelected>=0){ //Reseteamos productos de categoria, si está seleccionada
-            productos = this.productosService.findByCategoriaMenuDTO(idCatSelected);
-        }else{  //Sino, TODOS
-            productos = this.productosService.findAllMenuDTO();
-        }
-        
+
         // BUSQUEDA (Search)
             /*
                 Lógica de la búsqueda: 
@@ -222,18 +212,40 @@ public class MenuBean implements Serializable{
             
         if(busqueda!=null && !busqueda.trim().isEmpty()){
             //Filtrar con operaciones staticas adicionales
-            List<ProductoMenuDTO> filtroTitulo = Filtro.filtrarTituloMenuDTO(productos, busqueda);        //TITULO
-            List<ProductoMenuDTO> filtroDesc = Filtro.filtrarDescripcionMenuDTO(productos, busqueda);     //DESCRIPCION
-            List<ProductoMenuDTO> filtroClaves = Filtro.filtrarPalabrasClaveMenuDTO(productos, busqueda); //PALABRAS CLAVES
-
+            //List<ProductoMenuDTO> filtroTitulo = Filtro.filtrarTituloMenuDTO(productos, busqueda);        //TITULO
+            //List<ProductoMenuDTO> filtroDesc = Filtro.filtrarDescripcionMenuDTO(productos, busqueda);     //DESCRIPCION
+            //List<ProductoMenuDTO> filtroClaves = Filtro.filtrarPalabrasClaveMenuDTO(productos, busqueda); //PALABRAS CLAVES
             //Union de los productos
-            productos = this.unirFiltrosMenuDTO(filtroTitulo, filtroDesc, filtroClaves);    //Método privado
+            //productos = this.unirFiltrosMenuDTO(filtroTitulo, filtroDesc, filtroClaves);    //Método privado
+            
+            // FILTRO POR CONSULTAS
+            if(this.subcatSelected!=null){
+                productos = this.productosService.filtrarSubcategoriaBusqueda(subcatSelected.getIdSubcategoria(), busqueda);
+            }else if(this.idCatSelected>=0){
+                productos = this.productosService.filtrarCategoriaBusqueda(idCatSelected,busqueda);
+            }else{
+                productos = this.productosService.filtrarBusqueda(busqueda);
+            }
+            
+        }else{
+                        //RESETEAR PRODUCTOS
+            if(this.subcatSelected!=null){ //Reseteamos productos de subcategoria, si está seleccionada
+                productos = this.productosService.findBySubcategoriaMenuDTO(subcatSelected.getIdSubcategoria());
+            }else if(this.idCatSelected>=0){ //Reseteamos productos de categoria, si está seleccionada
+                productos = this.productosService.findByCategoriaMenuDTO(idCatSelected);
+            }else{  //Sino, TODOS
+                productos = this.productosService.findAllMenuDTO();
+            }
         }
         
-        //ORDENAR POR:
-        Filtro.ordenarProductosMenuDTO(orden, productos);
+        this.ordenarPor();
         
         return null;
+    }
+    
+    public void ordenarPor(){
+        //ORDENAR POR:
+        Filtro.ordenarProductosMenuDTO(orden, productos);
     }
     
     public String doCargarValoracion(ProductoMenuDTO producto){
@@ -241,11 +253,14 @@ public class MenuBean implements Serializable{
         return "valoracion";
     }
     
+    /* ANTIGUO
     private List<ProductoMenuDTO> unirFiltrosMenuDTO(List<ProductoMenuDTO> p1, List<ProductoMenuDTO> p2, List<ProductoMenuDTO> p3){
         Set<ProductoMenuDTO> set = new HashSet<>();
         set.addAll(p1);
         set.addAll(p2);
         set.addAll(p3);
         return new ArrayList<>(set);
-    }
+    }*/
+    
 }
+

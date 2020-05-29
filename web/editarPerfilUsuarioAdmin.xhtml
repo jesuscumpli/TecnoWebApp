@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Modificar Perfil Usuario</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+        <link rel="stylesheet" href="css/estiloModiPerfil.css"/>
+    </h:head>
+    <h:body>
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                    </li>
+                </ul>
+                <div class="nav-item float-right float-sm-left pl-0">
+                    <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
+                    <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
+                        <div class="dropdown">
+                            <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                #{usuarioBean.usuario.nombre}
+                            </a>
+                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                                <div class="dropdown-divider"></div>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                            </div>
+                        </div>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                    </div>
+                </div>
+            </div>
+         </nav>
+        
+        <!--***********************************************************************************************************-->
+        
+        
+        <div class="row">
+
+            <!-- PANEL DE DATOS E INFORMACIÓN -->
+            <div class="container panel-primary centro">
+                <div class="panel-heading titulo">Información del Usuario</div>
+                <div class="panel-body contenido">
+
+                    <h:form>
+                        
+                        <!-- PRIMER BLOQUE -->
+                        <div class="row">
+
+                            <!-- IMAGEN -->
+                            <div class="imagen">
+                                <img id="imagenPerfil" src="#{usuarioEditarBean.usuarioSeleccionado.fotoUsuario}" alt="Sin Imagen"/>
+                                <br/>
+                                <small class="form-text text-white m-0">Introduce aquí una url con tu foto de perfil</small>
+                                <div class="input-group mb-3 cambiarImagen">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text bassic-addon3">URL:</span>
+                                  </div>
+                                    <h:inputText id="url" value="#{usuarioEditarBean.photoURL}" class="form-control" a:aria-describedby="basic-addon3"/>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- EMAIL & NOMBRE -->
+                            <div class="primerBloque">
+                                <br/><br/>
+
+                                <h:outputLabel class="parametro">Correo Electr&oacute;nico</h:outputLabel> 
+                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusEmail}</h:outputLabel><br/>
+                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí su email..." maxlength="50" value="#{usuarioEditarBean.email}"/>
+                                <br/>
+
+                                <h:outputLabel class="parametro">Nombre</h:outputLabel> 
+                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusNombre}</h:outputLabel><br/>
+                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí su nombre..." maxlength="50" value="#{usuarioEditarBean.name}"/>
+                                <br/>
+
+                                <h:outputLabel class="parametro">Apellidos</h:outputLabel> 
+                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusApellido}</h:outputLabel><br/>
+                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí sus apellidos..." maxlength="100" value="#{usuarioEditarBean.apellidos}"/>
+                                <br/>
+
+                                <h:outputLabel class="parametro">Fecha de Nacimiento</h:outputLabel> 
+                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusFechaNac}</h:outputLabel><br/>
+                                <h:inputText a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarBean.fechaNac}">
+                                    <f:convertDateTime pattern="YYYY-MM-dd"/>
+                                </h:inputText>
+                                <br/>
+
+                            </div>
+                        </div>
+
+                            <!-- SEGUNDO BLOQUE -->
+                            <div class="row segundoBloque">
+                                <div class="segundoIzda">
+                                    <label><em>Solo rellenar si desea cambiar la contrase&ntilde;a</em></label><br/>
+
+                                    <h:outputLabel class="parametro">Contrase&ntilde;a Actual</h:outputLabel> 
+                                    <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusPwdOrig}</h:outputLabel><br/>
+                                    <h:inputSecret class="form-control inpPwd" a:placeholder="Introduzca aquí su actual contrase&ntilde;a..." maxlength="50" value="#{usuarioEditarBean.oldPwd}"/>
+
+                                    <h:outputLabel class="parametro">Nueva Contrase&ntilde;a</h:outputLabel> 
+                                    <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusPwdNew}</h:outputLabel><br/>
+                                    <h:inputSecret class="form-control inpPwd" a:placeholder="Introduzca aquí su nueva contrase&ntilde;a..." maxlength="50" value="#{usuarioEditarBean.newPwd}"/>
+
+                                    <h:outputLabel class="parametro">Repita su Nueva Contrase&ntilde;a</h:outputLabel><br/>
+                                    <h:inputSecret class="form-control inpPwd" a:placeholder="Repita aquí su nueva contrase&ntilde;a..." maxlength="50" value="#{usuarioEditarBean.newPwdR}"/>
+
+                                    <br/>
+                                </div>
+
+                                <div class="segundaCentro"></div>
+                                <div class="segundoDcha">
+                                    <div class="buttonAceptar">
+                                        <h:commandButton class="btn btn-primary btn-sm btn-success float-right" action="#{usuarioEditarBean.modificarPerfil3()}" value="Aceptar Cambios"></h:commandButton>
+                                        <br/>
+                                    </div>
+                                    <div class="buttonBaja">
+                                        <h:form>
+                                            <h:commandButton class="btn btn-primary btn-sm btn-danger float-right" action="#{usuarioEditarBean.darDeBaja()}" value="Darse de Baja"></h:commandButton>
+                                        </h:form>
+                                        <br/>
+                                    </div>
+                                    <div class="buttonCancelar">
+                                        <h:form>
+                                            <h:button class="btn btn-primary btn-sm btn-dark float-right" outcome="perfilUsuarioAdmin" value="Cancelar Cambios"></h:button>
+                                        </h:form>
+                                    </div>
+                                </div>
+                        </div> <!-- Segundo Bloque -->          
+                    </h:form>
+                </div> <!-- contenido -->
+            </div>
+        </div>
+
+        <!-- ******************** -->
+        <script> 
+            function cambiarImagenJS(){
+                var url = document.getElementById("j_idt14:url").value;
+                if(url === null || url === "") {
+                    document.getElementById("imagenPerfil").src = '#{usuarioEditarBean.usuarioSeleccionado.fotoUsuario}';
+                } else {
+                    document.getElementById("imagenPerfil").src = url;
+                }
+            }
+        </script>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    </h:body>
+</html>
+
