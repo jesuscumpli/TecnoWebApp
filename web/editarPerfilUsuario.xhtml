@@ -4,10 +4,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-      
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Modificar Perfil Usuario</title>
+        <title>{lbl.modPerfilTitle}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloModiPerfil.css"/>
@@ -24,18 +24,27 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                        <h:link class="nav-link text-white" outcome="menu">#{lbl.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mis Productos</a>
+                        <h:link class="nav-link text-white" outcome="listadoProductos">#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="misValoraciones.jsf">Mis Valoraciones</a>
+                        <h:link class="nav-link text-white" outcome="misValoraciones">#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="nav-link text-white" outcome="perfilUsuario">Mi Perfil</h:link>
+                        <h:link class="nav-link text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -44,14 +53,14 @@
                                 #{usuarioBean.usuario.nombre}
                             </a>
                             <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <h:link class="dropdown-item text-white" outcome="perfilUsuario">Perfil</h:link>
-                                <a class="dropdown-item text-white" >Mis Productos</a>
-                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                                <h:link class="dropdown-item text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
+                                <h:link class="dropdown-item text-white" outcome="listadoProductos">#{lbl.navProds}</h:link>
+                                <h:link class="dropdown-item text-white" outcome="misValoraciones">#{lbl.navVals}</h:link>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
@@ -63,7 +72,7 @@
 
             <!-- PANEL DE DATOS E INFORMACIÓN -->
             <div class="container panel-primary centro">
-                <div class="panel-heading titulo">Información del Usuario</div>
+                <div class="panel-heading titulo">#{lbl.lblpInfoUsuario}</div>
                 <div class="panel-body contenido">
 
                     <h:form>
@@ -75,14 +84,14 @@
                             <div class="imagen">
                                 <img id="imagenPerfil" src="#{usuarioEditarBean.usuarioSeleccionado.fotoUsuario}" alt="Sin Imagen"/>
                                 <br/>
-                                <small class="form-text text-white m-0">Introduce aquí una url con tu foto de perfil</small>
+                                <small class="form-text text-white m-0">#{lbl.infoImage}</small>
                                 <div class="input-group mb-3 cambiarImagen">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text bassic-addon3">URL:</span>
                                   </div>
                                     <h:inputText id="url" value="#{usuarioEditarBean.photoURL}" class="form-control" a:aria-describedby="basic-addon3"/>
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lbl.btnVer}</button>
                                     </div>
                                 </div>
                             </div>
@@ -90,29 +99,37 @@
                             <div class="primerBloque">
                                 <br/><br/>
 
-                                <h:outputLabel class="parametro">Correo Electr&oacute;nico</h:outputLabel> 
+                                <h:outputLabel class="parametro">#{lbl.lblpMail}</h:outputLabel> 
                                 <h:message for="sEmail"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold"/><br/>
-                                <h:inputText id="sEmail" class="form-control inpData" a:placeholder="Introduzca aquí su email..." maxlength="50" value="#{usuarioEditarBean.email}"  validatorMessage="Necesario @. Longitud Máxima 50" >
-                                    <f:validateLength maximum="50" minimum="1"/>
+                                <h:inputText id="sEmail" class="form-control inpData" a:placeholder="Introduzca aquí su email..." maxlength="50" value="#{usuarioEditarBean.email}"  
+                                            required="true"
+                                            requiredMessage="#{msgs.emailRequired}"
+                                            validatorMessage="#{msgs.valRegexP}" >
+                                    <f:validateLength maximum="50"/>
                                     <f:validateRegex pattern="((?=.*[0-Z])(?=.*[@]).{1,50})"/>
                                 </h:inputText>
                                 <br/>
 
-                                <h:outputLabel class="parametro">Nombre</h:outputLabel> 
+                                <h:outputLabel class="parametro">#{lbl.lblName}</h:outputLabel> 
                                 <h:message for="sName"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>
-                                <h:inputText id="sName" class="form-control inpData" a:placeholder="Introduzca aquí su nombre..." value="#{usuarioEditarBean.name}">
-                                    <f:validateLength maximum="50" minimum="1"/>
+                                <h:inputText id="sName" class="form-control inpData" a:placeholder="#{lbl.placeName}" value="#{usuarioEditarBean.name}" required="true"
+                                            requiredMessage="#{msgs.nombreRequired}"
+                                            validatorMessage="#{msgs.nombreTooLong}">
+                                    <f:validateLength maximum="50"/>
                                 </h:inputText>
                                 <br/>
 
-                                <h:outputLabel class="parametro">Apellidos</h:outputLabel> 
+                                <h:outputLabel class="parametro">#{lbl.lblLastName}</h:outputLabel> 
                                 <h:message for="sApellido"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>
-                                <h:inputText id="sApellido" class="form-control inpData" a:placeholder="Introduzca aquí sus apellidos..." maxlength="100" value="#{usuarioEditarBean.apellidos}">
-                                    <f:validateLength maximum="100" minimum="1"/>
+                                <h:inputText id="sApellido" class="form-control inpData" a:placeholder="#{lbl.placeLastName}" maxlength="100" value="#{usuarioEditarBean.apellidos}" 
+                                    required="true"
+                                    requiredMessage="#{msgs.apellidosRequired}"
+                                    validatorMessage="#{msgs.apellidosTooLong}">
+                                    <f:validateLength maximum="100"/>
                                 </h:inputText>
                                 <br/>
 
-                                <h:outputLabel class="parametro">Fecha de Nacimiento</h:outputLabel> 
+                                <h:outputLabel class="parametro">#{lbl.lblBirthdate}</h:outputLabel> 
                                 <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusFechaNac}</h:outputLabel><br/>
                                 <h:inputText id="sFecha" a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarBean.fechaNac}">
                                     <f:convertDateTime pattern="yyyy-MM-dd"/>
@@ -126,18 +143,18 @@
                             <!-- SEGUNDO BLOQUE -->
                             <div class="row segundoBloque">
                                 <div class="segundoIzda">
-                                    <label><em>Solo rellenar si desea cambiar la contrase&ntilde;a</em></label><br/>
+                                    <label><em>#{lbl.lblInfoPass}</em></label><br/>
 
-                                    <h:outputLabel class="parametro">Contrase&ntilde;a Actual</h:outputLabel> 
+                                    <h:outputLabel class="parametro">#{lbl.lblPwdAct}</h:outputLabel> 
                                     <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusPwdOrig}</h:outputLabel><br/>
-                                    <h:inputSecret class="form-control inpPwd" a:placeholder="Introduzca aquí su actual contrase&ntilde;a..." maxlength="50" value="#{usuarioEditarBean.oldPwd}"/>
+                                    <h:inputSecret class="form-control inpPwd" a:placeholder="#{lbl.placePwdAct}" maxlength="50" value="#{usuarioEditarBean.oldPwd}"/>
 
-                                    <h:outputLabel class="parametro">Nueva Contrase&ntilde;a</h:outputLabel> 
+                                    <h:outputLabel class="parametro">#{lbl.lblPwdNew}</h:outputLabel> 
                                     <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusPwdNew}</h:outputLabel><br/>
-                                    <h:inputSecret class="form-control inpPwd" a:placeholder="Introduzca aquí su nueva contrase&ntilde;a..." maxlength="50" value="#{usuarioEditarBean.newPwd}"/>
+                                    <h:inputSecret class="form-control inpPwd" a:placeholder="#{lbl.placePwdNew}" maxlength="50" value="#{usuarioEditarBean.newPwd}"/>
 
-                                    <h:outputLabel class="parametro">Repita su Nueva Contrase&ntilde;a</h:outputLabel><br/>
-                                    <h:inputSecret class="form-control inpPwd" a:placeholder="Repita aquí su nueva contrase&ntilde;a..." maxlength="50" value="#{usuarioEditarBean.newPwdR}"/>
+                                    <h:outputLabel class="parametro">#{lbl.lblPwdRepeatNew}</h:outputLabel><br/>
+                                    <h:inputSecret class="form-control inpPwd" a:placeholder="#{lbl.placePwdRepeatNew}" maxlength="50" value="#{usuarioEditarBean.newPwdR}"/>
 
                                     <br/>
                                 </div>
@@ -145,18 +162,18 @@
                                 <div class="segundaCentro"></div>
                                 <div class="segundoDcha">
                                     <div class="buttonAceptar">
-                                        <h:commandButton class="btn btn-primary btn-sm btn-success float-right" action="#{usuarioEditarBean.modificarPerfil()}" value="Aceptar Cambios"></h:commandButton>
+                                        <h:commandButton class="btn btn-primary btn-sm btn-success float-right" action="#{usuarioEditarBean.modificarPerfil()}" value="#{lbl.btnAcpP}"></h:commandButton>
                                         <br/>
                                     </div>
                                     <div class="buttonBaja">
                                         <h:form>
-                                            <h:commandButton class="btn btn-primary btn-sm btn-danger float-right" action="#{usuarioEditarBean.darDeBaja()}" value="Darse de Baja"></h:commandButton>
+                                            <h:commandButton class="btn btn-primary btn-sm btn-danger float-right" action="#{usuarioEditarBean.darDeBaja()}" value="#{lbl.btnBajaP}"></h:commandButton>
                                         </h:form>
                                         <br/>
                                     </div>
                                     <div class="buttonCancelar">
                                         <h:form>
-                                            <h:button class="btn btn-primary btn-sm btn-dark float-right" outcome="perfilUsuario" value="Cancelar Cambios"></h:button>
+                                            <h:button class="btn btn-primary btn-sm btn-dark float-right" outcome="perfilUsuario" value="#{lbl.btnCancP}"></h:button>
                                         </h:form>
                                     </div>
                                 </div>
@@ -182,5 +199,6 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
+    </f:view>
 </html>
 
