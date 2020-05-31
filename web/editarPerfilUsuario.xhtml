@@ -7,7 +7,7 @@
     <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>{lbl.modPerfilTitle}</title>
+        <title>#{lbl.modPerfilTitle}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloModiPerfil.css"/>
@@ -27,13 +27,13 @@
                         <h:link class="nav-link text-white" outcome="menu">#{lbl.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="nav-link text-white" outcome="listadoProductos">#{lbl.navProds}</h:link>
+                        <h:link class="nav-link text-white" >#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
                         <h:link class="nav-link text-white" outcome="misValoraciones">#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="nav-link text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
+                        <h:link class="nav-link text-white h5 font-weight-bold" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
                     </li>
                 </ul>
                 <h:form class="nav-item float-left">
@@ -43,6 +43,7 @@
                     <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
                         <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
                     </div>
                 </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
@@ -54,7 +55,7 @@
                             </a>
                             <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
                                 <h:link class="dropdown-item text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
-                                <h:link class="dropdown-item text-white" outcome="listadoProductos">#{lbl.navProds}</h:link>
+                                <h:link class="dropdown-item text-white">#{lbl.navProds}</h:link>
                                 <h:link class="dropdown-item text-white" outcome="misValoraciones">#{lbl.navVals}</h:link>
                                 <div class="dropdown-divider"></div>
                                 <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
@@ -131,7 +132,8 @@
 
                                 <h:outputLabel class="parametro">#{lbl.lblBirthdate}</h:outputLabel> 
                                 <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarBean.statusFechaNac}</h:outputLabel><br/>
-                                <h:inputText id="sFecha" a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarBean.fechaNac}">
+                                <h:inputText id="sFecha" a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarBean.fechaNac}"
+                                             required="true">
                                     <f:convertDateTime pattern="yyyy-MM-dd"/>
                                 </h:inputText>
                                 <h:message for="sFecha"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>

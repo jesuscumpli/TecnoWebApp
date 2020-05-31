@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import tecnoweb.dto.UsuarioDTO;
+import tecnoweb.service.ProductosService;
 import tecnoweb.service.UsuariosService;
 
 /**
@@ -21,9 +23,15 @@ import tecnoweb.service.UsuariosService;
 @Named (value = "usuarioBean")
 @SessionScoped
 public class UsuarioBean implements Serializable{
+    @Inject
+    private MenuBean menuBean;
 
     @EJB
     private UsuariosService usuariosService;
+    
+    @EJB
+    private ProductosService productosService;
+    
 
     protected String email;
     protected String password; 
@@ -47,6 +55,14 @@ public class UsuarioBean implements Serializable{
 
     public String getPassword() {
         return password;
+    }
+
+    public MenuBean getMenuBean() {
+        return menuBean;
+    }
+
+    public void setMenuBean(MenuBean menuBean) {
+        this.menuBean = menuBean;
     }
 
     public void setPassword(String password) {
@@ -94,6 +110,12 @@ public class UsuarioBean implements Serializable{
     }
     
     public String doLogout(){
+        menuBean.setProductoSeleccionado(null);
+        menuBean.setIdCatSelected(-1);
+        menuBean.setSubcatSelected(null);
+        menuBean.setBusqueda("");
+        menuBean.setOrden("Fecha");
+        menuBean.setProductos(this.productosService.findAllMenuDTO());
         this.usuario = null;
         this.status = "";
         this.email = "";

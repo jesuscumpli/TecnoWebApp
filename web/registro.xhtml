@@ -21,19 +21,20 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <h:link class="nav-link text-white" outcome="login">#{lblIni.navHome}</h:link>
+                        <h:link class="nav-link text-white" outcome="login">#{lbl.navInicio}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="nav-link text-white h5 font-weight-bold" >#{lblIni.navRegistro}</h:link>
+                        <h:link class="nav-link text-white h5 font-weight-bold" >#{lbl.navRegistro}</h:link>
                     </li>
                 </ul>
                 <h:form class="nav-item float-right">
                     <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         #{lblIni.linkLanguage} #{localeBean.currentLocale.language}
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
                     </a>
                     <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">Español</h:commandLink>
                         <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">Ingles</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
                     </div>
                 </h:form>
             </div>
@@ -42,12 +43,12 @@
         <!--****************************************************************************-->
         
         <div id="panel" class="border border-primary rounded">
-            <h2>#{lblIni.lblRegistro}</h2>   
-            <small class="text-white ml-2">*#{lblIni.fieldsRequired}</small>
+            <h2>#{lbl.lblRegistro}</h2>   
+            <small class="text-white ml-2">*#{lbl.fieldsRequired}</small>
             <small class="text-dark font-italic font-weight-bold ml-5"> #{registroBean.status} </small>
             <h:form>
                 <div class="form-group">
-                    <label class="mb-0">*#{lblIni.lblEmail}</label>
+                    <label class="mb-0">*#{lbl.lblEmail}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="email"/>
                     <h:inputText class="form-control mb-2" 
                                  id="email"
@@ -60,7 +61,7 @@
                     </h:inputText>
                     
                     
-                    <label class="mb-0">*#{lblIni.lblPassword}</label>
+                    <label class="mb-0">*#{lbl.lblPassword}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="contraseña1"/>
                     <h:inputSecret id="contraseña1" 
                                    required="true"
@@ -69,7 +70,7 @@
                                    class="form-control mb-2" maxlength="50" value="#{registroBean.password1}">
                         <f:validateLength maximum="50" minimum="1" />
                     </h:inputSecret>
-                    <label class="mb-0">*#{lblIni.lblPasswordAgain}</label>
+                    <label class="mb-0">*#{lbl.lblPasswordAgain}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="contraseña2"/>
                     <h:inputSecret id="contraseña2"
                                    required="true"
@@ -81,7 +82,7 @@
                 </div>
                 <hr class="bg-white"/>
                 <div class="form-group">
-                    <label class="mb-0">*#{lblIni.lblName}</label>
+                    <label class="mb-0">*#{lbl.lblName}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="nombre"/>
                     <h:inputText id="nombre" 
                                  required="true"
@@ -90,7 +91,7 @@
                                  class="form-control mb-2" value="#{registroBean.nombre}">
                         <f:validateLength maximum="50"/>
                     </h:inputText>
-                    <label class="mb-0">*#{lblIni.lblLastName}</label>
+                    <label class="mb-0">*#{lbl.lblLastName}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="apellidos"/>
                     <h:inputText id="apellidos"
                                  required="true"
@@ -107,9 +108,9 @@
                                                   class="text-danger small" value="No coinciden"/>
                     </div>
                     
-                    <label class="mb-0">*#{lblIni.lblBirthdate}</label>
+                    <label class="mb-0">*#{lbl.lblBirthdate}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="fechaNac"/>
-                    <small class="form-text text-white m-0">#{lblIni.requestDate}</small>
+                    <small class="form-text text-white m-0">#{lbl.requestDate}</small>
                     <h:inputText id="fechaNac"
                                  required="true"
                                  requiredMessage="#{msgs.fechaNacRequired}"
@@ -120,22 +121,22 @@
                     
                 </div>
                 <hr class="bg-white"/>
-                <label class="mb-0">#{lblIni.lblPerfilImage}</label>
+                <label class="mb-0">#{lbl.lblPerfilImage}</label>
 
-                <small class="form-text text-white m-0">#{lblIni.infoImage}</small>
+                <small class="form-text text-white m-0">#{lbl.infoImage}</small>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">URL:</span>
                   </div>
                     <h:inputText id="url" class="form-control" value="#{registroBean.url}"/>
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lblIni.btnVer}</button>
+                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lbl.btnVer}</button>
                     </div>
                 </div>
                 <img id="imgVista" src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" class="img-thumbnail rounded mx-auto d-block w-25 h-25"/>
 
                 <br/>
-                <h:commandButton class="btn btn-primary" value="#{lblIni.btnSignUp}" action="#{registroBean.doRegistrar()}" />
+                <h:commandButton class="btn btn-primary" value="#{lbl.btnSignUp}" action="#{registroBean.doRegistrar()}" />
             </h:form>
         </div>
         

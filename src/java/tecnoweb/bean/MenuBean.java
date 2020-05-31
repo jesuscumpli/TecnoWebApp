@@ -20,9 +20,11 @@ import tecnoweb.dto.CategoriaMenuDTO;
 import tecnoweb.dto.ProductoMenuDTO;
 import tecnoweb.dto.SubcategoriaDTO;
 import tecnoweb.dto.UsuarioDTO;
+import tecnoweb.dto.ValoracionDTO;
 import tecnoweb.service.CategoriasService;
 import tecnoweb.service.ProductosService;
 import tecnoweb.service.SubcategoriasService;
+import tecnoweb.service.ValoracionesService;
 
 /**
  *
@@ -31,6 +33,9 @@ import tecnoweb.service.SubcategoriasService;
 @Named(value = "menuBean")
 @SessionScoped
 public class MenuBean implements Serializable{
+
+    @EJB
+    private ValoracionesService valoracionesService;
 
     @EJB
     private SubcategoriasService subcategoriasService;
@@ -54,6 +59,8 @@ public class MenuBean implements Serializable{
     protected String busqueda = "";
     
     protected ProductoMenuDTO productoSeleccionado;
+    
+    protected ValoracionDTO valoracionSeleccionada;
     
     private static final Logger LOG = Logger.getLogger(MenuBean.class.getName());
 
@@ -79,14 +86,6 @@ public class MenuBean implements Serializable{
             this.idCatSelected = -1; //TODOS
             Filtro.ordenarProductosMenuDTO(orden, productos);
         }
-    }
-
-    public ProductosService getProductosService() {
-        return productosService;
-    }
-
-    public void setProductosService(ProductosService productosService) {
-        this.productosService = productosService;
     }
 
     public List<ProductoMenuDTO> getProductos() {
@@ -137,26 +136,9 @@ public class MenuBean implements Serializable{
         this.subcatSelected = subcatSelected;
     }
 
-    public SubcategoriasService getSubcategoriasService() {
-        return subcategoriasService;
-    }
-
-    public void setSubcategoriasService(SubcategoriasService subcategoriasService) {
-        this.subcategoriasService = subcategoriasService;
-    }
-
-    public CategoriasService getCategoriasService() {
-        return categoriasService;
-    }
-
-    public void setCategoriasService(CategoriasService categoriasService) {
-        this.categoriasService = categoriasService;
-    }
-
     public UsuarioBean getUsuarioBean() {
         return usuarioBean;
     }
-
 
     public void setUsuarioBean(UsuarioBean usuarioBean) {
         this.usuarioBean = usuarioBean;
@@ -176,6 +158,14 @@ public class MenuBean implements Serializable{
 
     public void setIdCatSelected(Integer idCatSelected) {
         this.idCatSelected = idCatSelected;
+    }
+
+    public ValoracionDTO getValoracionSeleccionada() {
+        return valoracionSeleccionada;
+    }
+
+    public void setValoracionSeleccionada(ValoracionDTO valoracionSeleccionada) {
+        this.valoracionSeleccionada = valoracionSeleccionada;
     }
 
 
@@ -250,6 +240,8 @@ public class MenuBean implements Serializable{
     
     public String doCargarValoracion(ProductoMenuDTO producto){
         this.productoSeleccionado = producto;
+        this.valoracionSeleccionada = this.valoracionesService.findValoracion(this.usuarioBean.getUsuario().getIdUsuario(),producto.getIdProducto());
+                
         return "valoracion";
     }
     

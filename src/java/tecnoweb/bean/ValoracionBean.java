@@ -42,10 +42,7 @@ public class ValoracionBean {
     /**
      * Creates a new instance of Valoraciones
      */
-    
-    protected String comentario;
-    protected Double nota;
-    protected boolean esNueva;
+
     protected ProductoMenuDTO producto;
     protected ValoracionDTO valoracion;
     protected List<ValoracionDTO> listaValoraciones;
@@ -58,21 +55,18 @@ public class ValoracionBean {
     public void init(){
         this.numeros = new ArrayList<>(Arrays.asList(0,1,2,3,4,5,6,7,8,9,10));
         this.producto = this.menuBean.getProductoSeleccionado();
+        this.valoracion = this.menuBean.getValoracionSeleccionada();
         this.listaValoraciones = this.valoracionesService.findListaValoraciones(this.producto.getIdProducto());
-        this.valoracion = this.valoracionesService.findValoracion(this.usuarioBean.getUsuario().getIdUsuario(), this.producto.getIdProducto());
         
-        esNueva = valoracion==null;
-        
-        if(esNueva){
-            valoracion = new ValoracionDTO();
-            valoracion.setUsuario(this.usuarioBean.getUsuario());
-            valoracion.setProducto(producto);
-            valoracion.setNota(0.0);
-        }else{
-            comentario= this.valoracion.getComentario();
-            nota = this.valoracion.getNota();
+        if(valoracion==null){
+           this.menuBean.setValoracionSeleccionada(new ValoracionDTO());
+           this.menuBean.getValoracionSeleccionada().setIdValoracion(-1);   //NUEVA
+           this.menuBean.getValoracionSeleccionada().setUsuario(this.usuarioBean.getUsuario());
+           this.menuBean.getValoracionSeleccionada().setProducto(producto);
+           this.menuBean.getValoracionSeleccionada().setComentario("");
+           this.menuBean.getValoracionSeleccionada().setNota(0.0);
         }
-        
+            
     }
 
     public ProductoMenuDTO getProducto() {
@@ -83,20 +77,12 @@ public class ValoracionBean {
         this.producto = producto;
     }
 
-    public ValoracionDTO getValoracion() {
-        return valoracion;
-    }
-
     public ProductosService getProductosService() {
         return productosService;
     }
 
     public void setProductosService(ProductosService productosService) {
         this.productosService = productosService;
-    }
-
-    public void setValoracion(ValoracionDTO valoracion) {
-        this.valoracion = valoracion;
     }
 
     public List<ValoracionDTO> getListaValoraciones() {
@@ -139,44 +125,12 @@ public class ValoracionBean {
     public void setNumeros(List<Integer> numeros) {
         this.numeros = numeros;
     }
-
-    public boolean isEsNueva() {
-        return esNueva;
-    }
-
-    public void setEsNueva(boolean esNueva) {
-        this.esNueva = esNueva;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
-
-    public Double getNota() {
-        return nota;
-    }
-
-    public void setNota(Double nota) {
-        this.nota = nota;
-    }
     
     public String doGuardarValoracion(){
         
-        if(!comentario.equals(valoracion.getComentario())){
-            valoracion.setComentario(comentario);
-        }
-            
-        if(!nota.equals(valoracion.getNota())){
-            valoracion.setNota(nota);
-        }
-        
         valoracion.setFechaPublicacion(new Date());
         
-        if(esNueva){
+        if(valoracion.getIdValoracion()==-1){
             this.valoracionesService.create(valoracion);
             producto.setNumValoraciones(producto.getNumValoraciones()+1);
         }else{
@@ -186,21 +140,24 @@ public class ValoracionBean {
         Double nuevaNotaMedia = this.productosService.getNotaMedia(producto.getIdProducto());
         producto.setNotaMedia(nuevaNotaMedia);
         
-        //this.valoracion = this.valoracionesService.findValoracion(this.usuarioBean.getUsuario().getIdUsuario(), this.producto.getIdProducto() );
-        //listaValoraciones = this.valoracionesService.findListaValoraciones(this.producto.getIdProducto());
         
-        return "valoracion?faces-redirect=true";
+        listaValoraciones = this.valoracionesService.findListaValoraciones(this.producto.getIdProducto());
+        valoracion = this.valoracionesService.findValoracion(valoracion.getUsuario().getIdUsuario(), valoracion.getProducto().getIdProducto());
+        this.menuBean.setValoracionSeleccionada(valoracion);
+        
+        return "valoracion";
     }
     
     public String doLimpiar(){
         
-        this.setComentario("");
-        this.setNota(0.0);
+        this.menuBean.getValoracionSeleccionada().setComentario("");
+        this.menuBean.getValoracionSeleccionada().setNota(0.0);
         return "valoracion";
     }
     
     public String doVolver(){
-        menuBean.productoSeleccionado = null;
+        menuBean.setProductoSeleccionado(null);
+        menuBean.setValoracionSeleccionada(null);
         return "menu";
     }
 }

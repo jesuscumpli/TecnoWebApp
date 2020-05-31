@@ -23,20 +23,21 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <h:link class="nav-link text-white h5 font-weight-bold">#{lblIni.navHome}</h:link>
+                        <h:link class="nav-link text-white h5 font-weight-bold">#{lbl.navInicio}</h:link>
                     </li>
                     <li class="nav-item mx-2">
                         <!--<h:link class="nav-link text-white" outcome="registro" >Registro</h:link>-->
-                        <a class="nav-link text-white" href="registro.jsf">#{lblIni.navRegistro}</a>
+                        <a class="nav-link text-white" href="registro.jsf">#{lbl.navRegistro}</a>
                     </li>
                 </ul>
                 <h:form class="nav-item float-right">
                     <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        #{lblIni.linkLanguage} #{localeBean.currentLocale.language}
+                        #{lbl.linkLanguage} #{localeBean.currentLocale.language}
                     </a>
                     <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">Español</h:commandLink>
                         <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">Ingles</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
                     </div>
                 </h:form>
             </div>
@@ -45,11 +46,11 @@
         <!--******************************************************************************************-->
         
         <div id="panel" class="shadow rounded">
-            <h2>#{lblIni.lblLogin}</h2>
+            <h2>#{lbl.lblLogin}</h2>
             <h:form>
                 <div id="error">#{usuarioBean.status}</div>
                 <div class="form-group">
-                    <label>#{lblIni.lblEmail}</label>
+                    <label>#{lbl.lblEmail}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="email"/>
                     <h:inputText id="email"
                                  required="true"
@@ -57,18 +58,18 @@
                         styleClass="form-control" value="#{usuarioBean.email}"/>
                 </div>
                 <div class="form-group">
-                    <label>#{lblIni.lblPassword}</label>
+                    <label>#{lbl.lblPassword}</label>
                     <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="contraseña"/>
                     <h:inputSecret id="contraseña"
                                    required="true"
                                    requiredMessage="#{msgs.passwordRequired}"
                         styleClass="form-control" value="#{usuarioBean.password}"/>
                 </div>
-                <h:commandButton action="#{usuarioBean.doLogin()}" styleClass="btn btn-primary" value="#{lblIni.btnLogin}"/>
+                <h:commandButton action="#{usuarioBean.doLogin()}" styleClass="btn btn-primary" value="#{lbl.btnLogin}"/>
             </h:form>
             <div id="divRegistro">
-                <small id="registroHelp" class="form-text text-white">#{lblIni.questionRegistro}</small>
-                <h:link class="text-white font-weight-bold" outcome="registro">#{lblIni.linkRegister}</h:link>
+                <small id="registroHelp" class="form-text text-white">#{lbl.questionRegistro}</small>
+                <h:link class="text-white font-weight-bold" outcome="registro">#{lbl.linkRegister}</h:link>
             </div>
         </div>
         

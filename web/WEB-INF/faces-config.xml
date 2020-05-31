@@ -14,8 +14,8 @@
             <var>msgs</var>
         </resource-bundle>
         <resource-bundle>
-            <base-name>labelsInicio</base-name>
-            <var>lblIni</var>
+            <base-name>labels</base-name>
+            <var>lbl</var>
         </resource-bundle>
      </application>
 </faces-config>

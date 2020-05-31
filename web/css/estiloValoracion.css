@@ -96,8 +96,8 @@ and open the template in the editor.
     width: 50%;
 }
 
-#nota{
-    width: 25%;
+.nota{
+    width: 10%;
     margin-top: 15px;
     text-align: center;
 }

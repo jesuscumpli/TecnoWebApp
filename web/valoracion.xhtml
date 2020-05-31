@@ -83,31 +83,35 @@
         
         
             
-        <div id="datos" > 
+        <h:panelGroup id="datos" > 
         <h:form>
             
             <label for="comentario">Comentario</label>
-            <h:inputText class="form-control comentario" value="#{ValoracionBean.comentario}"/>
+            <h:inputText class="form-control comentario" value="#{menuBean.valoracionSeleccionada.comentario}"/>
             
             <div>
                 <label id="nota" style="margin-top: 25px">Nota</label>
-                <h:selectOneMenu class="form-control form-control-lg nota" value="#{ValoracionBean.nota}" >
+                <h:selectOneMenu class="form-control form-control-lg nota" value="#{menuBean.valoracionSeleccionada.nota}" >
                     <f:selectItems value="#{ValoracionBean.numeros}" var="nota" itemValue="#{nota}" itemLabel="#{nota}"/>
                 </h:selectOneMenu>
             </div>
                
             <div id="botones">
-                <h:commandButton class="btn btn-success border border-dark" value="Enviar" action="#{ValoracionBean.doGuardarValoracion()}" />  
-                <h:commandButton class="btn ml-1 btn-warning border border-dark" value="Limpiar" action="#{ValoracionBean.doLimpiar()}" />
-                <h:commandButton class="btn ml-1 btn-danger border border-dark" value="Volver" action="#{ValoracionBean.doVolver()}" />  
+                <h:commandButton class="btn btn-success border border-dark" value="Enviar" action="#{ValoracionBean.doGuardarValoracion()}">
+                    <f:ajax execute="@form" render="listaComentarios" /> 
+                </h:commandButton>  
+                <h:commandButton class="btn ml-1 btn-warning border border-dark" value="Limpiar">
+                    <f:ajax render="datos" listener="#{ValoracionBean.doLimpiar()}"/>
+                </h:commandButton>    
+                <h:commandButton class="btn ml-1 btn-danger border border-dark" value="Volver" action="#{ValoracionBean.doVolver()}"/>  
             </div>
            
         </h:form>
-        </div>
+        </h:panelGroup>
         
         </div>
             
-            
+            <h:panelGroup id="listaComentarios">
             <c:forEach var="valoracion" items="#{ValoracionBean.listaValoraciones}">
                 <div id="cajaValoracion" class="badge">
                     <div id="Usuario" class="h3" > 
@@ -128,10 +132,9 @@
                             </h:outputText>
                         </div>
                     </div>
-                </div>
-                
-                
+                </div> 
             </c:forEach>
+            </h:panelGroup>
  
         </div>
          
