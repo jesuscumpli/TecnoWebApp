@@ -10,12 +10,10 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import tecnoweb.dao.CategoriaFacade;
 import tecnoweb.dao.SubcategoriaFacade;
-import tecnoweb.dto.CategoriaDTO;
 import tecnoweb.dto.CategoriaMenuDTO;
 import tecnoweb.dto.SubcategoriaDTO;
 import tecnoweb.entity.Categoria;
@@ -53,8 +51,8 @@ public class CategoriasAdminBean {
 
     protected List<CategoriaMenuDTO> listaCategorias;
     
-    protected String nuevaCategoria;
-    protected String nuevaSubcategoria;
+    protected String nuevaCategoria = "";
+    protected String nuevaSubcategoria = "";
     
     /**
      * Creates a new instance of categoriasAdminBean
@@ -65,9 +63,6 @@ public class CategoriasAdminBean {
     @PostConstruct
     public void init () {
         this.listaCategorias = this.categoriasService.findAllMenuDTO();
-        nuevaCategoria = "";
-        nuevaSubcategoria = "";
-        
     }
     
     public List<CategoriaMenuDTO> getListaCategorias() {
@@ -132,14 +127,18 @@ public class CategoriasAdminBean {
         this.categoriaFacade.remove(cat);
         menuAdminBean.setCategoriaSeleccionada(null);
         menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
+        this.listaCategorias = this.categoriasService.findAllMenuDTO();
+        nuevaCategoria = "";
         return "listadoCategoriasAdmin?faces-redirect=true";
     }
     
     public String doEditar (CategoriaMenuDTO categoria) {
-         Categoria cat = this.categoriaFacade.find(categoria.getIdCategoria());
-         cat.setNombreCategoria(categoria.getNombreCategoria());
-         this.categoriaFacade.edit(cat);
-         menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
+        Categoria cat = this.categoriaFacade.find(categoria.getIdCategoria());
+        cat.setNombreCategoria(categoria.getNombreCategoria());
+        this.categoriaFacade.edit(cat);
+        menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
+        this.listaCategorias = this.categoriasService.findAllMenuDTO();
+        nuevaCategoria = "";
         return "listadoCategoriasAdmin?faces-redirect=true";
     }
     
@@ -148,6 +147,8 @@ public class CategoriasAdminBean {
         cat.setNombreCategoria(nuevaCategoria);
         this.categoriasService.createMenuDTO(cat);
         menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
+        this.listaCategorias = this.categoriasService.findAllMenuDTO();
+        nuevaCategoria = "";
         return "listadoCategoriasAdmin?faces-redirect=true";
     }
     
@@ -166,7 +167,9 @@ public class CategoriasAdminBean {
         this.categoriaFacade.edit(cate);
         menuAdminBean.setCategoriaSeleccionada(cate.getMenuDTO());
         menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
-        
+        this.listaCategorias = this.categoriasService.findAllMenuDTO();
+        nuevaCategoria = "";
+        nuevaSubcategoria = "";
         return "listadoCategoriasAdmin";
     }
     
@@ -177,8 +180,11 @@ public class CategoriasAdminBean {
         Categoria cate = this.categoriaFacade.find(subc.getIdCategoria().getIdCategoria());
         menuAdminBean.setCategoriaSeleccionada(cate.getMenuDTO());
         this.categoriasService.editMenuDTO(menuAdminBean.getCategoriaSeleccionada());
-        this.listaCategorias = this.categoriasService.findAllMenuDTO();
         menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
+        this.listaCategorias = this.categoriasService.findAllMenuDTO();
+        nuevaCategoria = "";
+        nuevaSubcategoria = "";
+        menuAdminBean.setSubcategoriaSeleccionada(subc.getDTO());
         return "listadoCategoriasAdmin";
     }
     
@@ -194,6 +200,9 @@ public class CategoriasAdminBean {
         this.categoriaFacade.edit(cate);
         menuAdminBean.setCategoriaSeleccionada(cate.getMenuDTO());
         menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
+        this.listaCategorias = this.categoriasService.findAllMenuDTO();
+        nuevaCategoria = "";
+        nuevaSubcategoria = "";
         return "listadoCategoriasAdmin";
     }
     

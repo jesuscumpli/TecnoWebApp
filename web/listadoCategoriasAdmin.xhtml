@@ -58,7 +58,7 @@
         
         <!--***********************************************************************************************************-->
         
-        <div class="row">
+        
         
             <!-- LATERAL IZQUIERDO -->
 
@@ -70,46 +70,62 @@
 
                 <h2 class="text-center bg-light">Listado Categorías (vista Admin):</h2>
 
-                <div class="row">
+                
+                <h:panelGroup id="catNueva" class="row">
                     <small class="w-100 text-muted">Introduce aquí una nueva categoría</small>
                     <h:form>
                         <h:inputText value="#{categoriasAdminBean.nuevaCategoria}"></h:inputText>
-                        <h:commandButton action="#{categoriasAdminBean.doAnadir()}" class="text-white bg-success" value="Añadir nueva categoría"></h:commandButton>
+                        <h:commandButton class="text-white bg-success" value="Añadir nueva categoría" action="#{categoriasAdminBean.doAnadir()}">
+                            <f:ajax render="catNueva categorias" execute="@form" />
+                        </h:commandButton>
                     </h:form>
-                </div>
+                </h:panelGroup>
 
                 <div class="row">
-                    <div id="categorias" style="width: 45%" class="text-center">
+                    <h:panelGroup id="categorias" class="text-center">
                         <h:form>
-                            <h:dataTable border="1" value="#{categoriasAdminBean.listaCategorias}" var="categoria" class="text-center" cellpadding = "10" cellspacing = "1">
+                        <h:dataTable border="1" value="#{categoriasAdminBean.listaCategorias}" var="categoria" class="text-center" cellpadding = "10" cellspacing = "1">
+                        
                             <h:column>
                                 <f:facet name="header">ID</f:facet>
                                 #{categoria.idCategoria}
                             </h:column>            
                             <h:column>
                                 <f:facet name="header">NOMBRE</f:facet>                
-                                <h:inputText value="#{categoria.nombreCategoria}"></h:inputText>
+                                <h:inputText id="inputEditar" value="#{categoria.nombreCategoria}"></h:inputText>
                             </h:column>                        
                             <h:column>     
-                                <h:commandLink value="Borrar" action="#{categoriasAdminBean.doBorrar(categoria)}" />
+                                <h:commandLink value="Borrar">
+                                    <f:ajax render="categorias" event="click" listener="#{categoriasAdminBean.doBorrar(categoria)}"/>
+                                </h:commandLink>
                             </h:column>                        
                             <h:column>
-                                <h:commandLink value="Editar" action="#{categoriasAdminBean.doEditar(categoria)}" />     
+                                <h:commandLink value="Editar">
+                                    <f:ajax render="categorias" execute="inputEditar" event="click" listener="#{categoriasAdminBean.doEditar(categoria)}"/>
+                                </h:commandLink>     
                             </h:column>   
                             <h:column>
-                                <h:commandLink value="ConsultarSubcategorias" action="#{categoriasAdminBean.doConsultarSubcategorias(categoria)}" />     
-                            </h:column>
-                            </h:dataTable>
-                        </h:form>
-                    </div>
+                                <h:commandLink value="ConsultarSubcategorias" >
+                                    <f:ajax render="subcategorias" event="click" listener="#{categoriasAdminBean.doConsultarSubcategorias(categoria)}"/>
+                                </h:commandLink>    
 
-                    <c:if test="#{menuAdminBean.categoriaSeleccionada!=null}">
-                    <div id="subcategorias" style="margin-left:auto" class="text-center" >
+                            </h:column>
+                        
+                        </h:dataTable>
+                        </h:form>
+                    </h:panelGroup>
+                    
+                    
+                    
+                    <h:panelGroup id="subcategorias" style="margin-left:auto" class="text-center" >
+                        <c:if test="#{menuAdminBean.categoriaSeleccionada!=null}">
                         <div class="row">
                             <small class="w-100 text-muted" >Introduce aquí una nueva subcategoría</small>
                             <h:form style="margin:auto"> 
                                 <h:inputText value="#{categoriasAdminBean.nuevaSubcategoria}"></h:inputText>
-                                <h:commandButton action="#{categoriasAdminBean.doAnadirSub()}" class="text-white bg-success" value="Añadir nueva subcate"></h:commandButton>
+                                <h:commandButton action="#{categoriasAdminBean.doAnadirSub()}" class="text-white bg-success" value="Añadir nueva subcate">
+                                    <f:ajax execute="@form" render="subcategorias"/>
+                                </h:commandButton>
                             </h:form>
                         </div>
                         
@@ -121,19 +137,23 @@
                             </h:column>            
                             <h:column>
                                 <f:facet name="header">NOMBRE</f:facet>                
-                                <h:inputText value="#{subcategoria.nombreSubcategoria}"></h:inputText>
+                                <h:inputText id="subcateEditar" value="#{subcategoria.nombreSubcategoria}"></h:inputText>
                             </h:column>                        
                             <h:column>     
-                                <h:commandLink value="Borrar" action="#{categoriasAdminBean.doBorrarSubcategoria(subcategoria)}" />
+                                <h:commandLink value="Borrar">
+                                    <f:ajax render="subcategorias" listener="#{categoriasAdminBean.doBorrarSubcategoria(subcategoria)}"/>
+                                </h:commandLink>
                             </h:column>                        
                             <h:column>
-                                
-                                <h:commandLink value="Editar" action="#{categoriasAdminBean.doEditarSubcategoria(subcategoria)}" />     
+                                <h:commandLink value="Editar">
+                                    <f:ajax render="subcategorias" execute="subcateEditar" listener="#{categoriasAdminBean.doEditarSubcategoria(subcategoria)}"/>
+                                </h:commandLink>
                             </h:column>   
                             </h:dataTable>
                         </h:form>
-                    </div>
-                    </c:if>
+                        </c:if>
+                    </h:panelGroup>
+                     
                 </div>
             
             
@@ -142,7 +162,7 @@
             <!-- LATERAL DERECHO -->
             <div class="col" id="latDer">
             </div>
-        </div>
+    
         
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
