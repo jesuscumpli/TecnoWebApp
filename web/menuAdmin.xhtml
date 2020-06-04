@@ -1,10 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Pagina Principal</title>
+        <title>#{lb.titMenu}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloMenu.css"/>
@@ -24,15 +26,25 @@
                         <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >#{lbl.lblUsuariosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -40,16 +52,16 @@
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
-                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
-                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
-                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">#{lbl.navPerfil}</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">#{lbl.lblUsuariosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
@@ -69,8 +81,8 @@
                     <div class="card w-100" style="width: 18rem;">
                         <img id="imgCard" src="https://i2.wp.com/helpmybusinesspos.info/wp-content/uploads/2015/02/Usuario-permisos_mybusinesspos-300x200.png?resize=300%2C200" class="card-img-top" alt="..."/>
                         <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de USUARIOS de Tecno Web. Añadir un nuevo usuario. Editar y Borrar un usuario existente.</p>
-                            <a href="listadoUsuariosAdmin.jsf" class="btn btn-success w-100">USARIOS</a>
+                            <p class="card-text">#{lbl.textoUsuarios}</p>
+                            <a href="listadoUsuariosAdmin.jsf" class="btn btn-success w-100">#{lbl.lblUsuariosAdmin}</a>
                         </div>
                     </div>
                 </div>
@@ -78,8 +90,8 @@
                     <div class="card w-100" style="width: 18rem;">
                         <img id="imgCard" src="https://a2kartro.com/wp-content/uploads/2016/04/cajas-basica-productos.png" class="card-img-top" alt="..."/>
                         <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de PRODUCTOS de Tecno Web. Sólo Editar y Borrar un producto existente en la página web.</p>
-                            <a href="listadoProductosAdmin.jsf" class="btn btn-success w-100">PRODUCTOS</a>
+                            <p class="card-text">#{lbl.textoProductos}</p>
+                            <a href="listadoProductosAdmin.jsf" class="btn btn-success w-100">#{lbl.lblProductosAdmin}</a>
                         </div>
                     </div>
                 </div>
@@ -88,18 +100,20 @@
                     <div class="card w-100" style="width: 18rem;">
                         <img id="imgCard" src="https://gmartos.es/wp-content/uploads/2019/06/logo.png" class="card-img-top" alt="..."/>
                         <div class="card-body">
-                            <p class="card-text">Administre aquí el listado de CATEGORÍAS y SUBCATEGORÍAS de Tecno Web. Añadir, Editar y Borrar una categoría.</p>
-                            <a href="listadoCategoriasAdmin.jsf" class="btn btn-success w-100">CATEGORÍAS</a>
+                            <p class="card-text">#{lbl.textoCategorias}</p>
+                            <a href="listadoCategoriasAdmin.jsf" class="btn btn-success w-100">#{lbl.lblCategorias}</a>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-5">
                     <div class="col text-center">
-                        <label class="font-weight-bold mb-0">Limpiar Palabras Claves Sin Usar:</label>
-                        <small class="text-success">#{menuBean.status}</small>
+                        <label class="font-weight-bold mb-0">#{lbl.limpiarClavesSinUsar}</label>
+                        <small class="text-success">#{menuAdminBean.statusClavesDeleted}</small>
                         <br/>
-                        <label class="small">Elimine las palabras claves de la base de datos que han dejado de usarse por los productos...</label>
-                        <a href="" class="btn btn-info w-100">LIMPIAR PALABRAS CLAVES</a>
+                        <label class="small">#{lbl.textoClaves}</label>
+                        <h:form>
+                        <h:commandButton class="btn btn-info w-100" action="#{menuAdminBean.limpiarPalabrasClaves()}" value="#{lbl.lblLimpiarPalabras}"/>
+                        </h:form>
                     </div>
                 </div>
  
@@ -121,5 +135,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
         
     </h:body>
+    </f:view>
 </html>
 

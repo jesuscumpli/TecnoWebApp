@@ -5,8 +5,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
-        <title>Listado Usuarios Admin</title>
+        <title>#{lbl.listaUserAdmin}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloMenu.css"/>
@@ -23,18 +24,28 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
+                        <a class="nav-link text-white" href="menuAdmin.jsf">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                        <a class="nav-link text-white h5 font-weight-bold" href="listadoUsuariosAdmin.jsf" >#{lbl.lblUsuariosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -42,16 +53,16 @@
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
-                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
-                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
-                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">#{lbl.navPerfil}</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">#{lbl.lblUsuariosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
@@ -59,11 +70,11 @@
         
         <!--***********************************************************************************************************-->
         
-        <h2 class="text-center bg-light">Listado Usuarios (vista Admin):</h2>
+        <h2 class="text-center bg-light">#{lbl.listadoUsuarios}</h2>
         
         <div id="divRegistro">
             <h:form>
-                <h:link class="text-white font-weight-bold btn btn-primary text-black font-weight-bold" outcome="registroUsuarioAdmin">Añadir nuevo usuario</h:link>
+                <h:link class="text-white font-weight-bold btn btn-primary text-black font-weight-bold" outcome="registroUsuarioAdmin">#{lbl.anadirUsuario}</h:link>
             </h:form>
         </div>
         
@@ -72,39 +83,39 @@
             <h:form>
             <h:dataTable border="1" value="#{usuariosAdminBean.listaUsuarios}" var="usuario" class="w-100">
             <h:column>
-                <f:facet name="header">ID</f:facet>
+                <f:facet name="header">#{lbl.lblId}</f:facet>
                 #{usuario.idUsuario}
             </h:column>            
             <h:column>
-                <f:facet name="header">NOMBRE</f:facet>                
+                <f:facet name="header">#{lbl.lblName}</f:facet>                
                 #{usuario.nombre}
             </h:column>                        
             <h:column>        
-                <f:facet name="header">APELLIDOS</f:facet>                
+                <f:facet name="header">#{lbl.lblLastName}</f:facet>                
                 #{usuario.apellidos}
             </h:column>                        
             <h:column>
-                <f:facet name="header">FECHA NACIMIENTO</f:facet>                
+                <f:facet name="header">#{lbl.lblBirthdate}</f:facet>                
                 #{usuario.fechaNac}
             </h:column>                        
             <h:column>        
-                <f:facet name="header">ADMINISTRADOR</f:facet>                
+                <f:facet name="header">#{lbl.isAdmin}</f:facet>                
                 #{usuario.isAdmin}
             </h:column>       
             <h:column>        
-                <f:facet name="header">EMAIL</f:facet>                
+                <f:facet name="header">#{lbl.lblEmail}</f:facet>                
                 #{usuario.emailUsuario}
             </h:column>      
             <h:column>        
-                <f:facet name="header">FOTO</f:facet>                
+                <f:facet name="header">#{lbl.lblPerfilImage}</f:facet>                
                 <img class="d-inline-block align-middle" id="imagen" src="#{usuario.fotoUsuario}" alt="" height="40px" widtht="40px"/>
             </h:column>    
             <h:column> 
                 
-                <h:commandLink value="Editar" action="#{menuAdminBean.editarUsuarioSeleccionado(usuario)}" />     
+                <h:commandLink value="#{lbl.editar}" action="#{menuAdminBean.editarUsuarioSeleccionado(usuario)}" />     
             </h:column>   
             <h:column>
-                <h:commandLink value="Borrar">
+                <h:commandLink value="#{lbl.borrar}">
                     <f:ajax render="tabla" event="click" listener="#{usuariosAdminBean.doBorrar(usuario)}"/>
                 </h:commandLink>
             </h:column>
@@ -116,5 +127,6 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
         </h:body>
+    </f:view>
 </html>
 

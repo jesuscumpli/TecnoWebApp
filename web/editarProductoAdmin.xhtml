@@ -4,8 +4,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
-        <title>Editar Producto Administrador</title>
+        <title>#{lbl.edProdAdmin}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloValoracion.css"/>
@@ -21,18 +22,28 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
+                        <a class="nav-link text-white" href="menuAdmin.jsf">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >#{lbl.lblUsuariosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                        <a class="nav-link text-white h5 font-weight-bold" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -40,16 +51,16 @@
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
-                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
-                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
-                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">#{lbl.navPerfil}</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">#{lbl.lblUsuariosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
@@ -67,49 +78,89 @@
             
             
         <div id="evaluacion" class="border border-primary rounded container-fluid">
-            <h2> Producto: #{productoEditarAdminBean.productoSeleccionado.titulo}</h2>
-            <h:inputText class="form-control" a:placeholder="Introduzca aquí el nombre..." maxlength="50" value="#{productoEditarAdminBean.productoSeleccionado.titulo}"/>
-        
+            <h2> #{lbl.lblpr} #{productoEditarAdminBean.productoSeleccionado.titulo}</h2>
+            <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="productito"/>
+            <h:inputText class="form-control mb-2" 
+                         id="productito"
+                         required="true"
+                         a:placeholder="#{lbl.textoProdA}"
+                         value="#{productoEditarAdminBean.productoSeleccionado.titulo}"
+                         requiredMessage="#{msgs.tituloProd}"
+                         validatorMessage="#{msgs.tituloTooLong}"
+                         >
+                <f:validateLength maximum="50"/>
+            </h:inputText>
         
         <div class="row">
         <div id="imagen" class="col">
             <img id="imgVista" src="#{productoEditarAdminBean.productoSeleccionado.fotoProducto}" class="img-thumbnail" alt="..."/>
-            <small class="form-text text-white m-0">Introduce aquí una url con la foto del producto</small>
+            <small class="form-text text-white m-0">#{lbl.fotoProd}</small>
             <div id="cambiarImagen" class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon3">URL:</span>
               </div>
                 <h:inputText value="#{productoEditarAdminBean.productoSeleccionado.fotoProducto}" a:aria-describedby="basic-addon3" class="form-control" />
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                    <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lbl.btnVer}</button>
                 </div>
             </div>
         </div>
         
         <div id="descripcion" class="col">
-             <h:outputLabel class="parametro">Descripción</h:outputLabel>
+             <h:outputLabel class="parametro">#{lbl.prodDesc}</h:outputLabel>
              <p>
-                 <h:inputTextarea class="form-control" a:placeholder="Introduzca aquí la descripcion..." rows="10" cols="30" value="#{productoEditarAdminBean.productoSeleccionado.descripcion}"/>
-             </p>
+             <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="descripcioncita"/>
+             <h:inputTextarea class="form-control mb-2" 
+                         id="descripcioncita"
+                         required="true"
+                         rows="10" cols="30"
+                         a:placeholder="#{lbl.introDesc}"
+                         value="#{productoEditarAdminBean.productoSeleccionado.descripcion}"
+                         requiredMessage="#{msgs.descripProd}"
+                         validatorMessage="#{msgs.descripTooLong}"
+                         >
+                <f:validateLength maximum="500"/>
+            </h:inputTextarea>
+            </p>
         </div>
         </div>
              
         <div class="row">
         <div id="precio2" class="col">
-            <h:outputLabel class="parametro">Precio: </h:outputLabel>
-            <h:inputText class="form-control" a:placeholder="Precio..." maxlength="50" value="#{productoEditarAdminBean.productoSeleccionado.precio}"/>
+            <h:outputLabel class="parametro">#{lbl.prodPrecio} </h:outputLabel>
+            <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="preciecito"/>
+            <h:inputText class="form-control mb-2" 
+                         id="preciecito"
+                         required="true"
+                         a:placeholder="#{lbl.prec}"
+                         value="#{productoEditarAdminBean.productoSeleccionado.precio}"
+                         requiredMessage="#{msgs.preProd}"
+                         validatorMessage="#{msgs.preTooLong}"
+                         >
+                 <f:validateLength maximum="50"/>
+            </h:inputText>
         </div>
         
         <div id="palabrasClave" class="col">
-            <h:outputLabel class="parametro">Palabras claves:</h:outputLabel>
-            <h:inputText class="form-control" a:placeholder="Palabras clave..." maxlength="50" value="#{menuAdminBean.clavesSeleccionada}">
+            <h:outputLabel class="parametro">#{lbl.palClav}</h:outputLabel>
+            <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="palabritas"/>
+            <h:inputText class="form-control mb-2" 
+                         id="palabritas"
+                         required="true"
+                         a:placeholder="#{lbl.palc}"
+                         value="#{menuAdminBean.clavesSeleccionada}"
+                         requiredMessage="#{msgs.plcProd}"
+                         validatorMessage="#{msgs.plcTooLong}"
+                         >
+                 <f:validateLength maximum="50"/>
             </h:inputText>
+            
         </div>
         </div>
                 
             <div id="botones">
-                <h:commandButton class="btn btn-success" action="#{productoEditarAdminBean.modificar()}" value="Aceptar Cambios"></h:commandButton>
-                <h:link class="btn btn-danger" outcome="listadoProductosAdmin" value="Cancelar Cambios"/>
+                <h:commandButton class="btn btn-success" action="#{productoEditarAdminBean.modificar()}" value="#{lbl.btnAcpP}"></h:commandButton>
+                <h:link class="btn btn-danger" outcome="listadoProductosAdmin" value="#{lbl.btnCancP}"/>
             </div>
             
        
@@ -138,5 +189,6 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
+        </f:view>
 </html>
 

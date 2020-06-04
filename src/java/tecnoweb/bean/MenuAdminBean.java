@@ -6,17 +6,19 @@
 package tecnoweb.bean;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import tecnoweb.dao.PalabraclaveFacade;
 import tecnoweb.dto.CategoriaMenuDTO;
 import tecnoweb.dto.ProductoMenuDTO;
 import tecnoweb.dto.SubcategoriaDTO;
 import tecnoweb.dto.UsuarioDTO;
+import tecnoweb.entity.Palabraclave;
 import tecnoweb.service.CategoriasService;
 import tecnoweb.service.ProductosService;
 import tecnoweb.service.SubcategoriasService;
@@ -31,6 +33,9 @@ public class MenuAdminBean implements Serializable{
     @Inject
     private MenuBean menuBean;
 
+    @EJB
+    private PalabraclaveFacade palabraclaveFacade;
+    
     @EJB
     private SubcategoriasService subcategoriasService;
 
@@ -50,6 +55,7 @@ public class MenuAdminBean implements Serializable{
     protected UsuarioDTO usuarioSeleccionado;
     protected ProductoMenuDTO productoSeleccionado;
     private String clavesSeleccionada;
+    private String statusClavesDeleted="";
     
     /**
      * Creates a new instance of MenuAdminBean
@@ -60,30 +66,6 @@ public class MenuAdminBean implements Serializable{
     @PostConstruct
     public void init (){
         categoriaSeleccionada = null;
-    }
-
-    public SubcategoriasService getSubcategoriasService() {
-        return subcategoriasService;
-    }
-
-    public void setSubcategoriasService(SubcategoriasService subcategoriasService) {
-        this.subcategoriasService = subcategoriasService;
-    }
-
-    public CategoriasService getCategoriasService() {
-        return categoriasService;
-    }
-
-    public void setCategoriasService(CategoriasService categoriasService) {
-        this.categoriasService = categoriasService;
-    }
-
-    public ProductosService getProductosService() {
-        return productosService;
-    }
-
-    public void setProductosService(ProductosService productosService) {
-        this.productosService = productosService;
     }
 
     public UsuarioBean getUsuarioBean() {
@@ -116,6 +98,14 @@ public class MenuAdminBean implements Serializable{
 
     public void setUsuarioSeleccionado(UsuarioDTO usuarioSeleccionado) {
         this.usuarioSeleccionado = usuarioSeleccionado;
+    }
+
+    public String getStatusClavesDeleted() {
+        return statusClavesDeleted;
+    }
+
+    public void setStatusClavesDeleted(String statusClavesDeleted) {
+        this.statusClavesDeleted = statusClavesDeleted;
     }
 
     public ProductoMenuDTO getProductoSeleccionado() {
@@ -159,6 +149,20 @@ public class MenuAdminBean implements Serializable{
     public String doEditar(ProductoMenuDTO prod) {
         this.productoSeleccionado = prod;
         return "editarProductoAdmin";
+    }
+    
+    public String limpiarPalabrasClaves(){
+        List<Palabraclave> todos = this.palabraclaveFacade.findAll();
+        int num = 0;
+        for(Palabraclave p: todos){
+            if(p.getProductoList().isEmpty()){
+                this.palabraclaveFacade.remove(p);
+                num++;
+            }
+        }
+        this.statusClavesDeleted = "Se han eliminado "+num+" palabras claves sin usar de la base de datos";
+        
+        return null;
     }
     
 }

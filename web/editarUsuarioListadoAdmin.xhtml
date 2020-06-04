@@ -4,14 +4,14 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
-        <title>Modificar Perfil Usuario</title>
+        <title>#{lbl.modPerfilAdmin}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloModiPerfil.css"/>
     </h:head>
     <h:body>
-        
         <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
@@ -22,18 +22,28 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
+                        <a class="nav-link text-white" href="menuAdmin.jsf">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                        <a class="nav-link text-white h5 font-weight-bold" href="listadoUsuariosAdmin.jsf" >#{lbl.lblUsuariosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -41,16 +51,16 @@
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
-                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
-                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
-                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">#{lbl.navPerfil}</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">#{lbl.lblUsuariosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
@@ -63,7 +73,7 @@
 
             <!-- PANEL DE DATOS E INFORMACIÓN -->
             <div class="container panel-primary centro">
-                <div class="panel-heading titulo">Información del Usuario</div>
+                <div class="panel-heading titulo">#{lbl.lblpInfoUsuario}</div>
                 <div class="panel-body contenido">
 
                     <h:form>
@@ -75,14 +85,14 @@
                             <div class="imagen">
                                 <img id="imagenPerfil" src="#{usuarioEditarListadoBean.usuarioSeleccionado.fotoUsuario}" alt="Sin Imagen"/>
                                 <br/>
-                                <small class="form-text text-white m-0">Introduce aquí una url con tu foto de perfil</small>
+                                <small class="form-text text-white m-0">#{lbl.infoImage}</small>
                                 <div class="input-group mb-3 cambiarImagen">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text bassic-addon3">URL:</span>
                                   </div>
                                     <h:inputText id="url" value="#{usuarioEditarListadoBean.photoURL}" class="form-control" a:aria-describedby="basic-addon3"/>
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lbl.btnVer}</button>
                                     </div>
                                 </div>
                             </div>
@@ -90,27 +100,49 @@
                             <div class="primerBloque">
                                 <br/><br/>
 
-                                <h:outputLabel class="parametro">Correo Electr&oacute;nico</h:outputLabel> 
+                                <h:outputLabel class="parametro">#{lbl.lblpMail}</h:outputLabel> 
                                 <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarListadoBean.statusEmail}</h:outputLabel><br/>
-                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí su email..." maxlength="50" value="#{usuarioEditarListadoBean.email}"/>
-                                <br/>
-
-                                <h:outputLabel class="parametro">Nombre</h:outputLabel> 
-                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarListadoBean.statusNombre}</h:outputLabel><br/>
-                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí su nombre..." maxlength="50" value="#{usuarioEditarListadoBean.name}"/>
-                                <br/>
-
-                                <h:outputLabel class="parametro">Apellidos</h:outputLabel> 
-                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarListadoBean.statusApellido}</h:outputLabel><br/>
-                                <h:inputText class="form-control inpData" a:placeholder="Introduzca aquí sus apellidos..." maxlength="100" value="#{usuarioEditarListadoBean.apellidos}"/>
-                                <br/>
-
-                                <h:outputLabel class="parametro">Fecha de Nacimiento</h:outputLabel> 
-                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarListadoBean.statusFechaNac}</h:outputLabel><br/>
-                                <h:inputText a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarListadoBean.fechaNac}">
-                                    <f:convertDateTime pattern="YYYY-MM-dd"/>
+                                <h:message for="sEmail"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold"/><br/>
+                                <h:inputText id="sEmail" class="form-control inpData" a:placeholder="Introduzca aquí su email..." maxlength="50" value="#{usuarioEditarListadoBean.email}"  
+                                            required="true"
+                                            requiredMessage="#{msgs.emailRequired}"
+                                            validatorMessage="#{msgs.valRegexP}" >
+                                    <f:validateLength maximum="50"/>
+                                    <f:validateRegex pattern="((?=.*[0-Z])(?=.*[@]).{1,50})"/>
                                 </h:inputText>
                                 <br/>
+                               
+
+                                <h:outputLabel class="parametro">#{lbl.lblName}</h:outputLabel> 
+                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarListadoBean.statusNombre}</h:outputLabel><br/>
+                                <h:message for="sName"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>
+                                <h:inputText id="sName" class="form-control inpData" a:placeholder="#{lbl.placeName}" value="#{usuarioEditarListadoBean.name}" required="true"
+                                            requiredMessage="#{msgs.nombreRequired}"
+                                            validatorMessage="#{msgs.nombreTooLong}">
+                                    <f:validateLength maximum="50"/>
+                                </h:inputText>
+                                <br/>
+                                
+
+                                <h:outputLabel class="parametro">#{lbl.lblLastName}</h:outputLabel> 
+                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarListadoBean.statusApellido}</h:outputLabel><br/>
+                                <h:inputText id="sApellido" class="form-control inpData" a:placeholder="#{lbl.placeLastName}" maxlength="100" value="#{usuarioEditarListadoBean.apellidos}" 
+                                    required="true"
+                                    requiredMessage="#{msgs.apellidosRequired}"
+                                    validatorMessage="#{msgs.apellidosTooLong}">
+                                    <f:validateLength maximum="100"/>
+                                </h:inputText>
+                                
+
+                                <h:outputLabel class="parametro">#{lbl.lblBirthdate}</h:outputLabel> 
+                                <h:outputLabel class="small text-danger font-italic font-weight-bold">#{usuarioEditarListadoBean.statusFechaNac}</h:outputLabel><br/>
+                                <h:inputText id="sFecha" a:type="date" class="form-control inpData" maxlength="50" value="#{usuarioEditarListadoBean.fechaNac}"
+                                             required="true">
+                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                </h:inputText>
+                                <h:message for="sFecha"  showDetail="false" showSummary="true" class="small text-danger font-italic font-weight-bold" /><br/>
+                                <br/>
+                                
 
                             </div>
                         </div>
@@ -121,12 +153,12 @@
                                 <div class="segundaCentro"></div>
                                 <div class="segundoDcha">
                                     <div class="buttonAceptar">
-                                            <h:commandButton class="btn btn-primary btn-sm btn-success float-right" action="#{usuarioEditarListadoBean.modificar()}" value="Aceptar Cambios"></h:commandButton>
+                                            <h:commandButton class="btn btn-primary btn-sm btn-success float-right" action="#{usuarioEditarListadoBean.modificar()}" value="#{lbl.btnAcpP}"></h:commandButton>
                                         <br/>
                                     </div>
                                     <div class="buttonCancelar">
                                         <h:form>
-                                            <h:button class="btn btn-primary btn-sm btn-dark float-right" outcome="listadoUsuariosAdmin" value="Cancelar Cambios"></h:button>
+                                            <h:button class="btn btn-primary btn-sm btn-dark float-right" outcome="listadoUsuariosAdmin" value="#{lbl.btnCancP}"></h:button>
                                         </h:form>
                                     </div>
                                 </div>
@@ -153,6 +185,7 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
+        </f:view>
 </html>
 
 

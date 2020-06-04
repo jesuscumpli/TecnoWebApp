@@ -4,15 +4,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
-        <title>Listado Categorias Admin</title>
+        <title>#{lbl.listCat}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloMenu.css"/>
     </h:head>
     <h:body>
-        
-        <!-- NAVBAR INICIO -->
+  <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,18 +22,28 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
+                        <a class="nav-link text-white" href="menuAdmin.jsf">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >#{lbl.lblUsuariosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                        <a class="nav-link text-white h5 font-weight-bold" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -41,16 +51,16 @@
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
-                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
-                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
-                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">#{lbl.navPerfil}</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">#{lbl.lblUsuariosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
@@ -68,14 +78,14 @@
             <!--CONTAINER-->
             <div class="row" id="centroCategorias">
 
-                <h2 class="text-center bg-light">Listado Categorías (vista Admin):</h2>
+                <h2 class="text-center bg-light">#{lbl.listCatTitle}</h2>
 
                 
                 <h:panelGroup id="catNueva" class="row">
-                    <small class="w-100 text-muted">Introduce aquí una nueva categoría</small>
+                    <small class="w-100 text-muted">#{lbl.anadirCat}</small>
                     <h:form>
                         <h:inputText value="#{categoriasAdminBean.nuevaCategoria}"></h:inputText>
-                        <h:commandButton class="text-white bg-success" value="Añadir nueva categoría" action="#{categoriasAdminBean.doAnadir()}">
+                        <h:commandButton class="text-white bg-success" value="#{lbl.anCat}" action="#{categoriasAdminBean.doAnadir()}">
                             <f:ajax render="catNueva categorias" execute="@form" />
                         </h:commandButton>
                     </h:form>
@@ -91,21 +101,21 @@
                                 #{categoria.idCategoria}
                             </h:column>            
                             <h:column>
-                                <f:facet name="header">NOMBRE</f:facet>                
+                                <f:facet name="header">#{lbl.lblName}</f:facet>                
                                 <h:inputText id="inputEditar" value="#{categoria.nombreCategoria}"></h:inputText>
                             </h:column>                        
                             <h:column>     
-                                <h:commandLink value="Borrar">
+                                <h:commandLink value="#{lbl.borrar}">
                                     <f:ajax render="categorias" event="click" listener="#{categoriasAdminBean.doBorrar(categoria)}"/>
                                 </h:commandLink>
                             </h:column>                        
                             <h:column>
-                                <h:commandLink value="Editar">
+                                <h:commandLink value="#{lbl.editar}">
                                     <f:ajax render="categorias" execute="inputEditar" event="click" listener="#{categoriasAdminBean.doEditar(categoria)}"/>
                                 </h:commandLink>     
                             </h:column>   
                             <h:column>
-                                <h:commandLink value="ConsultarSubcategorias" >
+                                <h:commandLink value="#{lbl.consSubc}" >
                                     <f:ajax render="subcategorias" event="click" listener="#{categoriasAdminBean.doConsultarSubcategorias(categoria)}"/>
                                 </h:commandLink>    
 
@@ -120,10 +130,10 @@
                     <h:panelGroup id="subcategorias" style="margin-left:auto" class="text-center" >
                         <c:if test="#{menuAdminBean.categoriaSeleccionada!=null}">
                         <div class="row">
-                            <small class="w-100 text-muted" >Introduce aquí una nueva subcategoría</small>
+                            <small class="w-100 text-muted" >#{lbl.anadirSubcat}</small>
                             <h:form style="margin:auto"> 
                                 <h:inputText value="#{categoriasAdminBean.nuevaSubcategoria}"></h:inputText>
-                                <h:commandButton action="#{categoriasAdminBean.doAnadirSub()}" class="text-white bg-success" value="Añadir nueva subcate">
+                                <h:commandButton action="#{categoriasAdminBean.doAnadirSub()}" class="text-white bg-success" value="#{lbl.anSubc}">
                                     <f:ajax execute="@form" render="subcategorias"/>
                                 </h:commandButton>
                             </h:form>
@@ -136,16 +146,16 @@
                                 #{subcategoria.idSubcategoria}
                             </h:column>            
                             <h:column>
-                                <f:facet name="header">NOMBRE</f:facet>                
+                                <f:facet name="header">#{lbl.lblName}</f:facet>                
                                 <h:inputText id="subcateEditar" value="#{subcategoria.nombreSubcategoria}"></h:inputText>
                             </h:column>                        
                             <h:column>     
-                                <h:commandLink value="Borrar">
+                                <h:commandLink value="#{lbl.borrar}">
                                     <f:ajax render="subcategorias" listener="#{categoriasAdminBean.doBorrarSubcategoria(subcategoria)}"/>
                                 </h:commandLink>
                             </h:column>                        
                             <h:column>
-                                <h:commandLink value="Editar">
+                                <h:commandLink value="#{lbl.editar}">
                                     <f:ajax render="subcategorias" execute="subcateEditar" listener="#{categoriasAdminBean.doEditarSubcategoria(subcategoria)}"/>
                                 </h:commandLink>
                             </h:column>   
@@ -169,5 +179,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
         
     </h:body>
+    </f:view>
 </html>
 

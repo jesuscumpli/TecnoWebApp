@@ -5,8 +5,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
-        <title>Listado Productos Admin</title>
+        <title>#{lbl.listaProdAdmin}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloMenu.css"/>
@@ -24,18 +25,28 @@
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold" href="menuAdmin.jsf">Home</a>
+                        <a class="nav-link text-white" href="menuAdmin.jsf">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >Usuarios</a>
+                        <a class="nav-link text-white" href="listadoUsuariosAdmin.jsf" >#{lbl.lblUsuariosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoProductosAdmin.jsf">Productos</a>
+                        <a class="nav-link text-white h5 font-weight-bold" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                        <a class="nav-link text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -43,16 +54,16 @@
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">Perfil</a>
-                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">Usuarios</a>
-                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">Productos</a>
-                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">Categorias</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" href="perfilUsuarioAdmin.jsf">#{lbl.navPerfil}</a>
+                                <a class="dropdown-item text-white" href="listadoUsuariosAdmin.jsf">#{lbl.lblUsuariosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoProductosAdmin.jsf">#{lbl.lblProductosAdmin}</a>
+                                <a class="dropdown-item text-white" href="listadoCategoriasAdmin.jsf">#{lbl.lblCategorias}</a>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
@@ -65,39 +76,37 @@
      
             
                 
-           <!--BUSCADOR / FILTRO -->    
-            <nav id="navbarBuscador" class="navbar navbar-expand-lg navbar-light shadow">
+                  <!--BUSCADOR / FILTRO -->    
+           <h:panelGroup id="navbarBuscador" class="navbar navbar-expand-lg navbar-light shadow">
                   <h:form class="form-inline my-2 my-lg-0 w-100">
                     <div class="w-50 d-inline-block">
                         <div class="input-group mr-2">
                             <div class="input-group-prepend">
                                 <h:selectOneMenu styleClass="custom-select input-group-text categoriaBuscador" value="#{menuBean.idCatSelected}">
-                                    <f:selectItem itemValue="-1" itemLabel="Todos"/>
+                                    <f:selectItem itemValue="-1" itemLabel="#{lbl.productTodos}"/>
                                     <f:selectItems value="#{menuBean.categorias}" var="c" itemValue="#{c.idCategoria}" itemLabel="#{c.nombreCategoria}" />
                                     <f:ajax render="productos" event="valueChange" listener="#{menuBean.filtrar()}"/>
                                 </h:selectOneMenu>
                             </div>
-                            <h:inputText value="#{menuBean.busqueda}" class="form-control mr-sm-2 w-75" pt:type="search" pt:placeholder="Busque su producto aqu&iacute;..." pt:aria-label="Search" pt:aria-describedby="basic-addon3">
+                            <h:inputText value="#{menuBean.busqueda}" class="form-control mr-sm-2 w-75" pt:type="search" pt:placeholder="#{lbl.searchProduct}" pt:aria-label="Search" pt:aria-describedby="basic-addon3">
                                 <f:ajax render="productos" event="keyup" listener="#{menuBean.filtrar()}"/>
                             </h:inputText>
                         </div>
-                        
                     </div>
                       
                     <div class="w-50 d-inline-block"> 
-                        <span class="d-inline-block align-middle ml-1">Ordenar por:  </span>
+                        <span class="d-inline-block align-middle ml-1">#{lbl.lblOrdenarPor}:</span>
                         <h:selectOneMenu class="custom-select d-inline-block font-italic ml-2" value="#{menuBean.orden}">
-                          <f:selectItem itemValue="Fecha" itemLabel="Fecha"/>
-                          <f:selectItem itemValue="Precio" itemLabel="Precio"/>
-                          <f:selectItem itemValue="Valoracion" itemLabel="Valoracion"/>
+                          <f:selectItem itemValue="Fecha" itemLabel="#{lbl.lblFecha}"/>
+                          <f:selectItem itemValue="Precio" itemLabel="#{lbl.lblPrecio}"/>
+                          <f:selectItem itemValue="Valoracion" itemLabel="#{lbl.lblValoracion}"/>
                           <f:ajax render="productos" event="valueChange" listener="#{menuBean.ordenarPor()}"/>
                         </h:selectOneMenu>
-                        
-                      
+                        <span class="d-inline-block badge ml-5 my-2 my-sm-0 botonBuscar text-white p-2" > &lt;-- #{lbl.badgeFiltrar} </span>
                     </div>
                      
                   </h:form>
-                </nav>            
+            </h:panelGroup>       
            
            <!-- PRODUCTOS -->
            
@@ -112,16 +121,16 @@
                 <div id="cuerpoProducto" class="row text-center">
                     <img id="imagenProducto" src="#{p.fotoProducto}" class="col figure-img img-fluid rounded" alt="..."/>
                     <div id="descripcionProducto" class="col d-none d-md-block">
-                        <label class="font-weight-bold">Descripción:</label>
+                        <label class="font-weight-bold">#{lbl.prodDesc}</label>
                         <p> #{p.descripcionShort}</p>
                     </div>
                     <div id="precioProducto" class="col">
-                        <label class="font-weight-bold">Precio: </label>
+                        <label class="font-weight-bold">#{lbl.prodPrecio} </label>
                         <h5 class="font-weight-bold"> #{p.precio}€</h5>
 
                         <!-- PUNTUACION CON ESTRELLAS-->
                         <form>
-                          <label class="font-weight-bold">Valoraci&oacute;n:</label>
+                          <label class="font-weight-bold">#{lbl.prodVal}</label>
                           <p disabled="true" class="valoracionMedia" id="mediaProducto#{p.idProducto}">
                               
                             <c:if test="${p.notaEstrella==5}">
@@ -169,11 +178,11 @@
                           <small class="text-danger font-weight-bold">(#{p.numValoraciones})</small>
                         </form>
                         
-                        <label class="font-weight-bold">Vendedor:</label>
+                        <label class="font-weight-bold">#{lbl.prodVen}</label>
                     <c:if test="${p.idUsuario!=null}">
                         <span>#{p.idUsuario.nombre}</span>
                     </c:if> <c:if test="${p.idUsuario==null}">
-                        <span class="text-secondary font-italic"> Anónimo </span>
+                        <span class="text-secondary font-italic"> #{lbl.lblAnonimo} </span>
                     </c:if>
                         <span class="d-block text-secondary">
                             <h:outputText value="#{p.fechaSubida}">
@@ -186,13 +195,13 @@
                         <c:when test="${p.idUsuario==null || p.idUsuario.idUsuario!= usuarioBean.usuario.idUsuario}">
                             <div id="divMas" class="col">
                                 <h:form>
-                                    <h:commandLink class="btn btn-primary" value="Editar" action="#{menuAdminBean.doEditar(p)}" /> <br/> <br/>
-                                    <h:commandLink class="btn btn-primary" value="Borrar" action="#{menuAdminBean.doBorrar(p)}" /> 
+                                    <h:commandLink class="btn btn-primary" value="#{lbl.editar}" action="#{menuAdminBean.doEditar(p)}" /> <br/> <br/>
+                                    <h:commandLink class="btn btn-primary" value="#{lbl.borrar}" action="#{menuAdminBean.doBorrar(p)}" /> 
                                 </h:form>
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <span class="font-weight-light align-middle m-5"> ¡Es tu producto!</span>
+                            <span class="font-weight-light align-middle m-5"> #{lbl.msgEsTuProducto}</span>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -205,5 +214,6 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
+        </f:view>
 </html>
 

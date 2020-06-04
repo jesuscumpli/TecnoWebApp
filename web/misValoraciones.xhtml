@@ -7,7 +7,7 @@
     <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Mis Valoraciones</title>
+        <title>#{lbl.navVals}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estrellas.css"/>
@@ -217,7 +217,7 @@
                     </div>
                     
                     <div id="divMas" class="col">
-                        <h:form><h:commandButton class="btn btn-info verMas"  role="button" value="#{lbl.btnVerMas}" /></h:form>
+                        <h:form><h:commandButton class="btn btn-info verMas"  role="button" action="#{menuBean.doCargarValoracion(p)}" value="#{lbl.btnVerMas}" /></h:form>
                     </div>
                 </div>
             </div>

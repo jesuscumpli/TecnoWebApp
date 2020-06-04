@@ -103,8 +103,8 @@ public class UsuarioBean implements Serializable{
                 return null;           
             } else {
                 this.usuario = user; //Usuario en SESSION
-                if(usuario.getIsAdmin()) return "menuAdmin";
-                else return "menu";
+                if(usuario.getIsAdmin()) return "menuAdmin?faces-redirect=true";
+                else return "menu?faces-redirect=true";
             }        
         }
     }
@@ -120,7 +120,7 @@ public class UsuarioBean implements Serializable{
         this.status = "";
         this.email = "";
         this.password = "";
-        return "login";
+        return "login?faces-redirect=true";
     }
     
     public boolean nombreValido(){
