@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Producto</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+        <link rel="stylesheet" href="css/estiloValoracion.css"/>
+    </h:head>
+    
+    <h:body>
+        
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.resetProducto}">Mis productos</h:commandLink></h:form>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white">Mis Valoraciones</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white">Mi Perfil</a>
+                    </li>
+                </ul>
+                <div class="nav-item float-right float-sm-left pl-0">
+                    <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
+                    <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
+                        <div class="dropdown">
+                            <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                #{usuarioBean.usuario.nombre}
+                            </a>
+                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" >Perfil</a>
+                                 <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.resetProducto}">Mis productos</h:commandLink></h:form>
+                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                                <div class="dropdown-divider"></div>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                            </div>
+                        </div>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                    </div>
+                </div>
+            </div>
+         </nav>
+        
+        <!--************************************************************************************************************-->
+        
+        <div id="contenedorCentral">
+            <div id="evaluacion" class="border border-primary rounded container-fluid">
+                <h:form>
+
+                <div class="form-row">
+                     <div class="col">
+                        <label for="imputNombreProducto">Nombre del producto</label>
+                        <h:inputText class="form-control" id ="imputNombreProducto" value="#{productoEditarBean.productoSeleccionado.titulo}"/> <br/>
+                     </div>
+                     <div class="col">
+                        <label for="imputPrecio"> Precio </label>
+                        <h:inputText class="form-control"   value="#{productoEditarBean.productoSeleccionado.precio}"/> <br/>
+                     </div>
+                </div>
+
+                <div class="form-group">
+                     <label for="imputDescripcion"> Descripcion </label>
+                     <h:inputTextarea class="form-control" id="imputDescripcion" rows="10" cols="30" value="#{productoEditarBean.productoSeleccionado.descripcion}">  </h:inputTextarea> <br/>
+                </div>
+
+                <div class="form-group">
+                     <label for="imputPClave"> Palabras clave </label>
+                     <h:inputText class="form-control" id="imputPClave" value="#{productoEditarBean.palabrasClaveString}"/>
+                     <small id="pclaveHelp" class="form-text text-muted">Separe las palabras clave por comas</small>
+                </div>
+
+
+                <div class="form-inline">
+
+                    <div class="form-group">
+                      <label for="inputCategoria">Categoria</label>
+                      <h:selectOneMenu value="#{productoEditarBean.idCategoriaSeleccionada}" >
+                          <f:selectItems value="#{productoEditarBean.listaCategorias}" var="categoria"
+                                         itemValue="#{categoria.idCategoria}" itemLabel="#{categoria.nombreCategoria}" />
+                      </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputSubCategoria">Subcategoria</label>
+                      <h:selectOneMenu id="subcategorias" value="#{productoEditarBean.idSubcategoriaSeleccionada}" >
+                          <f:selectItems value="#{productoEditarBean.listaSubcategorias}" var="subcategoria"
+                                         itemValue="#{subcategoria.idSubcategoria}" itemLabel="#{subcategoria.nombreSubcategoria}" />
+                      </h:selectOneMenu>
+                    </div>
+                    
+                    <h:commandButton id="actualizar" class="btn btn-info text-white ml-5" action="#{productoEditarBean.recargar()}" value="Ver subcategorias" >
+                       
+                    </h:commandButton>
+                </div>
+
+                <hr class="bg-white"/>
+                <label class="mb-0">Foto producto</label>
+
+                <small class="form-text text-white m-0">Introduce aquí una url con tu foto del producto</small>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">URL:</span>
+                  </div>
+                    <h:inputText id="url" class="form-control" value="#{productoEditarBean.productoSeleccionado.fotoProducto}"/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                    </div>
+                </div>
+                <img id="imgVista" src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" class="img-thumbnail rounded mx-auto d-block w-25 h-25"/>
+
+                <br/>
+                
+                <h:commandButton value="Guardar" action="#{productoEditarBean.doGuardar()}" /><br/>   
+            </h:form>
+            
+            </div>
+        </div>
+        
+        <script> 
+            function cambiarImagenJS(){
+                var url = document.getElementById("j_idt21:url").value;
+                if(url===null || url===""){
+                    document.getElementById("imgVista").src = 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';
+                } else{
+                    document.getElementById("imgVista").src = url;
+                }
+            }
+        </script>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    </h:body>
+</html>

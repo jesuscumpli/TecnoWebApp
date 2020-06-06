@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Tus productos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/estiloGeneral.css"/>
+        <link rel="stylesheet" href="css/estiloMenu.css"/>
+        <link rel="stylesheet" href="css/estrellas.css"/>
+    </h:head>
+    
+    <h:body>
+        <!-- NAVBAR INICIO -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
+            <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mx-2">
+                    <li class="nav-item active mx-2">
+                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <h:link class="dropdown-item text-white" outcome="listadoProducto" >Mis Productos</h:link>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white">Mis Valoraciones</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white">Mi Perfil</a>
+                    </li>
+                </ul>
+                <div class="nav-item float-right float-sm-left pl-0">
+                    <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
+                    <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
+                        <div class="dropdown">
+                            <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                #{usuarioBean.usuario.nombre}
+                            </a>
+                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <a class="dropdown-item text-white" >Perfil</a>
+                                <h:link class="dropdown-item text-white" outcome="listadoProducto" >Mis Productos</h:link>
+                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                                <div class="dropdown-divider"></div>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                            </div>
+                        </div>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                    </div>
+                </div>
+            </div>
+         </nav>
+        
+        <!--FIN NAVBAR-->
+        
+        
+        <!-- PRODUCTOS -->
+    <h:form>
+      <h:button class="btn btn-primary " outcome="nuevoProducto" value="Nuevo producto"/>
+    </h:form>    
+        <h:panelGroup id="listaProductos">
+     <c:forEach var="p" items="#{productoListarBean.listaProductos}">
+     <div id="cajaProducto" class="bg-light shadow" >
+         <div id="tituloProducto" class="h3" > 
+             <span class="ml-2">#{p.titulo}</span>
+             <span class="badge badge-danger">#{p.idSubcategoria.idCategoria.nombreCategoria}</span>  <!--Badge de cateogoria-->
+             <span class="badge badge-info">#{p.idSubcategoria.nombreSubcategoria}</span>  <!--Badge de subcategoria-->
+         </div>
+         <div id="cuerpoProducto" class="row text-center">
+             <img id="imagenProducto" src="#{p.fotoProducto}" class="col figure-img img-fluid rounded" alt="..."/>
+             <div id="descripcionProducto" class="col d-none d-md-block">
+                 <label class="font-weight-bold">Descripción:</label>
+                 <p> #{p.descripcionShort}</p>
+             </div>
+             <div id="precioProducto" class="col">
+                 <label class="font-weight-bold">Precio: </label>
+                 <h5 class="font-weight-bold"> #{p.precio}€</h5>
+
+                 <!-- PUNTUACION CON ESTRELLAS-->
+                 <form>
+                   <label class="font-weight-bold">Valoracion:</label>
+                   <p disabled="true" class="valoracionMedia" id="mediaProducto#{p.idProducto}">
+
+                     <c:if test="${p.notaEstrella==5}">
+                       <input checked="true" id="radio1" type="radio" name="estrellas#{p.idProducto}" value="5" disabled="true"/>
+                     </c:if>
+                     <c:if test="${p.notaEstrella!=5}">
+                       <input id="radio1" type="radio" name="estrellas#{p.idProducto}" value="5" disabled="true"/>
+                     </c:if>
+                     <label for="radio1">★</label>
+                     <!---->
+                     <c:if test="${p.notaEstrella==4}">
+                     <input checked="true" id="radio2" type="radio" name="estrellas#{p.idProducto}" value="4" disabled="true"/>
+                     </c:if>
+                     <c:if test="${p.notaEstrella!=4}">
+                     <input id="radio2" type="radio" name="estrellas#{p.idProducto}" value="4" disabled="true"/>
+                     </c:if>
+                     <label for="radio2">★</label>
+                     <!---->
+                     <c:if test="${p.notaEstrella==3}">
+                       <input checked="true" id="radio3" type="radio" name="estrellas#{p.idProducto}" value="3" disabled="true"/>
+                     </c:if>
+                     <c:if test="${p.notaEstrella!=3}">
+                       <input id="radio3" type="radio" name="estrellas#{p.idProducto}" value="3" disabled="true"/>
+                     </c:if>
+                     <label for="radio3">★</label>
+                     <!---->
+                     <c:if test="${p.notaEstrella==2}">
+                       <input checked="true" id="radio4" type="radio" name="estrellas#{p.idProducto}" value="2" disabled="true"/>
+                     </c:if>
+                     <c:if test="${p.notaEstrella!=2}">
+                     <input id="radio4" type="radio" name="estrellas#{p.idProducto}" value="2" disabled="true"/>
+                     </c:if>
+                     <label for="radio4">★</label>
+                     <!---->
+                     <c:if test="${p.notaEstrella==1}">
+                     <input checked="true" id="radio5" type="radio" name="estrellas#{p.idProducto}" value="1" disabled="true"/>
+                     </c:if>
+                     <c:if test="${p.notaEstrella!=1}">
+                     <input id="radio5" type="radio" name="estrellas#{p.idProducto}" value="1" disabled="true"/>
+                     </c:if>
+                     <label for="radio5">★</label>
+
+                   </p>
+                   <small class="text-warning font-weight-bold">
+                       (<h:outputText value="#{p.notaMedia}">
+                           <f:convertNumber maxFractionDigits="1" />
+                       </h:outputText>)
+                   </small>
+                   <small class="text-danger font-weight-bold">(#{p.numValoraciones})</small>
+                 </form>
+
+                 <label class="font-weight-bold">Vendedor:</label>
+             <c:if test="${p.idUsuario!=null}">
+                 <span>#{p.idUsuario.nombre}</span>
+             </c:if> <c:if test="${p.idUsuario==null}">
+                 <span class="text-secondary font-italic"> Anónimo </span>
+             </c:if>
+                 <span class="d-block text-secondary">
+                     <h:outputText value="#{p.fechaSubida}">
+                         <f:convertDateTime pattern="dd/MM/YYYY"/>
+                     </h:outputText>
+                 </span>
+             </div>
+             
+             <div id="divMas" class="btn-group-vertical">
+                <h:form>
+                    <h:commandButton class="btn btn-danger text-white" value="Borrar">
+                        <f:ajax render="listaProductos" event="click" listener="#{productoListarBean.doBorrar(p)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="editar" class="btn btn-primary text-white" action="#{usuarioBean.doEditar(p)}" value="Editar" ></h:commandButton>
+                    <h:commandButton id="verValoraciones" class="btn btn-info text-white" action="#{usuarioBean.doVerValoraciones(p)}" value="Ver valoracion" ></h:commandButton>
+                </h:form>
+             </div>
+             
+         </div>
+        </div> 
+      </c:forEach>     
+      </h:panelGroup>  
+    </h:body>
+</html>
