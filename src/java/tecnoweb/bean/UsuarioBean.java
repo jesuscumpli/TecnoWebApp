@@ -155,9 +155,9 @@ public class UsuarioBean implements Serializable{
         this.productoSeleccionado = productoSeleccionado;
     }
     
-    public String resetProducto() {
+    public String nuevoProducto() {
         this.productoSeleccionado=null;
-        return "listadoProducto";
+        return "nuevoProducto";
     }
     
 }
