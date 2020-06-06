@@ -11,7 +11,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
+import tecnoweb.dto.ProductoMenuDTO;
 import tecnoweb.dto.UsuarioDTO;
 import tecnoweb.service.ProductosService;
 import tecnoweb.service.UsuariosService;
@@ -38,6 +38,7 @@ public class UsuarioBean implements Serializable{
     protected String status = "";
     
     protected UsuarioDTO usuario;
+    protected ProductoMenuDTO productoSeleccionado;
 
     /**
      * Creates a new instance of UsuarioBean
@@ -134,6 +135,29 @@ public class UsuarioBean implements Serializable{
     public String convertirFecha(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
         return sdf.format(usuario.getFechaNac());
+    }
+    
+    public String doEditar(ProductoMenuDTO producto) {
+        this.productoSeleccionado = producto;
+        return "nuevoProducto";
+    }
+    
+    public String doVerValoraciones (ProductoMenuDTO producto) {
+         this.productoSeleccionado = producto;
+         return "listaValoracionesMiProducto";
+    }
+
+    public ProductoMenuDTO getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(ProductoMenuDTO productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
+    }
+    
+    public String resetProducto() {
+        this.productoSeleccionado=null;
+        return "listadoProducto";
     }
     
 }
