@@ -256,4 +256,55 @@ public class ProductosService {
         }
         return res;
     }
+    
+    public void createOrUpdate (ProductoMenuDTO p) {
+        
+        Producto producto;
+        boolean esCrearNuevo = false;
+        if (p.getIdProducto() == 0 || Integer.toString(p.getIdProducto()) == null || Integer.toString(p.getIdProducto()).isEmpty()) { // Creación de un nuevo producto
+            producto = new Producto();
+            esCrearNuevo = true;
+        } else {
+            producto = this.productoFacade.find(p.getIdProducto());
+        }
+
+        producto.setTitulo(p.getTitulo());
+        producto.setDescripcion(p.getDescripcion());
+        producto.setPrecio(p.getPrecio());
+        producto.setFechaSubida(new Date(System.currentTimeMillis()));
+        producto.setFotoProducto(p.getFotoProducto());
+        Subcategoria subcategoria = this.subcategoriaFacade.find(p.getIdSubcategoria().getIdSubcategoria());
+        producto.setIdSubcategoria(subcategoria);
+        
+        List<PalabraclaveDTO> palabrasClave = p.getPalabraclaveList();
+        List<String> tags = new ArrayList<>();
+        if(!palabrasClave.isEmpty()){
+            for (PalabraclaveDTO pcd : palabrasClave) {
+                tags.add(pcd.getValor());
+            }  
+        }
+
+        List<Palabraclave> listaClaves = new ArrayList<>();
+
+        for (String valor : tags) {
+            Palabraclave pc = this.palabraclaveFacade.findByValue(valor.trim());
+            if (pc == null) {        //Si no existe la creo
+                pc = new Palabraclave();
+                pc.setValor(valor.trim());
+                this.palabraclaveFacade.create(pc);    
+            }
+            listaClaves.add(pc);
+        }
+        producto.setPalabraclaveList(listaClaves);
+        Usuario u = this.usuarioFacade.find(p.getIdUsuario().getIdUsuario());
+        producto.setIdUsuario(u);                    
+
+        if (esCrearNuevo) {
+            this.productoFacade.create(producto);
+            subcategoria.getProductoList().add(producto);
+            this.subcategoriaFacade.edit(subcategoria);
+        } else {
+            this.productoFacade.edit(producto);
+        }            
+    }
 }
