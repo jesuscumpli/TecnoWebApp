@@ -10,9 +10,10 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
-        <title>Tus productos</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>#{lbl.navProds}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloMenu.css"/>
@@ -20,7 +21,7 @@ and open the template in the editor.
     </h:head>
     
     <h:body>
-        <!-- NAVBAR INICIO -->
+       <!-- NAVBAR INICIO -->
         <nav class="navbar navbar-expand-lg navbar-light bg-dark" id="navbarInicio">
             <div class="navbar-brand"><h1 class="text-primary d-inline">Tecno </h1><h1 class="text-white d-inline"> Web</h1></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,18 +31,28 @@ and open the template in the editor.
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                        <h:link class="nav-link text-white h5 font-weight-bold" outcome="menu">#{lbl.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="dropdown-item text-white" outcome="listadoProducto" >Mis Productos</h:link>
+                        <h:link class="dropdown-item text-white" outcome="listadoProducto" >#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mis Valoraciones</a>
+                        <h:link class="nav-link text-white" outcome="misValoraciones">#{lbl.navVals}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mi Perfil</a>
+                        <h:link class="nav-link text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
                     </li>
                 </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -49,26 +60,27 @@ and open the template in the editor.
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" >Perfil</a>
-                                <h:link class="dropdown-item text-white" outcome="listadoProducto" >Mis Productos</h:link>
-                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <h:link class="dropdown-item text-white" outcome="perfilUsuario" >#{lbl.navPerfil}</h:link>
+                                <h:link class="dropdown-item text-white" outcome="listadoProducto" >#{lbl.navProds}</h:link>
+                                <h:link class="dropdown-item text-white" outcome="misValoraciones" >#{lbl.navVals}</h:link>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
          </nav>
         
-        <!--FIN NAVBAR-->
+        <!--************************************************************************************************************-->
+        
         
         
         <!-- PRODUCTOS -->
     <h:form>
-      <h:button class="btn btn-primary " outcome="nuevoProducto" value="Nuevo producto"/>
+        <h:commandButton class="btn btn-primary " action="#{usuarioBean.nuevoProducto()}" value="#{lbl.btnNuevo}"/>
     </h:form>    
         <h:panelGroup id="listaProductos">
      <c:forEach var="p" items="#{productoListarBean.listaProductos}">
@@ -81,16 +93,16 @@ and open the template in the editor.
          <div id="cuerpoProducto" class="row text-center">
              <img id="imagenProducto" src="#{p.fotoProducto}" class="col figure-img img-fluid rounded" alt="..."/>
              <div id="descripcionProducto" class="col d-none d-md-block">
-                 <label class="font-weight-bold">Descripción:</label>
+                 <label class="font-weight-bold">#{lbl.lblDescripcion}</label>
                  <p> #{p.descripcionShort}</p>
              </div>
              <div id="precioProducto" class="col">
-                 <label class="font-weight-bold">Precio: </label>
+                 <label class="font-weight-bold">#{lbl.lblPrecio} </label>
                  <h5 class="font-weight-bold"> #{p.precio}€</h5>
 
                  <!-- PUNTUACION CON ESTRELLAS-->
                  <form>
-                   <label class="font-weight-bold">Valoracion:</label>
+                     <label class="font-weight-bold">#{lbl.lblValoracion}</label>
                    <p disabled="true" class="valoracionMedia" id="mediaProducto#{p.idProducto}">
 
                      <c:if test="${p.notaEstrella==5}">
@@ -142,11 +154,11 @@ and open the template in the editor.
                    <small class="text-danger font-weight-bold">(#{p.numValoraciones})</small>
                  </form>
 
-                 <label class="font-weight-bold">Vendedor:</label>
+                 <label class="font-weight-bold">#{lbl.lblVendedor}</label>
              <c:if test="${p.idUsuario!=null}">
                  <span>#{p.idUsuario.nombre}</span>
              </c:if> <c:if test="${p.idUsuario==null}">
-                 <span class="text-secondary font-italic"> Anónimo </span>
+                 <span class="text-secondary font-italic"> #{lbl.lblAnonimo} </span>
              </c:if>
                  <span class="d-block text-secondary">
                      <h:outputText value="#{p.fechaSubida}">
@@ -157,11 +169,11 @@ and open the template in the editor.
              
              <div id="divMas" class="btn-group-vertical">
                 <h:form>
-                    <h:commandButton class="btn btn-danger text-white" value="Borrar">
+                    <h:commandButton class="btn btn-danger text-white" value="#{lbl.borrar}">
                         <f:ajax render="listaProductos" event="click" listener="#{productoListarBean.doBorrar(p)}"/>
                     </h:commandButton>
-                    <h:commandButton id="editar" class="btn btn-primary text-white" action="#{usuarioBean.doEditar(p)}" value="Editar" ></h:commandButton>
-                    <h:commandButton id="verValoraciones" class="btn btn-info text-white" action="#{usuarioBean.doVerValoraciones(p)}" value="Ver valoracion" ></h:commandButton>
+                    <h:commandButton id="editar" class="btn btn-primary text-white" action="#{usuarioBean.doEditar(p)}" value="#{lbl.editar}" ></h:commandButton>
+                    <h:commandButton id="verValoraciones" class="btn btn-info text-white" action="#{usuarioBean.doVerValoraciones(p)}" value="#{lbl.verVal}" ></h:commandButton>
                 </h:form>
              </div>
              
@@ -170,4 +182,5 @@ and open the template in the editor.
       </c:forEach>     
       </h:panelGroup>  
     </h:body>
+    </f:view>
 </html>

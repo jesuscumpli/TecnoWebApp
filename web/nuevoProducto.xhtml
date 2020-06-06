@@ -10,12 +10,15 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <title>Producto</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous"/>
         <link rel="stylesheet" href="css/estiloGeneral.css"/>
         <link rel="stylesheet" href="css/estiloValoracion.css"/>
+        <link rel="stylesheet" href="css/estiloModiPerfil.css"/>
     </h:head>
     
     <h:body>
@@ -30,18 +33,28 @@ and open the template in the editor.
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <a class="nav-link text-white h5 font-weight-bold">Home</a>
+                        <h:link class="nav-link text-white" outcome="menu">#{lbl.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.resetProducto}">Mis productos</h:commandLink></h:form>
+                        <h:link class="nav-link text-white h5 font-weight-bold" outcome="listadoProducto">#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mis Valoraciones</a>
+                        <h:link class="nav-link text-white" outcome="misValoraciones">#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white">Mi Perfil</a>
+                        <h:link class="nav-link text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
                     </li>
-                </ul>
+            </ul>
+                <h:form class="nav-item float-left">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         #{lbl.linkLanguage} #{localeBean.currentLocale.language}
+                    </a>
+                    <div style="top:auto;left:auto" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setSpanish()}">#{lbl.langES}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setEnglish()}">#{lbl.langEN}</h:commandLink>
+                        <h:commandLink class="dropdown-item" action="#{localeBean.setGerman()}">#{lbl.langDE}</h:commandLink>
+                    </div>
+                </h:form>
                 <div class="nav-item float-right float-sm-left pl-0">
                     <img class="d-inline-block align-middle" id="imagenPerfilNavBar" src="#{usuarioBean.usuario.fotoUsuario}" alt="Italian Trulli"/>
                     <div class="d-inline-block mx-2 p-2 text-white text-center align-middle" id="divPerfil">
@@ -49,53 +62,82 @@ and open the template in the editor.
                             <a class="dropdown my-0 py-0 h4 text-white" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 #{usuarioBean.usuario.nombre}
                             </a>
-                            <div class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
-                                <a class="dropdown-item text-white" >Perfil</a>
-                                 <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.resetProducto}">Mis productos</h:commandLink></h:form>
-                                <a class="dropdown-item text-white" >Mis Valoraciones</a>
+                            <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
+                                <h:link class="dropdown-item text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
+                                <h:link class="dropdown-item text-white" outcome="listadoProducto">#{lbl.navProds}</h:link>
+                                <h:link class="dropdown-item text-white" outcome="misValoraciones">#{lbl.navVals}</h:link>
                                 <div class="dropdown-divider"></div>
-                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                                <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                             </div>
                         </div>
-                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">Cerrar Sesión</h:commandLink></h:form>
+                        <h:form><h:commandLink class="text-white my-0 py-0" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>
                     </div>
                 </div>
             </div>
          </nav>
         
-        <!--************************************************************************************************************-->
-        
+        <!-- ******************** -->
         <div id="contenedorCentral">
             <div id="evaluacion" class="border border-primary rounded container-fluid">
                 <h:form>
 
                 <div class="form-row">
                      <div class="col">
-                        <label for="imputNombreProducto">Nombre del producto</label>
-                        <h:inputText class="form-control" id ="imputNombreProducto" value="#{productoEditarBean.productoSeleccionado.titulo}"/> <br/>
+                         <label for="imputNombreProducto">#{lbl.lblNombre}</label>
+                        <h:inputText class="form-control" id ="imputNombreProducto" value="#{productoEditarBean.productoSeleccionado.titulo}"
+                                   required="true"
+                                   requiredMessage="#{msgs.tituloProd}"
+                                   validatorMessage="#{msgs.tituloTooLong}"
+                                   >
+                        <f:validateLength maximum="50"/>                
+                        </h:inputText>
+                        <br/>
                      </div>
                      <div class="col">
-                        <label for="imputPrecio"> Precio </label>
-                        <h:inputText class="form-control"   value="#{productoEditarBean.productoSeleccionado.precio}"/> <br/>
+                         <label for="imputPrecio"> #{lbl.lblPrecio} </label>
+                        <h:inputText class="form-control"   
+                            value="#{productoEditarBean.productoSeleccionado.precio}"
+                            requiredMessage="#{msgs.preProd}"
+                            required="true"
+                            validatorMessage="#{msgs.preTooLong}"
+                            >
+                        <f:validateLength maximum="50"/>    
+                        </h:inputText>
+                     <br/>
                      </div>
                 </div>
 
                 <div class="form-group">
-                     <label for="imputDescripcion"> Descripcion </label>
-                     <h:inputTextarea class="form-control" id="imputDescripcion" rows="10" cols="30" value="#{productoEditarBean.productoSeleccionado.descripcion}">  </h:inputTextarea> <br/>
+                    <label for="imputDescripcion"> #{lbl.lblDescripcion} </label>
+                     <h:inputTextarea class="form-control" id="imputDescripcion" rows="10" cols="30" 
+                                value="#{productoEditarBean.productoSeleccionado.descripcion}"
+                                required="true"
+                                requiredMessage="#{msgs.descripProd}"
+                                validatorMessage="#{msgs.descripTooLong}"
+                                > 
+                         <f:validateLength maximum="500"/>
+                     </h:inputTextarea> 
+                    <br/>
                 </div>
 
                 <div class="form-group">
-                     <label for="imputPClave"> Palabras clave </label>
-                     <h:inputText class="form-control" id="imputPClave" value="#{productoEditarBean.palabrasClaveString}"/>
-                     <small id="pclaveHelp" class="form-text text-muted">Separe las palabras clave por comas</small>
+                    <label for="imputPClave"> #{lbl.palClav} </label>
+                     <h:inputText class="form-control" id="imputPClave" 
+                             value="#{productoEditarBean.palabrasClaveString}"
+                             required="true"
+                             requiredMessage="#{msgs.plcProd}"
+                             validatorMessage="#{msgs.plcTooLong}"
+                             >
+                        <f:validateLength maximum="50"/>
+                     </h:inputText>
+                     <small id="pclaveHelp" class="form-text text-muted">#{lbl.ayudaProd}</small>
                 </div>
 
 
                 <div class="form-inline">
 
                     <div class="form-group">
-                      <label for="inputCategoria">Categoria</label>
+                        <label for="inputCategoria">#{lbl.lblCategorias}</label>
                       <h:selectOneMenu value="#{productoEditarBean.idCategoriaSeleccionada}" >
                           <f:selectItems value="#{productoEditarBean.listaCategorias}" var="categoria"
                                          itemValue="#{categoria.idCategoria}" itemLabel="#{categoria.nombreCategoria}" />
@@ -103,36 +145,36 @@ and open the template in the editor.
                     </div>
 
                     <div class="form-group">
-                      <label for="inputSubCategoria">Subcategoria</label>
+                        <label for="inputSubCategoria">#{lbl.lblSubcategoria}</label>
                       <h:selectOneMenu id="subcategorias" value="#{productoEditarBean.idSubcategoriaSeleccionada}" >
                           <f:selectItems value="#{productoEditarBean.listaSubcategorias}" var="subcategoria"
                                          itemValue="#{subcategoria.idSubcategoria}" itemLabel="#{subcategoria.nombreSubcategoria}" />
                       </h:selectOneMenu>
                     </div>
                     
-                    <h:commandButton id="actualizar" class="btn btn-info text-white ml-5" action="#{productoEditarBean.recargar()}" value="Ver subcategorias" >
+                    <h:commandButton id="actualizar" class="btn btn-info text-white ml-5" action="#{productoEditarBean.recargar()}" value="#{lbl.consSubc}" >
                        
                     </h:commandButton>
                 </div>
 
                 <hr class="bg-white"/>
-                <label class="mb-0">Foto producto</label>
+                <label class="mb-0">#{lbl.lblImagen}</label>
 
-                <small class="form-text text-white m-0">Introduce aquí una url con tu foto del producto</small>
+                <small class="form-text text-white m-0">#{lbl.fotoProd}</small>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">URL:</span>
                   </div>
                     <h:inputText id="url" class="form-control" value="#{productoEditarBean.productoSeleccionado.fotoProducto}"/>
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
+                        <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lbl.btnVer}</button>
                     </div>
                 </div>
                 <img id="imgVista" src="https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png" class="img-thumbnail rounded mx-auto d-block w-25 h-25"/>
 
                 <br/>
                 
-                <h:commandButton value="Guardar" action="#{productoEditarBean.doGuardar()}" /><br/>   
+                <h:commandButton value="#{lbl.btnGuardar}" action="#{productoEditarBean.doGuardar()}" /><br/>   
             </h:form>
             
             </div>
@@ -140,7 +182,7 @@ and open the template in the editor.
         
         <script> 
             function cambiarImagenJS(){
-                var url = document.getElementById("j_idt21:url").value;
+                var url = document.getElementById("j_idt44:url").value;
                 if(url===null || url===""){
                     document.getElementById("imgVista").src = 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';
                 } else{
@@ -153,4 +195,5 @@ and open the template in the editor.
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
+    </f:view>
 </html>
