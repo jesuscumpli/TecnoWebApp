@@ -29,7 +29,11 @@ import tecnoweb.service.SubcategoriasService;
 @RequestScoped
 public class ProductoEditarBean {
     
-    @Inject UsuarioBean usuarioBean;
+    @Inject 
+    UsuarioBean usuarioBean;
+    
+    @Inject
+    MenuBean menuBean;
     
     @EJB
     private CategoriasService categoriasService;
@@ -48,7 +52,7 @@ public class ProductoEditarBean {
     protected List<CategoriaMenuDTO> listaCategorias;
     protected List<SubcategoriaDTO> listaSubcategorias;
     
-    protected int idCategoriaSeleccionada;
+    
     protected int idSubcategoriaSeleccionada;
     
     protected String palabrasClaveString;
@@ -73,16 +77,13 @@ public class ProductoEditarBean {
                 this.productoSeleccionado.setIdSubcategoria(this.subcategoriasService.find(1));
                 this.productoSeleccionado.setPalabraclaveList(new ArrayList<PalabraclaveDTO>());
                 this.usuarioBean.setProductoSeleccionado(productoSeleccionado);
-                this.idCategoriaSeleccionada = 1;
-                this.listaSubcategorias = this.subcategoriasService.findByCategoria(this.idCategoriaSeleccionada);
                 this.idSubcategoriaSeleccionada = 1;
             } else { // Es editar producto
                 esNuevo = false;
-                this.idCategoriaSeleccionada = this.productoSeleccionado.getIdSubcategoria().getIdCategoria().getIdCategoria();
                 this.idSubcategoriaSeleccionada = this.productoSeleccionado.getIdSubcategoria().getIdSubcategoria();
-                this.listaSubcategorias = this.subcategoriasService.findByCategoria(idCategoriaSeleccionada);
                 this.crearPalabrasClaveString(productoSeleccionado.getPalabraclaveList());
-             }                      
+             }          
+            this.listaSubcategorias = this.subcategoriasService.findByCategoria(this.usuarioBean.getIdCategoriaSeleccionada());            
     
     }
 
@@ -192,14 +193,6 @@ public class ProductoEditarBean {
         this.palabrasClaveString = palabrasClaveString;
     }
 
-    public int getIdCategoriaSeleccionada() {
-        return idCategoriaSeleccionada;
-    }
-
-    public void setIdCategoriaSeleccionada(int idCategoriaSeleccionada) {
-        this.idCategoriaSeleccionada = idCategoriaSeleccionada;
-    }
-
     public int getIdSubcategoriaSeleccionada() {
         return idSubcategoriaSeleccionada;
     }
@@ -216,11 +209,12 @@ public class ProductoEditarBean {
         
         this.productosService.createOrUpdate(this.productoSeleccionado);
         this.usuarioBean.setProductoSeleccionado(null);
+        this.menuBean.filtrar();
         return "listadoProducto";   
     }
     
     public String recargar() {
-        this.listaSubcategorias = this.subcategoriasService.findByCategoria(idCategoriaSeleccionada);
+        this.listaSubcategorias = this.subcategoriasService.findByCategoria(this.usuarioBean.getIdCategoriaSeleccionada());
         this.productoSeleccionado.setIdSubcategoria(this.listaSubcategorias.get(0));
         return "nuevoProducto";
     }

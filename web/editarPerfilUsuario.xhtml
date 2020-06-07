@@ -27,7 +27,7 @@
                         <h:link class="nav-link text-white" outcome="menu">#{lbl.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="nav-link text-white" >#{lbl.navProds}</h:link>
+                        <h:link class="nav-link text-white" outcome="listadoProducto" >#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
                         <h:link class="nav-link text-white" outcome="misValoraciones">#{lbl.navProds}</h:link>
@@ -55,7 +55,7 @@
                             </a>
                             <div style="right:0;left:auto;" class="dropdown-menu bg-secondary" id="dropdownNavbar" aria-labelledby="perfilDropdown">
                                 <h:link class="dropdown-item text-white" outcome="perfilUsuario">#{lbl.navPerfil}</h:link>
-                                <h:link class="dropdown-item text-white">#{lbl.navProds}</h:link>
+                                <h:link class="dropdown-item text-white" outcome="listadoProducto">#{lbl.navProds}</h:link>
                                 <h:link class="dropdown-item text-white" outcome="misValoraciones">#{lbl.navVals}</h:link>
                                 <div class="dropdown-divider"></div>
                                 <h:form><h:commandLink class="dropdown-item text-white" action="#{usuarioBean.doLogout}">#{lbl.navLogout}</h:commandLink></h:form>

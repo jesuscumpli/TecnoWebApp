@@ -58,6 +58,7 @@ public class MenuBean implements Serializable{
     protected SubcategoriaDTO subcatSelected;
     protected String busqueda = "";
     
+    
     protected ProductoMenuDTO productoSeleccionado;
     
     protected ValoracionDTO valoracionSeleccionada;

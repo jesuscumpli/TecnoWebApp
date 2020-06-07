@@ -15,6 +15,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import java.util.logging.Logger;
 import javax.inject.Inject;
+import tecnoweb.classes.Filtro;
 import tecnoweb.dto.UsuarioDTO;
 import tecnoweb.dto.ProductoMenuDTO;
 import tecnoweb.service.ProductosService;
@@ -27,6 +28,8 @@ import tecnoweb.service.ProductosService;
 @Named(value = "productoListarBean")
 @RequestScoped
 public class ProductoListarBean implements Serializable {
+    @Inject
+    private MenuBean menuBean;
     
     @EJB
     private ProductosService productosService;
@@ -56,6 +59,7 @@ public class ProductoListarBean implements Serializable {
             }
         } else {
             this.listaProductos = this.productosService.findByIdUsuario(usuario.getIdUsuario());
+            Filtro.ordenarProductosMenuDTO("Fecha", listaProductos);
         }
     }
 
@@ -85,7 +89,8 @@ public class ProductoListarBean implements Serializable {
     
     public String doBorrar (ProductoMenuDTO producto) {
         this.listaProductos.remove(producto);
-        this.productosService.remove(producto);      
+        this.productosService.remove(producto);   
+        this.menuBean.getProductos().remove(producto);
         return "listadoProducto";
     }
 }

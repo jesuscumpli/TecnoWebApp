@@ -130,7 +130,7 @@ and open the template in the editor.
                              >
                         <f:validateLength maximum="50"/>
                      </h:inputText>
-                     <small id="pclaveHelp" class="form-text text-muted">#{lbl.ayudaProd}</small>
+                     <small id="pclaveHelp" class="form-text text-white">#{lbl.ayudaProd}</small>
                 </div>
 
 
@@ -138,9 +138,10 @@ and open the template in the editor.
 
                     <div class="form-group">
                         <label for="inputCategoria">#{lbl.lblCategorias}</label>
-                      <h:selectOneMenu value="#{productoEditarBean.idCategoriaSeleccionada}" >
+                      <h:selectOneMenu id="catSelected" value="#{usuarioBean.idCategoriaSeleccionada}" >
                           <f:selectItems value="#{productoEditarBean.listaCategorias}" var="categoria"
                                          itemValue="#{categoria.idCategoria}" itemLabel="#{categoria.nombreCategoria}" />
+                          <f:ajax render="subcategorias" listener="#{productoEditarBean.recargar()}"/>
                       </h:selectOneMenu>
                     </div>
 
@@ -152,9 +153,6 @@ and open the template in the editor.
                       </h:selectOneMenu>
                     </div>
                     
-                    <h:commandButton id="actualizar" class="btn btn-info text-white ml-5" action="#{productoEditarBean.recargar()}" value="#{lbl.consSubc}" >
-                       
-                    </h:commandButton>
                 </div>
 
                 <hr class="bg-white"/>

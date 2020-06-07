@@ -31,10 +31,10 @@ and open the template in the editor.
             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mx-2">
                     <li class="nav-item active mx-2">
-                        <h:link class="nav-link text-white h5 font-weight-bold" outcome="menu">#{lbl.navHome}</h:link>
+                        <h:link class="nav-link text-white" outcome="menu">#{lbl.navHome}</h:link>
                     </li>
                     <li class="nav-item mx-2">
-                        <h:link class="dropdown-item text-white" outcome="listadoProducto" >#{lbl.navProds}</h:link>
+                        <h:link class="nav-item text-white h5 font-weight-bold" outcome="listadoProducto" >#{lbl.navProds}</h:link>
                     </li>
                     <li class="nav-item mx-2">
                         <h:link class="nav-link text-white" outcome="misValoraciones">#{lbl.navVals}</h:link>
@@ -180,7 +180,10 @@ and open the template in the editor.
          </div>
         </div> 
       </c:forEach>     
-      </h:panelGroup>  
+      </h:panelGroup>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </h:body>
     </f:view>
 </html>

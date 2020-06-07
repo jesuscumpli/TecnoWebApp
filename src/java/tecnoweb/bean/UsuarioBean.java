@@ -39,6 +39,7 @@ public class UsuarioBean implements Serializable{
     
     protected UsuarioDTO usuario;
     protected ProductoMenuDTO productoSeleccionado;
+    protected int idCategoriaSeleccionada; //Nuevo Producto
 
     /**
      * Creates a new instance of UsuarioBean
@@ -76,6 +77,14 @@ public class UsuarioBean implements Serializable{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getIdCategoriaSeleccionada() {
+        return idCategoriaSeleccionada;
+    }
+
+    public void setIdCategoriaSeleccionada(int idCategoriaSeleccionada) {
+        this.idCategoriaSeleccionada = idCategoriaSeleccionada;
     }
 
     public UsuarioDTO getUsuario() {
@@ -116,7 +125,7 @@ public class UsuarioBean implements Serializable{
         menuBean.setSubcatSelected(null);
         menuBean.setBusqueda("");
         menuBean.setOrden("Fecha");
-        menuBean.setProductos(this.productosService.findAllMenuDTO());
+        menuBean.filtrar();
         this.usuario = null;
         this.status = "";
         this.email = "";
@@ -139,6 +148,7 @@ public class UsuarioBean implements Serializable{
     
     public String doEditar(ProductoMenuDTO producto) {
         this.productoSeleccionado = producto;
+        this.idCategoriaSeleccionada = productoSeleccionado.getIdSubcategoria().getIdCategoria().getIdCategoria();
         return "nuevoProducto";
     }
     
@@ -157,6 +167,7 @@ public class UsuarioBean implements Serializable{
     
     public String nuevoProducto() {
         this.productoSeleccionado=null;
+        this.idCategoriaSeleccionada=1;
         return "nuevoProducto";
     }
     

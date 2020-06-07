@@ -5,6 +5,7 @@
  */
 package tecnoweb.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -13,10 +14,12 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import tecnoweb.dao.CategoriaFacade;
+import tecnoweb.dao.ProductoFacade;
 import tecnoweb.dao.SubcategoriaFacade;
 import tecnoweb.dto.CategoriaMenuDTO;
 import tecnoweb.dto.SubcategoriaDTO;
 import tecnoweb.entity.Categoria;
+import tecnoweb.entity.Producto;
 import tecnoweb.entity.Subcategoria;
 import tecnoweb.service.CategoriasService;
 import tecnoweb.service.SubcategoriasService;
@@ -29,6 +32,9 @@ import tecnoweb.service.SubcategoriasService;
 @RequestScoped
 public class CategoriasAdminBean {
 
+    @EJB
+    private ProductoFacade productoFacade;
+    
     @EJB
     private CategoriasService categoriasService;
     
@@ -121,14 +127,25 @@ public class CategoriasAdminBean {
         this.categoriaFacade = categoriaFacade;
     }
 
-    public String doBorrar (CategoriaMenuDTO categoria) {      //No sería CategoriaMenuDTO???
-                                                           //hay que editar tamb lo de "Por definir"
+    public String doBorrar (CategoriaMenuDTO categoria) {
         Categoria cat = this.categoriaFacade.find(categoria.getIdCategoria());
+        //Movemos los productos de dentro a la categoria a Por Definir
+        Subcategoria porDefinir = this.subcategoriaFacade.findByName("Por definir");
+        
+        for(Subcategoria s: cat.getSubcategoriaList()){
+            for(Producto p: s.getProductoList()){
+                p.setIdSubcategoria(porDefinir);
+                this.productoFacade.edit(p);
+            }
+        }                                                   
+        cat.setSubcategoriaList(new ArrayList<>());                                                   
+        
         this.categoriaFacade.remove(cat);
         menuAdminBean.setCategoriaSeleccionada(null);
         menuBean.setCategorias(this.categoriasService.findAllMenuDTO());
         this.listaCategorias = this.categoriasService.findAllMenuDTO();
         nuevaCategoria = "";
+        menuBean.filtrar();
         return "listadoCategoriasAdmin?faces-redirect=true";
     }
     
@@ -159,6 +176,16 @@ public class CategoriasAdminBean {
     
     public String doBorrarSubcategoria (SubcategoriaDTO subcategoria) {
         Subcategoria subc = this.subcategoriaFacade.find(subcategoria.getIdSubcategoria());
+        
+        
+        //Movemos los productos de dentro a la subcategoria Por Definir
+        Subcategoria porDefinir = this.subcategoriaFacade.findByName("Por definir");
+        
+        for(Producto p: subc.getProductoList()){
+            p.setIdSubcategoria(porDefinir);
+            this.productoFacade.edit(p);
+        }
+        subc.setProductoList(new ArrayList<>());
         this.subcategoriaFacade.remove(subc);
         
         //Actualizar categoria
@@ -170,6 +197,7 @@ public class CategoriasAdminBean {
         this.listaCategorias = this.categoriasService.findAllMenuDTO();
         nuevaCategoria = "";
         nuevaSubcategoria = "";
+        menuBean.filtrar();
         return "listadoCategoriasAdmin";
     }
     
