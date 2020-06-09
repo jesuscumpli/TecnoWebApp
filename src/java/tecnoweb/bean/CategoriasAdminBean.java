@@ -1,4 +1,8 @@
 /*
+@Author: Jesús Cumplido Almenara | Francisco José García Rodríguez
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -24,10 +28,6 @@ import tecnoweb.entity.Subcategoria;
 import tecnoweb.service.CategoriasService;
 import tecnoweb.service.SubcategoriasService;
 
-/**
- *
- * @author haylo
- */
 @Named(value = "categoriasAdminBean")
 @RequestScoped
 public class CategoriasAdminBean {

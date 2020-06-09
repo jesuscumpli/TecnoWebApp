@@ -1,4 +1,8 @@
 /*
+@Author: Jesús Cumplido Almenara
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -26,10 +30,7 @@ import tecnoweb.service.ProductosService;
 import tecnoweb.service.SubcategoriasService;
 import tecnoweb.service.ValoracionesService;
 
-/**
- *
- * @author Jesús
- */
+
 @Named(value = "menuBean")
 @SessionScoped
 public class MenuBean implements Serializable{

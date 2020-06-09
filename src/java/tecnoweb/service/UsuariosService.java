@@ -1,4 +1,9 @@
 /*
+@Author: Ángel Baeza Expósito
+         Francisco José García Rodríguez
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,10 +22,6 @@ import tecnoweb.dao.UsuarioFacade;
 import tecnoweb.dto.UsuarioDTO;
 import tecnoweb.entity.Usuario;
 
-/**
- *
- * @author DeuneB07
- */
 
 @Stateless
 public class UsuariosService {

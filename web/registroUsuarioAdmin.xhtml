@@ -1,8 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- @Author: Jesús Cumplido Almenara | Ángel Baeza Expósito
+              Francisco José García Rodríguez
+-->
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <title>#{lbl.titNewUserAdmin}</title>
@@ -157,7 +163,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">#{lbl.lblURL}</span>
                   </div>
-                    <h:inputText id="url" class="form-control" value="#{registroBean.url}"/>
+                    <h:inputText pt:id="url" class="form-control" value="#{registroBean.url}"/>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">Ver</button>
                     </div>
@@ -172,7 +178,7 @@
         
         <script> 
             function cambiarImagenJS(){
-                var url = document.getElementById("j_idt12:url").value;
+                var url = document.getElementById("url").value;
                 if(url===null || url===""){
                     document.getElementById("imgVista").src = 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';
                 } else{

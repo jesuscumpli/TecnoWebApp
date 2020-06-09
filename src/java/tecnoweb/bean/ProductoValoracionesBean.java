@@ -1,4 +1,8 @@
 /*
+@Author: Álvaro Nieto González
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -20,10 +24,7 @@ import tecnoweb.dto.UsuarioDTO;
 import tecnoweb.dto.ValoracionDTO;
 import tecnoweb.service.ValoracionesService;
 
-/**
- *
- * @author alvar
- */
+
 @Named(value = "productoValoracionesBean")
 @RequestScoped
 public class ProductoValoracionesBean implements Serializable{

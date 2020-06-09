@@ -1,4 +1,8 @@
 /*
+@Author: Jesús Cumplido Almenara
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -13,10 +17,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import tecnoweb.entity.Usuario;
 
-/**
- *
- * @author Jesús
- */
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> {
 
@@ -32,7 +32,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
-    // Esta consulta la he creado yo. A partir del email se busca al usuario.
     public Usuario findByEmailUsuario (String email) {
         Query q;
         Usuario usuario = null;

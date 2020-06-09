@@ -6,10 +6,14 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 
+<!-- @Author: Álvaro Nieto González     
+-->
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <f:view locale="#{localeBean.currentLocale}">
     <h:head>
         <title>Producto</title>
@@ -84,6 +88,7 @@ and open the template in the editor.
                 <div class="form-row">
                      <div class="col">
                          <label for="imputNombreProducto">#{lbl.lblNombre}</label>
+                         <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="imputNombreProducto"/>
                         <h:inputText class="form-control" id ="imputNombreProducto" value="#{productoEditarBean.productoSeleccionado.titulo}"
                                    required="true"
                                    requiredMessage="#{msgs.tituloProd}"
@@ -95,7 +100,8 @@ and open the template in the editor.
                      </div>
                      <div class="col">
                          <label for="imputPrecio"> #{lbl.lblPrecio} </label>
-                        <h:inputText class="form-control"   
+                         <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="preciecito"/>
+                        <h:inputText class="form-control"   id="preciecito"
                             value="#{productoEditarBean.productoSeleccionado.precio}"
                             requiredMessage="#{msgs.preProd}"
                             required="true"
@@ -109,6 +115,7 @@ and open the template in the editor.
 
                 <div class="form-group">
                     <label for="imputDescripcion"> #{lbl.lblDescripcion} </label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="imputDescripcion"/>
                      <h:inputTextarea class="form-control" id="imputDescripcion" rows="10" cols="30" 
                                 value="#{productoEditarBean.productoSeleccionado.descripcion}"
                                 required="true"
@@ -122,6 +129,7 @@ and open the template in the editor.
 
                 <div class="form-group">
                     <label for="imputPClave"> #{lbl.palClav} </label>
+                    <h:message class="dp-inline text-dark font-italic font-weight-bold ml-5" for="imputPClave"/>
                      <h:inputText class="form-control" id="imputPClave" 
                              value="#{productoEditarBean.palabrasClaveString}"
                              required="true"
@@ -163,7 +171,7 @@ and open the template in the editor.
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">URL:</span>
                   </div>
-                    <h:inputText id="url" class="form-control" value="#{productoEditarBean.productoSeleccionado.fotoProducto}"/>
+                    <h:inputText pt:id="url" class="form-control" value="#{productoEditarBean.productoSeleccionado.fotoProducto}"/>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-success" id="basic-addon2" onclick="cambiarImagenJS()">#{lbl.btnVer}</button>
                     </div>
@@ -180,7 +188,7 @@ and open the template in the editor.
         
         <script> 
             function cambiarImagenJS(){
-                var url = document.getElementById("j_idt44:url").value;
+                var url = document.getElementById("url").value;
                 if(url===null || url===""){
                     document.getElementById("imgVista").src = 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';
                 } else{

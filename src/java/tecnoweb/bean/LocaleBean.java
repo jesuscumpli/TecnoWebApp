@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,10 +13,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
-/**
- *
- * @author Jesús
- */
+
 @Named(value = "localeBean")
 @SessionScoped
 public class LocaleBean implements Serializable{

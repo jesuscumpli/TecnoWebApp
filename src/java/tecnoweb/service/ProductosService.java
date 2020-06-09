@@ -1,4 +1,9 @@
 /*
+@Author: Álvaro Nieto González
+         Jesús Cumplido Almenara
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -24,10 +29,6 @@ import tecnoweb.entity.Subcategoria;
 import tecnoweb.entity.Usuario;
 import tecnoweb.entity.Valoracion;
 
-/**
- *
- * @author Jesús
- */
 
 @Stateless
 public class ProductosService {

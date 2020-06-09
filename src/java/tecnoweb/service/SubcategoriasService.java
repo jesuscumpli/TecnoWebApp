@@ -1,4 +1,9 @@
 /*
+@Author: Jesús Cumplido Almenara
+         Francisco José García Rodríguez
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -15,10 +20,6 @@ import tecnoweb.dto.SubcategoriaDTO;
 import tecnoweb.entity.Categoria;
 import tecnoweb.entity.Subcategoria;
 
-/**
- *
- * @author Jesús
- */
 @Stateless
 public class SubcategoriasService {
 

@@ -1,4 +1,8 @@
 /*
+@Author: Francisco José García Rodríguez
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,10 +21,6 @@ import tecnoweb.dto.ProductoMenuDTO;
 import tecnoweb.service.PalabrasclaveService;
 import tecnoweb.service.ProductosService;
 
-/**
- *
- * @author haylo
- */
 @Named(value = "productoEditarAdminBean")
 @RequestScoped
 public class ProductoEditarAdminBean {

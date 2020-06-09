@@ -1,4 +1,8 @@
 /*
+@Author: Francisco José García Rodríguez
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,10 +27,6 @@ import tecnoweb.service.CategoriasService;
 import tecnoweb.service.ProductosService;
 import tecnoweb.service.SubcategoriasService;
 
-/**
- *
- * @author haylo
- */
 @Named(value = "menuAdminBean")
 @SessionScoped
 public class MenuAdminBean implements Serializable{

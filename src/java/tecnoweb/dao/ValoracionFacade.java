@@ -1,4 +1,8 @@
 /*
+@Author: Luis Ramos Matas
+*/
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -15,10 +19,7 @@ import javax.persistence.Query;
 import tecnoweb.entity.Producto;
 import tecnoweb.entity.Valoracion;
 
-/**
- *
- * @author luisr
- */
+
 @Stateless
 public class ValoracionFacade extends AbstractFacade<Valoracion> {
 
